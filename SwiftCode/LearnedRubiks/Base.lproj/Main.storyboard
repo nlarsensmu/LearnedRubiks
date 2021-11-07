@@ -56,6 +56,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Iie-K7-svU" kind="show" id="uXt-PD-Xee"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -70,6 +73,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T20-Ls-Tt2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-726" y="67"/>
+        </scene>
+        <!--Prediction View Controller-->
+        <scene sceneID="Zgx-cf-fUG">
+            <objects>
+                <viewController id="Iie-K7-svU" customClass="PredictionViewController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I3n-uY-ff4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Nwe-jl-IVX"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="7qi-PG-SV0"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DhG-C5-Khe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="346" y="559"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VzP-eT-Dyz">
