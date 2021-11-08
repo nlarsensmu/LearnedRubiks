@@ -16,6 +16,9 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     
     
     // MARK: Class Properties
+    
+    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
+    
     lazy var session: URLSession = {
         let sessionConfig = URLSessionConfiguration.ephemeral
         
@@ -26,6 +29,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         return URLSession(configuration: sessionConfig,
             delegate: self,
             delegateQueue:self.operationQueue)
+        
     }()
     
     let operationQueue = OperationQueue()
@@ -133,11 +137,13 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     @IBOutlet weak var largeMotionMagnitude: UIProgressView!
     @IBOutlet weak var calibrationLabel: UILabel!
     @IBOutlet weak var dsidLabel: UILabel!
+    @IBOutlet weak var guessingLabel: UILabel!
     
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         startMotionUpdates()
+        self.setDelayedWaitingToTrue(watingTime)
         // Do any additional setup after loading the view.
     }
 
@@ -152,6 +158,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             self.motion.startDeviceMotionUpdates(to: motionOperationQueue, withHandler: self.handleMotion )
         }
     }
+    
     @IBAction func didStep(_ sender: UIStepper) {
         self.dsid = Int(sender.value)
     }
@@ -206,13 +213,48 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         {
             if(self.isWaitingForMotionData)
             {
-//                self.isWaitingForMotionData = false
-//                //predict a label
-//                getPrediction(self.ringBuffer.getDataAsVector())
-//                // dont predict again for a bit
-//                setDelayedWaitingToTrue(2.0)
-//
+                self.isWaitingForMotionData = false
+                //predict a label
+                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), outController:self)
+                // dont predict again for a bit
+                setDelayedWaitingToTrue(2.0)
+
             }
+        }
+    }
+    
+    @IBAction func makeModel(_ sender: Any) {
+        
+        // create a GET request for server to update the ML model with current data
+        let baseURL = "\(SERVER_URL)/UpdateModel"
+        let query = "?dsid=\(self.dsid)"
+        
+        let getUrl = URL(string: baseURL+query)
+        let request: URLRequest = URLRequest(url: getUrl!)
+        let dataTask : URLSessionDataTask = self.session.dataTask(with: request,
+              completionHandler:{(data, response, error) in
+                // handle error!
+                if (error != nil) {
+                    if let res = response{
+                        print("Response:\n",res)
+                    }
+                }
+                else{
+                    let jsonDictionary = self.convertDataToDictionary(with: data)
+                    
+                    if let resubAcc = jsonDictionary["resubAccuracy"]{
+                        print("Resubstitution Accuracy is", resubAcc)
+                    }
+                }
+                                                                    
+        })
+        
+        dataTask.resume() // start the task
+    }
+    
+    func displayLabelResponse(_ response:String) {
+        DispatchQueue.main.async {
+            self.guessingLabel.text = "Guessing: \(response)"
         }
     }
 

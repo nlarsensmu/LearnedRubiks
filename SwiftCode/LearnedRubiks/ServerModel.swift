@@ -139,6 +139,47 @@ class ServerModel: NSObject, URLSessionDelegate {
         
     }
     
+    func getPrediction(_ array:[Double], outController: LearningViewController){
+        let baseURL = "\(SERVER_URL)/PredictOne"
+        let postUrl = URL(string: "\(baseURL)")
+        
+        // create a custom HTTP POST request
+        var request = URLRequest(url: postUrl!)
+        
+        // data to send in body of post request (send arguments as json)
+        let jsonUpload:NSDictionary = ["feature":array, "dsid":outController.dsid]
+        
+        
+        let requestBody:Data? = self.convertDictionaryToData(with:jsonUpload)
+        
+        request.httpMethod = "POST"
+        request.httpBody = requestBody
+        
+        let postTask : URLSessionDataTask = self.session.dataTask(with: request,
+                                                                  completionHandler:{
+                        (data, response, error) in
+                        if(error != nil){
+                            if let res = response{
+                                print("Response:\n",res)
+                            }
+                        }
+                        else{ // no error we are aware of
+                            let jsonDictionary = self.convertDataToDictionary(with: data)
+                            
+                            if let labelResponse = jsonDictionary["prediction"] {
+                                print(labelResponse)
+                                outController.displayLabelResponse(labelResponse as! String)
+                            } else {
+                                print("No model yet!")
+                            }
+
+                        }
+                                                                    
+        })
+        
+        postTask.resume() // start the task
+    }
+    
     //MARK: JSON Conversion Functions DUPLUCATIED
     func convertDictionaryToData(with jsonUpload:NSDictionary) -> Data?{
         do { // try to make JSON and deal with errors using do/catch block

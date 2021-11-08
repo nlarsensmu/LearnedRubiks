@@ -18,6 +18,7 @@
 		FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */; };
 		FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D3227388BE100A26E19 /* ServerModel.swift */; };
 		FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */; };
+		FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetsTableView.swift; sourceTree = "<group>"; };
 		FDF76D3227388BE100A26E19 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDatasetViewController.swift; sourceTree = "<group>"; };
+		FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPredViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				FD31FBB827385831006DE220 /* Assets.xcassets */,
 				FD31FBBA27385831006DE220 /* LaunchScreen.storyboard */,
 				FD31FBBD27385831006DE220 /* Info.plist */,
+				FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -156,6 +159,7 @@
 				FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */,
 				FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */,
 				FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */,
+				FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */,
 				FD31FBC427385A39006DE220 /* RingBuffer.swift in Sources */,
 				FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */,
 				FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */,
