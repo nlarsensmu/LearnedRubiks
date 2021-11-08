@@ -41,7 +41,13 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     
     var isWaitingForMotionData = false
     
-    var dsid = 1 // think about how we want to change this
+    var dsid = 1 {
+        didSet {
+            DispatchQueue.main.async {
+                self.dsidLabel.text = String(format: "DSID: %d", self.dsid)
+            }
+        }
+    }// think about how we want to change this
     
     // MARK: Class Properties with Observers
     enum CalibrationStage {
@@ -126,6 +132,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     
     @IBOutlet weak var largeMotionMagnitude: UIProgressView!
     @IBOutlet weak var calibrationLabel: UILabel!
+    @IBOutlet weak var dsidLabel: UILabel!
     
     // MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -135,6 +142,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     }
 
     
+    
     // MARK: Core Motion Updates
     func startMotionUpdates(){
         // some internal inconsistency here: we need to ask the device manager for device
@@ -143,6 +151,9 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             self.motion.deviceMotionUpdateInterval = 1.0/200
             self.motion.startDeviceMotionUpdates(to: motionOperationQueue, withHandler: self.handleMotion )
         }
+    }
+    @IBAction func didStep(_ sender: UIStepper) {
+        self.dsid = Int(sender.value)
     }
     
     @IBAction func calibrateOnce(_ sender: Any) {
