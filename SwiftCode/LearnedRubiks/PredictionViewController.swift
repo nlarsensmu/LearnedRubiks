@@ -20,7 +20,7 @@ class PredictionViewController: UIViewController {
     @IBOutlet weak var sceneView: SCNView!
     @IBAction func xRotate(_ sender: Any) {
         print("(\(self.cubes[0].position.x), \(self.cubes[0].position.y), \(self.cubes[0].position.z)), ROT:\(cubes[0].rotation)")
-        self.rotateAllX()
+        self.rotateAllZ(direction:1)
     }
     // MARK: variables
     
@@ -112,17 +112,31 @@ class PredictionViewController: UIViewController {
         scene.rootNode.addChildNode(cube)
         return cube
     }
-    private func rotateAllX(){
+    private func rotateAllX(direction:Int){
         let angle:Float = .pi/2
         for cube in self.cubes{
-            let norm = sqrt(pow(1, 2) + pow(angle, 2))
-            let rotation = SCNQuaternion(0,1/norm,0,angle/norm)
-//            cube.rotate(by: SCNQuaternion(0,1/norm,0,angle/norm), aroundTarget: SCNVector3(0,cube.position.y,0))
-            let rot = SCNMatrix4MakeRotation(.pi/2, 0, 1, 0)
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 0, 1, 0)
             let rot2 = SCNMatrix4Mult(cube.transform, rot)
             cube.transform = rot2
         }
     }
+    private func rotateAllY(direction:Int){
+        let angle:Float = .pi/2
+        for cube in self.cubes{
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 1, 0, 0)
+            let rot2 = SCNMatrix4Mult(cube.transform, rot)
+            cube.transform = rot2
+        }
+    }
+    private func rotateAllZ(direction:Int){
+        let angle:Float = .pi/2
+        for cube in self.cubes{
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 0, 0, 1)
+            let rot2 = SCNMatrix4Mult(cube.transform, rot)
+            cube.transform = rot2
+        }
+    }
+    
     private func xRotateToVector(cube:SCNNode) -> SCNVector3?{
         //All the corner cases
         if cube.position.x == minPoint  && cube.position.z ==  maxPoint {
