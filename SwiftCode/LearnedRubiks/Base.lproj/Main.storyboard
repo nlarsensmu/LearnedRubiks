@@ -122,22 +122,90 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PBa-wd-Jr5">
-                                <rect key="frame" x="87" y="102" width="240" height="128"/>
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bin-Bk-2fe">
+                                <rect key="frame" x="87" y="384" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </sceneKitView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-MU-uCO">
+                                <rect key="frame" x="51" y="112" width="34" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="X"/>
+                                <connections>
+                                    <action selector="xRotate:" destination="Iie-K7-svU" eventType="touchUpInside" id="k1N-US-9gE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h2k-Zi-wor">
+                                <rect key="frame" x="49" y="164" width="38" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="X'"/>
+                                <connections>
+                                    <action selector="xRotateNeg:" destination="Iie-K7-svU" eventType="touchUpInside" id="IFr-k4-Fp7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8a-Cw-ad5">
+                                <rect key="frame" x="185" y="164" width="38" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Z'"/>
+                                <connections>
+                                    <action selector="zRotateNeg:" destination="Iie-K7-svU" eventType="touchUpInside" id="OIP-3D-hiw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GhN-E5-TV6">
+                                <rect key="frame" x="114" y="112" width="34" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Y"/>
+                                <connections>
+                                    <action selector="yRotate:" destination="Iie-K7-svU" eventType="touchUpInside" id="MIi-Fl-IsL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xt1-kb-vKe">
+                                <rect key="frame" x="114" y="164" width="38" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Y'"/>
+                                <connections>
+                                    <action selector="yRotateNeg:" destination="Iie-K7-svU" eventType="touchUpInside" id="Va8-tf-lP6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OtT-ex-IbF">
+                                <rect key="frame" x="185" y="112" width="34" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Z"/>
+                                <connections>
+                                    <action selector="zRotate:" destination="Iie-K7-svU" eventType="touchUpInside" id="ewe-TZ-4ae"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Nwe-jl-IVX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="h2k-Zi-wor" firstAttribute="top" secondItem="y3d-MU-uCO" secondAttribute="bottom" constant="21" id="3ta-Tv-zfZ"/>
+                            <constraint firstItem="OtT-ex-IbF" firstAttribute="top" secondItem="Nwe-jl-IVX" secondAttribute="top" constant="24" id="4SV-bh-UaI"/>
+                            <constraint firstItem="xt1-kb-vKe" firstAttribute="leading" secondItem="h2k-Zi-wor" secondAttribute="trailing" constant="27" id="5aI-cL-tLH"/>
+                            <constraint firstItem="h2k-Zi-wor" firstAttribute="leading" secondItem="Nwe-jl-IVX" secondAttribute="leading" constant="49" id="5cU-cd-1fE"/>
+                            <constraint firstItem="y3d-MU-uCO" firstAttribute="top" secondItem="Nwe-jl-IVX" secondAttribute="top" constant="24" id="Jxr-dy-CRh"/>
+                            <constraint firstItem="GhN-E5-TV6" firstAttribute="top" secondItem="Nwe-jl-IVX" secondAttribute="top" constant="24" id="KLb-Zk-4to"/>
+                            <constraint firstItem="OtT-ex-IbF" firstAttribute="leading" secondItem="GhN-E5-TV6" secondAttribute="trailing" constant="37" id="L81-Pj-4UO"/>
+                            <constraint firstItem="M8a-Cw-ad5" firstAttribute="leading" secondItem="xt1-kb-vKe" secondAttribute="trailing" constant="33" id="hvS-9K-L6Q"/>
+                            <constraint firstItem="GhN-E5-TV6" firstAttribute="leading" secondItem="y3d-MU-uCO" secondAttribute="trailing" constant="29" id="rwW-6O-ch7"/>
+                            <constraint firstItem="xt1-kb-vKe" firstAttribute="top" secondItem="GhN-E5-TV6" secondAttribute="bottom" constant="21" id="uMK-Hz-mwF"/>
+                            <constraint firstItem="y3d-MU-uCO" firstAttribute="leading" secondItem="Nwe-jl-IVX" secondAttribute="leading" constant="51" id="xpC-wT-AWU"/>
+                            <constraint firstItem="M8a-Cw-ad5" firstAttribute="top" secondItem="OtT-ex-IbF" secondAttribute="bottom" constant="21" id="z8c-Vv-1Zv"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7qi-PG-SV0"/>
                     <connections>
-                        <outlet property="sceneView" destination="PBa-wd-Jr5" id="ZUN-rA-mSR"/>
+                        <outlet property="sceneView" destination="Bin-Bk-2fe" id="iIS-Fj-Ly9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhG-C5-Khe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="729" y="465"/>
+            <point key="canvasLocation" x="728.98550724637687" y="464.73214285714283"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VzP-eT-Dyz">
@@ -494,6 +562,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
