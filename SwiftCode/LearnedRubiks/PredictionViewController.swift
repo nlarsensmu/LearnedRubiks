@@ -19,8 +19,22 @@ class PredictionViewController: UIViewController {
     var imageToShow = "texture" // replace this with the image name, in segue to controller
     @IBOutlet weak var sceneView: SCNView!
     @IBAction func xRotate(_ sender: Any) {
-        print("(\(self.cubes[0].position.x), \(self.cubes[0].position.y), \(self.cubes[0].position.z)), ROT:\(cubes[0].rotation)")
+        self.rotateAllX(direction:1)
+    }
+    @IBAction func xRotateNeg(_ sender: Any) {
+        self.rotateAllX(direction:-1)
+    }
+    @IBAction func yRotate(_ sender: Any) {
+        self.rotateAllY(direction:1)
+    }
+    @IBAction func yRotateNeg(_ sender: Any) {
+        self.rotateAllY(direction:-1)
+    }
+    @IBAction func zRotate(_ sender: Any) {
         self.rotateAllZ(direction:1)
+    }
+    @IBAction func zRotateNeg(_ sender: Any) {
+        self.rotateAllZ(direction:-1)
     }
     // MARK: variables
     
