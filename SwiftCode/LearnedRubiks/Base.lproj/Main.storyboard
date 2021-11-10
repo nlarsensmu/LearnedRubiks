@@ -122,22 +122,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PBa-wd-Jr5">
-                                <rect key="frame" x="87" y="102" width="240" height="128"/>
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bin-Bk-2fe">
+                                <rect key="frame" x="87" y="384" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </sceneKitView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3d-MU-uCO">
+                                <rect key="frame" x="31" y="112" width="34" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="X"/>
+                                <connections>
+                                    <action selector="xRotate:" destination="Iie-K7-svU" eventType="touchUpInside" id="k1N-US-9gE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Nwe-jl-IVX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="y3d-MU-uCO" firstAttribute="leading" secondItem="Nwe-jl-IVX" secondAttribute="leading" constant="51" id="a5W-fI-Ibz"/>
+                            <constraint firstItem="y3d-MU-uCO" firstAttribute="top" secondItem="Nwe-jl-IVX" secondAttribute="top" constant="24" id="cMc-d6-m79"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7qi-PG-SV0"/>
                     <connections>
-                        <outlet property="sceneView" destination="PBa-wd-Jr5" id="ZUN-rA-mSR"/>
+                        <outlet property="sceneView" destination="Bin-Bk-2fe" id="iIS-Fj-Ly9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhG-C5-Khe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="729" y="465"/>
+            <point key="canvasLocation" x="728.98550724637687" y="464.73214285714283"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VzP-eT-Dyz">
@@ -494,6 +507,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
