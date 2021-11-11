@@ -263,14 +263,23 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             if(self.isWaitingForMotionData)
             {
                 self.isWaitingForMotionData = false
-                //predict a label
-                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), outController:self)
-                // dont predict again for a bit
-
-                setDelayedWaitingToTrue(2.0)
-                DispatchQueue.main.async {
-                    self.setAsCalibrating(self.guessingLabel)
+                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(),
+                                           dsid: self.dsid) {
+                    resp in
+                    self.setDelayedWaitingToTrue(0.5)
+                    DispatchQueue.main.async {
+                        self.setAsCalibrating(self.guessingLabel)
+                        self.displayLabelResponse(resp)
+                    }
                 }
+//                self.isWaitingForMotionData = false
+//                //predict a label
+//                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), outController:self)
+//
+//                setDelayedWaitingToTrue(2.0)
+//                DispatchQueue.main.async {
+//                    self.setAsCalibrating(self.guessingLabel)
+//                }
             }
         }
     }

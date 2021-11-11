@@ -179,6 +179,7 @@ class ServerModel: NSObject, URLSessionDelegate {
         
         postTask.resume() // start the task
     }
+    
     typealias CompletionHandler = (String) -> Void
     func getPrediction(_ array:[Double], dsid:Int,completionHandler: @escaping CompletionHandler ){
         let baseURL = "\(SERVER_URL)/PredictOne"

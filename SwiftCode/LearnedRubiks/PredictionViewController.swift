@@ -217,11 +217,10 @@ class PredictionViewController: UIViewController {
             
             if mag > 1 {
                 // buffer up a bit more data and then notify of occurrence
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-                    self.calibrationOperationQueue.addOperation {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                         // something large enough happened to warrant
                         self.largeMotionEventOccurred()
-                    }
+                    
                 })
             }
         }
@@ -233,7 +232,6 @@ class PredictionViewController: UIViewController {
             //predict a label
             serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:4){
                 resp in
-                print("Noticed a movement \(resp)")
                 if resp == "x90" {
                     self.rotateAllX(direction: 1)
                 }else if resp == "xNeg90" {
@@ -243,9 +241,9 @@ class PredictionViewController: UIViewController {
                 }else if resp == "yNeg90" {
                     self.rotateAllY(direction: -1)
                 }else if resp == "z90" {
-                    self.rotateAllZ(direction: -1)
-                }else if resp == "zNeg90" {
                     self.rotateAllZ(direction: 1)
+                }else if resp == "zNeg90" {
+                    self.rotateAllZ(direction: -1)
                 }else if resp == "x180" {
                     self.rotateAllX(direction: 1, angle:.pi)
                 }else if resp == "xNeg180" {
@@ -255,13 +253,13 @@ class PredictionViewController: UIViewController {
                 }else if resp == "yNeg180" {
                     self.rotateAllY(direction: -1, angle:.pi)
                 }else if resp == "z180" {
-                    self.rotateAllZ(direction: -1, angle:.pi)
-                }else if resp == "zNeg180" {
                     self.rotateAllZ(direction: 1, angle:.pi)
+                }else if resp == "zNeg180" {
+                    self.rotateAllZ(direction: -1, angle:.pi)
                 }
             }
             // dont predict again for a bit
-            setDelayedWaitingToTrue(2)
+            setDelayedWaitingToTrue(0.5)
 
         }
     }
