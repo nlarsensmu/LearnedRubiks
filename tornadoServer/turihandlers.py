@@ -137,19 +137,48 @@ class UpdateModelForDatasetId(BaseHandler):
       return tc.SFrame(data=data)
 
   def get(self):
+      """ Train two kinds of models. Our MLP and out of the box
+      TURI create. pick the one with the best ACC
+      """
+
+      if isinstance(self.clf, list):
+          self.clf = {}
+
+      dsid = self.get_int_arg("dsid", default=0)
+      (model_mlp, acc_mlp, model_path_mlp) = self.create_mlp(dsid)
+      self.write_json({"resubAccuracy": acc_mlp})
+
+      (model_turi, acc_turi, model_path_turi) = self.create_turi(dsid)
+
+      # Add the best model
+      if acc_mlp > acc_turi:
+          self.db.trainedmodels.update({"dsid": dsid}, 
+            {"$set": 
+              {"dsid":dsid,
+              "ACC:": acc_mlp,
+              "type": 'MLP',
+              "path": model_path_mlp}}, upsert=True)
+          self.clf[dsid] = model_mlp
+      else:
+          self.db.trainedmodels.update({"dsid": dsid}, 
+            {"$set": 
+              {"dsid":dsid,
+              "ACC:": acc_mlp,
+              "type":'TURI',
+              "path": model_path_mlp}}, upsert=True)
+          self.clf[dsid] = model_turi
+
+
+  def create_mlp(self, dsid):
       """Use Sklearn MLP to create a model
       Save it using pickle
       """
-      dsid = self.get_int_arg("dsid", default=0)
 
       data = self.get_dataset_data(dsid)
 
       # fit the model to the data
       acc = -1
       best_model = 'unknown'
-      if isinstance(self.clf, list):
-        print('is a list')
-        self.clf = {}
 
       if len(data) > 0:
         model = MLPClassifier(hidden_layer_sizes=(50, 25),
@@ -190,16 +219,34 @@ class UpdateModelForDatasetId(BaseHandler):
         y = np.array([encode_rotation[s] for s in data['target']])
         model.fit(data['sequence'], y)
         yhat = model.predict(data['sequence'])  # type: object
-        self.clf[dsid] = model
-        for i in range(0, len(y)):
-          print(y[i], yhat[i])
         acc = sum(yhat == y) / float(len(data['sequence']))
 
-        pickle.dump(model, open('../models/mlp_model_dsid%d' % dsid, 'wb'))
+        model_path = '../models/mlp_model_dsid%d' % dsid
+        pickle.dump(model, open(model_path, 'wb'))
+
 
       # send back the re substitution accuracy
-      # if training takes a while, we are blocking tornado!! No!!\
-      self.write_json({"resubAccuracy": acc})
+      # if training takes a while, we are blocking tornado!! No!!
+      return (model, acc, model_path)
+
+  def create_turi(self, dsid):
+      """Use out of the box TURI Create to classify.
+      """
+
+      data = self.get_features_and_labels_as_SFrame(dsid)
+
+      # fit the model to the data
+      acc = -1
+
+      if len(data) > 0:
+          model = tc.classifier.create(data, target='target', verbose=0)  # training
+          yhat = model.predict(data)  # type: object
+          acc = sum(yhat == data['target']) / float(len(data))
+          # save model for use later, if desired
+          model_path = '../models/turi_model_dsid%d' % (dsid)
+          model.save(model_path)
+
+      return (model, acc, model_path)
 
   def get_features_and_labels_as_SFrame(self, dsid):
       # create feature vectors from database
