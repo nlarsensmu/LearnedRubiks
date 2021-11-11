@@ -9,7 +9,7 @@ import Foundation
 
 class ServerModel: NSObject, URLSessionDelegate {
     
-    let SERVER_URL = "http://192.168.1.221:8000"  // just hard coded for now
+    let SERVER_URL = "http://192.168.1.221:8001"  // just hard coded for now
     
     public static var sharedInstance:ServerModel? = {
         var sharedInstance:ServerModel? = nil
