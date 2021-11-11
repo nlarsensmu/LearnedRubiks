@@ -10,10 +10,33 @@ import SceneKit
 import CoreMotion
 
 class PredictionViewController: UIViewController {
+    // MARK: Class Constants
+    var minPoint:Float = -0.55
+    var midPoint:Float = 0.0
+    var maxPoint:Float = 0.55
     // MARK: Outlets
-    @IBOutlet weak var sceneView: SCNView!
-    // MARK: variables
     var cubes:[SCNNode] = []
+    var imageToShow = "texture" // replace this with the image name, in segue to controller
+    @IBOutlet weak var sceneView: SCNView!
+    @IBAction func xRotate(_ sender: Any) {
+        self.rotateAllX(direction:1)
+    }
+    @IBAction func xRotateNeg(_ sender: Any) {
+        self.rotateAllX(direction:-1)
+    }
+    @IBAction func yRotate(_ sender: Any) {
+        self.rotateAllY(direction:1)
+    }
+    @IBAction func yRotateNeg(_ sender: Any) {
+        self.rotateAllY(direction:-1)
+    }
+    @IBAction func zRotate(_ sender: Any) {
+        self.rotateAllZ(direction:1)
+    }
+    @IBAction func zRotateNeg(_ sender: Any) {
+        self.rotateAllZ(direction:-1)
+    }
+    // MARK: variables
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +45,12 @@ class PredictionViewController: UIViewController {
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         animation.type = convertToCATransitionType(animationKey)
         animation.duration = 0.5
+        sceneView.frame = self.view.frame
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sceneView.backgroundColor = .black
+        addCubes()
     }
     // anmations for label
     let animation = CATransition()
@@ -43,25 +68,104 @@ class PredictionViewController: UIViewController {
         }
     }
     func addCubes(){
+        guard let sceneView = sceneView else {
+            return
+        }
+        
+        // Setup Original Scene
         scene = SCNScene()
-        let boxNode = createBox()
-        scene.rootNode.addChildNode(boxNode)
-        self.cubes[0]		 = boxNode
-
+        // load living room model we created in sketchup
+        let cubes = SCNScene(named: "Cube.scn")!
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"1"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"2"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"3"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"4"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"5"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"6"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"7"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"8"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"9"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"10"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"11"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"12"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"13"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"14"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"15"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"16"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"17"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"18"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"19"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"20"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"21"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"22"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"23"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"24"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"25"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"26"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"27"))
+        // Setup camera position from existing scene
+        cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
+        scene.rootNode.addChildNode(cameraNode)
+        
+        // make this the scene in the view
         sceneView.scene = scene
-        sceneView.scene = scene
+        
+        //Debugging
+        sceneView.showsStatistics = true
+    
     }
-    func createBox() -> SCNNode {
-        let boxGeometry = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0)
-
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.blue
-        material.specular.contents = UIColor(white: 0.6, alpha: 1.0)
-
-        let boxNode = SCNNode(geometry: boxGeometry)
-        boxNode.geometry?.materials = [material]
-
-        return boxNode;
+    func getMaterials(colors:[UIColor]) -> [SCNMaterial]{
+        return colors.map { color -> SCNMaterial in
+                let material = SCNMaterial()
+                material.diffuse.contents = color
+            return material
+        }
+    }
+    func addCube(scene:SCNScene, cubes:SCNScene, number:String) -> SCNNode{
+        let cube = cubes.rootNode.childNode(withName: "cube\(number)", recursively: true)!
+        scene.rootNode.addChildNode(cube)
+        return cube
+    }
+    private func rotateAllX(direction:Int){
+        let angle:Float = .pi/2
+        for cube in self.cubes{
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 0, 1, 0)
+            let rot2 = SCNMatrix4Mult(cube.transform, rot)
+            cube.transform = rot2
+        }
+    }
+    private func rotateAllY(direction:Int){
+        let angle:Float = .pi/2
+        for cube in self.cubes{
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 1, 0, 0)
+            let rot2 = SCNMatrix4Mult(cube.transform, rot)
+            cube.transform = rot2
+        }
+    }
+    private func rotateAllZ(direction:Int){
+        let angle:Float = .pi/2
+        for cube in self.cubes{
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 0, 0, 1)
+            let rot2 = SCNMatrix4Mult(cube.transform, rot)
+            cube.transform = rot2
+        }
+    }
+    
+    private func xRotateToVector(cube:SCNNode) -> SCNVector3?{
+        //All the corner cases
+        if cube.position.x == minPoint  && cube.position.z ==  maxPoint {
+            return SCNVector3(maxPoint,cube.position.y,maxPoint)
+        }
+        else if cube.position.x == maxPoint  && cube.position.z ==  maxPoint {
+            return SCNVector3(maxPoint,cube.position.y,minPoint)
+        }
+        else if cube.position.x == maxPoint  && cube.position.z ==  minPoint {
+            return SCNVector3(minPoint,cube.position.y,minPoint)
+        }
+        else if cube.position.x == minPoint  && cube.position.z ==  minPoint {
+            return SCNVector3(minPoint,cube.position.y,maxPoint)
+        }
+        return nil
     }
     /*
     // MARK: - Navigation

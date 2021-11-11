@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B78647CA2739FA85004BB50B /* Room.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647C92739FA85004BB50B /* Room.scn */; };
+		B78647CC2739FC8F004BB50B /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647CB2739FC8F004BB50B /* Cube.scn */; };
 		FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBAF27385830006DE220 /* AppDelegate.swift */; };
 		FD31FBB227385830006DE220 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBB127385830006DE220 /* SceneDelegate.swift */; };
 		FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBB327385830006DE220 /* LearningViewController.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B78647C92739FA85004BB50B /* Room.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Room.scn; sourceTree = "<group>"; };
+		B78647CB2739FC8F004BB50B /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
 		FD31FBAC27385830006DE220 /* LearnedRubiks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnedRubiks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD31FBAF27385830006DE220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD31FBB127385830006DE220 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,7 @@
 				FD31FBBA27385831006DE220 /* LaunchScreen.storyboard */,
 				FD31FBBD27385831006DE220 /* Info.plist */,
 				FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */,
+				B78647C92739FA85004BB50B /* Room.scn */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -147,8 +152,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD31FBBC27385831006DE220 /* LaunchScreen.storyboard in Resources */,
+				B78647CC2739FC8F004BB50B /* Cube.scn in Resources */,
 				FD31FBB927385831006DE220 /* Assets.xcassets in Resources */,
 				FD31FBB727385830006DE220 /* Main.storyboard in Resources */,
+				B78647CA2739FA85004BB50B /* Room.scn in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
