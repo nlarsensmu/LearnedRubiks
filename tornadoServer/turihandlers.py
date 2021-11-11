@@ -16,6 +16,8 @@ import pickle
 from bson.binary import Binary
 import json
 import numpy as np
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score
 
 
 class PrintHandlers(BaseHandler):
@@ -62,6 +64,7 @@ class RequestNewDatasetId(BaseHandler):
             newSessionId = float(a['dsid']) + 1
         self.write_json({"dsid": newSessionId})
 
+
 class GetDatasetCount(BaseHandler):
     def get(self):
         dsid = self.get_int_arg("dsid", default=0)
@@ -69,6 +72,7 @@ class GetDatasetCount(BaseHandler):
         doc_count = self.db.labeledinstances.count_documents(find)
         print(doc_count)
         self.write_json({"count": doc_count})
+
 
 class DeleteADsId(BaseHandler):
     def get(self):
@@ -86,9 +90,9 @@ class RequestAllDatasetIds(BaseHandler):
         self.write_json({"dsids": dsids})
 
 
-class UpdateModelForDatasetId(BaseHandler):
+class UpdateModelForDatasetIdOld(BaseHandler):
     def get(self):
-        """Train a new model (or update) for given dataset ID
+        """The old way using turi create
         """
         dsid = self.get_int_arg("dsid", default=0)
 
@@ -112,22 +116,124 @@ class UpdateModelForDatasetId(BaseHandler):
         # if training takes a while, we are blocking tornado!! No!!
         self.write_json({"resubAccuracy": acc})
 
-    def get_features_and_labels_as_SFrame(self, dsid):
-        # create feature vectors from database
-        features = []
-        labels = []
-        for a in self.db.labeledinstances.find({"dsid": dsid}):
-            features.append([float(val) for val in a['feature']])
-            labels.append(a['label'])
 
-        # convert to dictionary for tc
-        data = {'target': labels, 'sequence': np.array(features)}
+class UpdateModelForDatasetId(BaseHandler):
 
-        # send back the SFrame of the data
-        return tc.SFrame(data=data)
+  def get_dataset_data(self, dsid):
+      features = []
+      labels = []
+      
+      for a in self.db.labeledinstances.find({"dsid": dsid}):
+          features.append([float(val) for val in a['feature']])
+          labels.append(a['label'])
+          
+      data = {'target': labels, 'sequence':np.array(features)}
+      
+      return data
+
+
+  def get_dataset_sframe(self, dsid):
+      data = get_dataset_data(dsid)
+      return tc.SFrame(data=data)
+
+  def get(self):
+      """Use Sklearn MLP to create a model
+      Save it using pickle
+      """
+      dsid = self.get_int_arg("dsid", default=0)
+
+      data = self.get_dataset_data(dsid)
+
+      # fit the model to the data
+      acc = -1
+      best_model = 'unknown'
+      if isinstance(self.clf, list):
+        print('is a list')
+        self.clf = {}
+
+      if len(data) > 0:
+        model = MLPClassifier(hidden_layer_sizes=(50, 25),
+                              activation='relu',  # compare to sigmoid
+                              solver='adam',
+                              alpha=1e-4,  # L2 penalty
+                              batch_size='auto',  # min of 200, num_samples
+                              learning_rate='constant',
+                              # learning_rate_init=0.2, # only SGD
+                              # power_t=0.5,    # only SGD
+                              max_iter=100,
+                              shuffle=True,
+                              random_state=1,
+                              tol=1e-9,  # for stopping
+                              verbose=False,
+                              warm_start=False,
+                              momentum=0.9,  # only SGD
+                              # nesterovs_momentum=True, # only SGD
+                              early_stopping=False,
+                              validation_fraction=0.1,  # only if early_stop is true
+                              beta_1=0.9,  # adam decay rate of moment
+                              beta_2=0.999,  # adam decay rate of moment
+                              epsilon=1e-08)  # adam numerical stabilizer
+
+        encode_rotation = {'x90': 0,
+                         'xNeg90': 1,
+                         'x180': 2,
+                         'xNeg180': 3,
+                         'y90': 4,
+                         'yNeg90': 5,
+                         'y180': 6,
+                         'yNeg180': 7,
+                         'z90': 8,
+                         'zNeg90': 9,
+                         'z180': 10,
+                         'zNeg180': 11}
+
+        y = np.array([encode_rotation[s] for s in data['target']])
+        model.fit(data['sequence'], y)
+        yhat = model.predict(data['sequence'])  # type: object
+        self.clf[dsid] = model
+        for i in range(0, len(y)):
+          print(y[i], yhat[i])
+        acc = sum(yhat == y) / float(len(data['sequence']))
+
+        pickle.dump(model, open('../models/mlp_model_dsid%d' % dsid, 'wb'))
+
+      # send back the re substitution accuracy
+      # if training takes a while, we are blocking tornado!! No!!\
+      self.write_json({"resubAccuracy": acc})
+
+  def get_features_and_labels_as_SFrame(self, dsid):
+      # create feature vectors from database
+      features = []
+      labels = []
+      for a in self.db.labeledinstances.find({"dsid": dsid}):
+          features.append([float(val) for val in a['feature']])
+          labels.append(a['label'])
+
+      # convert to dictionary for tc
+      data = {'target': labels, 'sequence': np.array(features)}
+
+      # send back the SFrame of the data
+      return tc.SFrame(data=data)
 
 
 class PredictOneFromDatasetId(BaseHandler):
+
+    def encode_to_str(self, code):
+        encode_rotation = {0: 'x90',
+                           1: 'xNeg90',
+                           2: 'x180',
+                           3: 'xNeg180',
+                           4: 'y90',
+                           5: 'yNeg90',
+                           6: 'y180',
+                           7: 'yNeg180',
+                           8: 'z90',
+                           9: 'zNeg90',
+                           10: 'z180',
+                           11: 'zNeg180'}
+
+        return encode_rotation[code]
+
     def post(self):
         """Predict the class of a sent feature vector
         """
@@ -147,13 +253,15 @@ class PredictOneFromDatasetId(BaseHandler):
             model = self.clf[dsid]
         else:
             try:
-                model = tc.load_model('../models/turi_model_dsid%d' % (dsid))
+                model = pickle.load(open('../models/mlp_model_dsid%d' % dsid, 'rb'))
                 self.clf[dsid] = model
             except OSError:
                 print("Model has not yet been created")
                 raise Exception("Model %d has not yet been created" % (dsid))
 
-        predLabel = model.predict(fvals);
+        fvals = fvals
+        predLabel = model.predict(fvals)
+        predLabel = self.encode_to_str(predLabel[0])
         self.write_json({"prediction": str(predLabel)})
 
     def get_features_as_SFrame(self, vals):
@@ -163,7 +271,4 @@ class PredictOneFromDatasetId(BaseHandler):
         tmp = [float(val) for val in vals]
         tmp = np.array(tmp)
         tmp = tmp.reshape((1, -1))
-        data = {'sequence': tmp}
-
-        # send back the SFrame of the data
-        return tc.SFrame(data=data)
+        return tmp
