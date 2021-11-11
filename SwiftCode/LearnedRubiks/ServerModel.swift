@@ -9,7 +9,7 @@ import Foundation
 
 class ServerModel: NSObject, URLSessionDelegate {
     
-    let SERVER_URL = "http://192.168.1.221:8000"  // just hard coded for now
+    let SERVER_URL = "http://192.168.1.221:8001"  // just hard coded for now
     
     public static var sharedInstance:ServerModel? = {
         var sharedInstance:ServerModel? = nil
@@ -173,6 +173,46 @@ class ServerModel: NSObject, URLSessionDelegate {
                                 print("No model yet!")
                             }
 
+                        }
+                                                                    
+        })
+        
+        postTask.resume() // start the task
+    }
+    typealias CompletionHandler = (String) -> Void
+    func getPrediction(_ array:[Double], dsid:Int,completionHandler: @escaping CompletionHandler ){
+        let baseURL = "\(SERVER_URL)/PredictOne"
+        let postUrl = URL(string: "\(baseURL)")
+        
+        // create a custom HTTP POST request
+        var request = URLRequest(url: postUrl!)
+        
+        // data to send in body of post request (send arguments as json)
+        let jsonUpload:NSDictionary = ["feature":array, "dsid":dsid]
+        
+        
+        let requestBody:Data? = self.convertDictionaryToData(with:jsonUpload)
+        
+        request.httpMethod = "POST"
+        request.httpBody = requestBody
+        
+        let postTask : URLSessionDataTask = self.session.dataTask(with: request,
+                                                                  completionHandler:{
+                        (data, response, error) in
+                        if(error != nil){
+                            if let res = response{
+                                print("Response:\n",res)
+                            }
+                        }
+                        else{ // no error we are aware of
+                            let url = response?.url
+                            let jsonDictionary = self.convertDataToDictionary(with: data)
+                            if let labelResponse = jsonDictionary["prediction"] {
+                                print(labelResponse)
+                                completionHandler(labelResponse as! String)
+                            } else {
+                                print("No model yet!")
+                            }
                         }
                                                                     
         })
