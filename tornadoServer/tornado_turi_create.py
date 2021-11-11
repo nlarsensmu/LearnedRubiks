@@ -23,7 +23,7 @@ import turihandlers as th
 import examplehandlers as eh
 
 # Setup information for tornado class
-define("port", default=8000, help="run on the given port", type=int)
+define("port", default=8001, help="run on the given port", type=int)
 
 
 # Utility to be used when creating the Tornado server

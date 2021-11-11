@@ -59,12 +59,15 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         case x90
         case xNeg90
         case x180
+        case xNeg180
         case y90
         case yNeg90
         case y180
+        case yNeg180
         case z90
         case zNeg90
         case z180
+        case zNeg180
     }
     
     var calibrationStage:CalibrationStage = .notCalibrating {
@@ -87,6 +90,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "X 180"
                 }
+            case .xNeg180:
+                self.isCalibrating = true
+                DispatchQueue.main.async{
+                    self.calibrationLabel.text = "X' 180"
+                }
                 break
             case .y90:
                 self.isCalibrating = true
@@ -105,6 +113,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Y 180"
                 }
+            case .yNeg180:
+                self.isCalibrating = true
+                DispatchQueue.main.async{
+                    self.calibrationLabel.text = "Y' 180"
+                }
                 break
             case .z90:
                 self.isCalibrating = true
@@ -122,6 +135,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Z 180"
+                }
+            case .zNeg180:
+                self.isCalibrating = true
+                DispatchQueue.main.async{
+                    self.calibrationLabel.text = "Z' 180"
                 }
                 break
             case .notCalibrating:
@@ -184,7 +202,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             
             if mag > self.magValue {
                 // buffer up a bit more data and then notify of occurrence
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.10, execute: {
                     self.calibrationOperationQueue.addOperation {
                         // something large enough happened to warrant
                         self.largeMotionEventOccurred()
@@ -257,7 +275,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             self.guessingLabel.text = "Guessing: \(response)"
         }
     }
-
+    
     let watingTime = 2.0
     func nextCalibrationStage(){
         switch self.calibrationStage {
@@ -278,6 +296,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             break
         case .x180:
             //start with up arrow
+            self.calibrationStage = .xNeg180
+            setDelayedWaitingToTrue(watingTime)
+            break
+        case .xNeg180:
+            //start with up arrow
             self.calibrationStage = .y90
             setDelayedWaitingToTrue(watingTime)
             break
@@ -293,6 +316,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             break
         case .y180:
             //start with up arrow
+            self.calibrationStage = .yNeg180
+            setDelayedWaitingToTrue(watingTime)
+            break
+        case .yNeg180:
+            //start with up arrow
             self.calibrationStage = .z90
             setDelayedWaitingToTrue(watingTime)
             break
@@ -306,6 +334,10 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             setDelayedWaitingToTrue(watingTime)
             break
         case .z180:
+            self.calibrationStage = .zNeg180
+            setDelayedWaitingToTrue(watingTime)
+            break
+        case .zNeg180:
             self.calibrationStage = .notCalibrating
             setDelayedWaitingToTrue(watingTime)
             break
