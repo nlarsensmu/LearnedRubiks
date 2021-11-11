@@ -135,7 +135,7 @@ class PredictionViewController: UIViewController {
             if percentage == 0.0 {
                 percentage = elapsedTime / 0.25
             }
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 0, 1, 0)
+            let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
             let rot2 = SCNMatrix4Mult(node.transform, rot)
             node.transform = rot2
         }
@@ -149,7 +149,7 @@ class PredictionViewController: UIViewController {
             if percentage == 0.0 {
                 percentage = elapsedTime / 0.25
             }
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 0, 0, 1)
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
             let rot2 = SCNMatrix4Mult(node.transform, rot)
             node.transform = rot2
         }
@@ -261,7 +261,7 @@ class PredictionViewController: UIViewController {
                 }
             }
             // dont predict again for a bit
-            setDelayedWaitingToTrue(0.25)
+            setDelayedWaitingToTrue(2)
 
         }
     }
