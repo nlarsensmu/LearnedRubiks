@@ -77,32 +77,32 @@ class PredictionViewController: UIViewController {
         // load living room model we created in sketchup
         let cubes = SCNScene(named: "Cube.scn")!
         self.cubes.append(addCube(scene:scene,cubes:cubes, number:"1"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"2"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"3"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"4"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"5"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"6"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"7"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"8"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"9"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"10"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"11"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"12"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"13"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"14"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"15"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"16"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"17"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"18"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"19"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"20"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"21"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"22"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"23"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"24"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"25"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"26"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"27"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"2"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"3"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"4"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"5"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"6"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"7"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"8"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"9"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"10"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"11"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"12"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"13"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"14"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"15"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"16"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"17"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"18"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"19"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"20"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"21"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"22"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"23"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"24"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"25"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"26"))
+//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"27"))
         // Setup camera position from existing scene
         cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
         scene.rootNode.addChildNode(cameraNode)
@@ -126,12 +126,20 @@ class PredictionViewController: UIViewController {
         scene.rootNode.addChildNode(cube)
         return cube
     }
+    
     private func rotateAllX(direction:Int){
+        var allActions: SCNAction = SCNAction()
         let angle:Float = .pi/2
+        let rot = SCNAction.customAction(duration: 1) { (node, elapsedTime) -> () in
+            let percentage = elapsedTime / 1
+            print ("angle: \(angle), elapsedTime: \(elapsedTime)")
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(1.0/70.0)), 0, 1, 0)
+            rot.
+            let rot2 = SCNMatrix4Mult(node.transform, rot)
+            node.transform = rot2
+        }
         for cube in self.cubes{
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 0, 1, 0)
-            let rot2 = SCNMatrix4Mult(cube.transform, rot)
-            cube.transform = rot2
+            cube.runAction(rot)
         }
     }
     private func rotateAllY(direction:Int){
