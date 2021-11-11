@@ -217,7 +217,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 //predict a label
                 serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), outController:self)
                 // dont predict again for a bit
-                setDelayedWaitingToTrue(2.0)
+                setDelayedWaitingToTrue(0.5)
 
             }
         }
