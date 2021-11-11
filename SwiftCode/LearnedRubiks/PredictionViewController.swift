@@ -243,9 +243,9 @@ class PredictionViewController: UIViewController {
                 }else if resp == "yNeg90" {
                     self.rotateAllY(direction: -1)
                 }else if resp == "z90" {
-                    self.rotateAllZ(direction: 1)
-                }else if resp == "zNeg90" {
                     self.rotateAllZ(direction: -1)
+                }else if resp == "zNeg90" {
+                    self.rotateAllZ(direction: 1)
                 }else if resp == "x180" {
                     self.rotateAllX(direction: 1, angle:.pi)
                 }else if resp == "xNeg180" {
@@ -255,13 +255,13 @@ class PredictionViewController: UIViewController {
                 }else if resp == "yNeg180" {
                     self.rotateAllY(direction: -1, angle:.pi)
                 }else if resp == "z180" {
-                    self.rotateAllZ(direction: 1, angle:.pi)
-                }else if resp == "zNeg180" {
                     self.rotateAllZ(direction: -1, angle:.pi)
+                }else if resp == "zNeg180" {
+                    self.rotateAllZ(direction: 1, angle:.pi)
                 }
             }
             // dont predict again for a bit
-            setDelayedWaitingToTrue(2.0)
+            setDelayedWaitingToTrue(0.25)
 
         }
     }
