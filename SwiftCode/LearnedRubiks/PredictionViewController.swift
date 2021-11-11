@@ -46,6 +46,8 @@ class PredictionViewController: UIViewController {
         animation.type = convertToCATransitionType(animationKey)
         animation.duration = 0.5
         sceneView.frame = self.view.frame
+        self.startMotionUpdates()
+        self.isWaitingForMotionData = true
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -77,32 +79,32 @@ class PredictionViewController: UIViewController {
         // load living room model we created in sketchup
         let cubes = SCNScene(named: "Cube.scn")!
         self.cubes.append(addCube(scene:scene,cubes:cubes, number:"1"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"2"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"3"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"4"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"5"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"6"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"7"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"8"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"9"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"10"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"11"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"12"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"13"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"14"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"15"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"16"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"17"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"18"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"19"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"20"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"21"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"22"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"23"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"24"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"25"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"26"))
-//        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"27"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"2"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"3"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"4"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"5"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"6"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"7"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"8"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"9"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"10"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"11"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"12"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"13"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"14"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"15"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"16"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"17"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"18"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"19"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"20"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"21"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"22"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"23"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"24"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"25"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"26"))
+        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"27"))
         // Setup camera position from existing scene
         cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
         scene.rootNode.addChildNode(cameraNode)
@@ -127,35 +129,46 @@ class PredictionViewController: UIViewController {
         return cube
     }
     
-    private func rotateAllX(direction:Int){
-        var allActions: SCNAction = SCNAction()
-        let angle:Float = .pi/2
-        let rot = SCNAction.customAction(duration: 1) { (node, elapsedTime) -> () in
-            let percentage = elapsedTime / 1
-            print ("angle: \(angle), elapsedTime: \(elapsedTime)")
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(1.0/70.0)), 0, 1, 0)
-            rot.
+    private func rotateAllX(direction:Int, angle:Float = .pi/2){
+        var percentage = 0.0
+        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
+            if percentage == 0.0 {
+                percentage = elapsedTime / 0.25
+            }
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 0, 1, 0)
             let rot2 = SCNMatrix4Mult(node.transform, rot)
             node.transform = rot2
         }
         for cube in self.cubes{
-            cube.runAction(rot)
+            cube.runAction(rotationAction)
         }
     }
-    private func rotateAllY(direction:Int){
-        let angle:Float = .pi/2
+    private func rotateAllY(direction:Int, angle:Float = .pi/2){
+        var percentage = 0.0
+        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
+            if percentage == 0.0 {
+                percentage = elapsedTime / 0.25
+            }
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 0, 0, 1)
+            let rot2 = SCNMatrix4Mult(node.transform, rot)
+            node.transform = rot2
+        }
         for cube in self.cubes{
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 1, 0, 0)
-            let rot2 = SCNMatrix4Mult(cube.transform, rot)
-            cube.transform = rot2
+            cube.runAction(rotationAction)
         }
     }
-    private func rotateAllZ(direction:Int){
-        let angle:Float = .pi/2
+    private func rotateAllZ(direction:Int, angle:Float = .pi/2){
+        var percentage = 0.0
+        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
+            if percentage == 0.0 {
+                percentage = elapsedTime / 0.25
+            }
+            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
+            let rot2 = SCNMatrix4Mult(node.transform, rot)
+            node.transform = rot2
+        }
         for cube in self.cubes{
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (.pi/2), 0, 0, 1)
-            let rot2 = SCNMatrix4Mult(cube.transform, rot)
-            cube.transform = rot2
+            cube.runAction(rotationAction)
         }
     }
     
@@ -174,6 +187,83 @@ class PredictionViewController: UIViewController {
             return SCNVector3(minPoint,cube.position.y,maxPoint)
         }
         return nil
+    }
+    
+    //MARK: Motion code
+    let motion = CMMotionManager()
+    let motionOperationQueue = OperationQueue()
+    let calibrationOperationQueue = OperationQueue()
+    var ringBuffer = RingBuffer()
+    var isWaitingForMotionData = false
+    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
+    func setDelayedWaitingToTrue(_ time:Double){
+        DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: {
+            self.isWaitingForMotionData = true
+        })
+    }
+    
+    func startMotionUpdates(){
+        // some internal inconsistency here: we need to ask the device manager for device
+        
+        if self.motion.isDeviceMotionAvailable{
+            self.motion.deviceMotionUpdateInterval = 1.0/200
+            self.motion.startDeviceMotionUpdates(to: motionOperationQueue, withHandler: self.handleMotion )
+        }
+    }
+    func handleMotion(_ motionData:CMDeviceMotion?, error:Error?){
+        if let accel = motionData?.userAcceleration {
+            self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
+            let mag = fabs(accel.x)+fabs(accel.y)+fabs(accel.z)
+            
+            if mag > 1 {
+                // buffer up a bit more data and then notify of occurrence
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+                    self.calibrationOperationQueue.addOperation {
+                        // something large enough happened to warrant
+                        self.largeMotionEventOccurred()
+                    }
+                })
+            }
+        }
+    }
+    func largeMotionEventOccurred(){
+        if(self.isWaitingForMotionData)
+        {
+            self.isWaitingForMotionData = false
+            //predict a label
+            serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:4){
+                resp in
+                print("Noticed a movement \(resp)")
+                if resp == "x90" {
+                    self.rotateAllX(direction: 1)
+                }else if resp == "xNeg90" {
+                    self.rotateAllX(direction: -1)
+                }else if resp == "y90" {
+                    self.rotateAllY(direction: 1)
+                }else if resp == "yNeg90" {
+                    self.rotateAllY(direction: -1)
+                }else if resp == "z90" {
+                    self.rotateAllZ(direction: 1)
+                }else if resp == "zNeg90" {
+                    self.rotateAllZ(direction: -1)
+                }else if resp == "x180" {
+                    self.rotateAllX(direction: 1, angle:.pi)
+                }else if resp == "xNeg180" {
+                    self.rotateAllX(direction: -1, angle:.pi)
+                }else if resp == "y180" {
+                    self.rotateAllY(direction: 1, angle:.pi)
+                }else if resp == "yNeg180" {
+                    self.rotateAllY(direction: -1, angle:.pi)
+                }else if resp == "z180" {
+                    self.rotateAllZ(direction: 1, angle:.pi)
+                }else if resp == "zNeg180" {
+                    self.rotateAllZ(direction: -1, angle:.pi)
+                }
+            }
+            // dont predict again for a bit
+            setDelayedWaitingToTrue(2.0)
+
+        }
     }
     /*
     // MARK: - Navigation
