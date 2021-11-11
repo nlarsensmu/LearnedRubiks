@@ -37,7 +37,19 @@ class LearnedSettingsViewController: UIViewController {
         // Pass the selected object to the new view controller.
         
         if let vc = segue.destination as? LearningViewController {
-            
+            var list:[LearningViewController.CalibrationStage] = []
+            if x90.isOn { list.append(LearningViewController.CalibrationStage.x90) }
+            if xNeg90.isOn { list.append(LearningViewController.CalibrationStage.xNeg90) }
+            if x180.isOn { list.append(LearningViewController.CalibrationStage.x180) }
+            if xNeg180.isOn { list.append(LearningViewController.CalibrationStage.xNeg180) }
+            if y90.isOn { list.append(LearningViewController.CalibrationStage.y90) }
+            if yNeg90.isOn { list.append(LearningViewController.CalibrationStage.yNeg90) }
+            if y180.isOn { list.append(LearningViewController.CalibrationStage.y180) }
+            if yNeg180.isOn { list.append(LearningViewController.CalibrationStage.yNeg180) }
+            if z90.isOn { list.append(LearningViewController.CalibrationStage.z90) }
+            if zNeg90.isOn { list.append(LearningViewController.CalibrationStage.zNeg90) }
+            if z180.isOn { list.append(LearningViewController.CalibrationStage.z180) }
+            if zNeg180.isOn { list.append(LearningViewController.CalibrationStage.zNeg180) }
         }
     }
     

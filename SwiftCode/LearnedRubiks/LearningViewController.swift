@@ -7,7 +7,7 @@
 
 import UIKit
 
-let SERVER_URL = "http://192.168.1.221:8000"  // just hard coded for now
+let SERVER_URL = "http://192.168.1.221:8001"  // just hard coded for now
 
 import UIKit
 import CoreMotion
@@ -44,6 +44,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     var isCalibrating = false
     
     var isWaitingForMotionData = false
+    var usedStages:[CalibrationStage] = []
     
     var dsid = 1 {
         didSet {
@@ -77,69 +78,84 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "X 90"
+                    self.hintLabel.text = "right face clockwise"
                 }
                 break
             case .xNeg90:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "X' 90"
+                    self.hintLabel.text = "right face counter-clockwise"
                 }
                 break
             case .x180:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "X 180"
+                    self.hintLabel.text = "right face clockwise twice"
                 }
+                break
             case .xNeg180:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "X' 180"
+                    self.hintLabel.text = "right face counter-clockwise twice"
                 }
                 break
             case .y90:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Y 90"
+                    self.hintLabel.text = "top face clockwise"
                 }
                 break
             case .yNeg90:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Y' 90"
+                    self.hintLabel.text = "top face counter-clockwise"
                 }
                 break
             case .y180:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Y 180"
+                    self.hintLabel.text = "top face clockwise twice"
                 }
+                break
             case .yNeg180:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Y' 180"
+                    self.hintLabel.text = "top face counter-clockwise twice"
                 }
                 break
             case .z90:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Z 90"
+                    self.hintLabel.text = "front face clockwise"
                 }
                 break
             case .zNeg90:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Z' 90"
+                    self.hintLabel.text = "front face counter-clockwise"
                 }
                 break
             case .z180:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Z 180"
+                    self.hintLabel.text = "front face clockwise twice"
                 }
+                break
             case .zNeg180:
                 self.isCalibrating = true
                 DispatchQueue.main.async{
                     self.calibrationLabel.text = "Z' 180"
+                    self.hintLabel.text = "front face counter-clockwise twice"
                 }
                 break
             case .notCalibrating:
@@ -156,6 +172,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     @IBOutlet weak var calibrationLabel: UILabel!
     @IBOutlet weak var dsidLabel: UILabel!
     @IBOutlet weak var guessingLabel: UILabel!
+    @IBOutlet weak var hintLabel: UILabel!
     
     // MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -163,6 +180,13 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         startMotionUpdates()
         self.setDelayedWaitingToTrue(watingTime)
         // Do any additional setup after loading the view.
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.motion.stopGyroUpdates()
+        self.motion.stopMagnetometerUpdates()
+        self.motion.stopAccelerometerUpdates()
+        self.motion.stopDeviceMotionUpdates()
     }
 
     
@@ -184,6 +208,10 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     @IBAction func calibrateOnce(_ sender: Any) {
         self.isWaitingForMotionData = false
         nextCalibrationStage()
+        // Turn off guessin label
+        DispatchQueue.main.async {
+            self.setAsNormal(self.guessingLabel)
+        }
     }
     
     @IBAction func magnitudeChagned(_ sender: UISlider) {
@@ -202,7 +230,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             
             if mag > self.magValue {
                 // buffer up a bit more data and then notify of occurrence
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.10, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                     self.calibrationOperationQueue.addOperation {
                         // something large enough happened to warrant
                         self.largeMotionEventOccurred()
@@ -224,6 +252,9 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 sendFeatures(self.ringBuffer.getDataAsVector(),
                              withLabel: self.calibrationStage)
                 
+                DispatchQueue.main.async {
+                    self.setAsCalibrating(self.calibrationLabel)
+                }
                 self.nextCalibrationStage()
             }
         }
@@ -236,7 +267,9 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), outController:self)
                 // dont predict again for a bit
                 setDelayedWaitingToTrue(2.0)
-
+                DispatchQueue.main.async {
+                    self.setAsCalibrating(self.guessingLabel)
+                }
             }
         }
     }
@@ -276,7 +309,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         }
     }
     
-    let watingTime = 2.0
+    let watingTime = 1.25
     func nextCalibrationStage(){
         switch self.calibrationStage {
         case .notCalibrating:
@@ -340,13 +373,31 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         case .zNeg180:
             self.calibrationStage = .notCalibrating
             setDelayedWaitingToTrue(watingTime)
+            DispatchQueue.main.async {
+                self.setAsNormal(self.calibrationLabel)
+            }
             break
         }
+    }
+    
+    func setAsCalibrating(_ label: UILabel){
+        label.layer.add(animation, forKey:nil)
+        label.backgroundColor = UIColor.red
+    }
+    
+    func setAsNormal(_ label: UILabel){
+        label.layer.add(animation, forKey:nil)
+        label.backgroundColor = UIColor.white
     }
     
     func setDelayedWaitingToTrue(_ time:Double){
         DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: {
             self.isWaitingForMotionData = true
+            if self.calibrationStage == .notCalibrating {
+                self.setAsNormal(self.guessingLabel)
+            } else {
+                self.setAsNormal(self.calibrationLabel)
+            }
         })
     }
     

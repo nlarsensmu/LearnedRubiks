@@ -8,7 +8,7 @@
 
 import UIKit
 
-let BUFFER_SIZE = 50
+let BUFFER_SIZE = 100
 
 class RingBuffer: NSObject {
     
