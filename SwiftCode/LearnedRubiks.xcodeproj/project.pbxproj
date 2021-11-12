@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B78647CA2739FA85004BB50B /* Room.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647C92739FA85004BB50B /* Room.scn */; };
-		B78647CC2739FC8F004BB50B /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647CB2739FC8F004BB50B /* Cube.scn */; };
+		B78647D0273F20C3004BB50B /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647CF273F20C3004BB50B /* Cube.scn */; };
 		FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBAF27385830006DE220 /* AppDelegate.swift */; };
 		FD31FBB227385830006DE220 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBB127385830006DE220 /* SceneDelegate.swift */; };
 		FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBB327385830006DE220 /* LearningViewController.swift */; };
@@ -22,12 +22,11 @@
 		FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */; };
 		FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */; };
 		FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */; };
-		FDFA660A273CA76D00A866F8 /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = FDFA6609273CA76C00A866F8 /* Cube.scn */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B78647C92739FA85004BB50B /* Room.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Room.scn; sourceTree = "<group>"; };
-		B78647CB2739FC8F004BB50B /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
+		B78647CF273F20C3004BB50B /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
 		FD31FBAC27385830006DE220 /* LearnedRubiks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnedRubiks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD31FBAF27385830006DE220 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD31FBB127385830006DE220 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +42,6 @@
 		FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDatasetViewController.swift; sourceTree = "<group>"; };
 		FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPredViewController.swift; sourceTree = "<group>"; };
 		FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedSettingsViewController.swift; sourceTree = "<group>"; };
-		FDFA6609273CA76C00A866F8 /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +58,7 @@
 		FD31FBA327385830006DE220 = {
 			isa = PBXGroup;
 			children = (
+				B78647CF273F20C3004BB50B /* Cube.scn */,
 				FD31FBAE27385830006DE220 /* LearnedRubiks */,
 				FD31FBAD27385830006DE220 /* Products */,
 				FDFA6606273CA6BA00A866F8 /* Recovered References */,
@@ -99,8 +98,6 @@
 		FDFA6606273CA6BA00A866F8 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				FDFA6609273CA76C00A866F8 /* Cube.scn */,
-				B78647CB2739FC8F004BB50B /* Cube.scn */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -164,9 +161,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD31FBBC27385831006DE220 /* LaunchScreen.storyboard in Resources */,
-				B78647CC2739FC8F004BB50B /* Cube.scn in Resources */,
+				B78647D0273F20C3004BB50B /* Cube.scn in Resources */,
 				FD31FBB927385831006DE220 /* Assets.xcassets in Resources */,
-				FDFA660A273CA76D00A866F8 /* Cube.scn in Resources */,
 				FD31FBB727385830006DE220 /* Main.storyboard in Resources */,
 				B78647CA2739FA85004BB50B /* Room.scn in Resources */,
 			);
