@@ -10,27 +10,38 @@ import SceneKit
 import CoreMotion
 
 class PredictionViewController: UIViewController {
+    var Cube:RubiksCube? = nil
     // MARK: Outlets
-    var cubes:[SCNNode] = []
-    var imageToShow = "texture" // replace this with the image name, in segue to controller
     @IBOutlet weak var sceneView: SCNView!
     @IBAction func xRotate(_ sender: Any) {
-        self.rotateAllX(direction:1)
+        if let cube = Cube{
+            cube.rotateAllX(direction:1)
+        }
     }
     @IBAction func xRotateNeg(_ sender: Any) {
-        self.rotateAllX(direction:-1)
+        if let cube = Cube{
+            cube.rotateAllX(direction:-1)
+        }
     }
     @IBAction func yRotate(_ sender: Any) {
-        self.rotateAllY(direction:1)
+        if let cube = Cube{
+            cube.rotateAllY(direction:1)
+        }
     }
     @IBAction func yRotateNeg(_ sender: Any) {
-        self.rotateAllY(direction:-1)
+        if let cube = Cube{
+            cube.rotateAllY(direction:-1)
+        }
     }
     @IBAction func zRotate(_ sender: Any) {
-        self.rotateAllZ(direction:1)
+        if let cube = Cube{
+            cube.rotateAllZ(direction:1)
+        }
     }
     @IBAction func zRotateNeg(_ sender: Any) {
-        self.rotateAllZ(direction:-1)
+        if let cube = Cube{
+            cube.rotateAllZ(direction:-1)
+        }
     }
     // MARK: variables
     
@@ -71,79 +82,13 @@ class PredictionViewController: UIViewController {
         guard let sceneView = sceneView else {
             return
         }
-        
-        // Setup Original Scene
-        scene = SCNScene()
-        // load living room model we created in sketchup
-        let cubes = SCNScene(named: "Cube.scn")!
-        
-        for i in 1...27 {
-            self.cubes.append(addCube(scene:scene,cubes:cubes, number:String(i)))
-        }
-        // Setup camera position from existing scene
-        cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
-        scene.rootNode.addChildNode(cameraNode)
-        
-        // make this the scene in the view
+        self.Cube = RubiksCube()
+        scene = Cube?.getScene()
+
         sceneView.scene = scene
-        
-        //Debugging
-        sceneView.showsStatistics = true
+//        //Debugging
+//        sceneView.showsStatistics = true
     
-    }
-    //This will take a cube# from cubes and add it to scene.
-    func addCube(scene:SCNScene, cubes:SCNScene, number:String) -> SCNNode{
-        let cube = cubes.rootNode.childNode(withName: "cube\(number)", recursively: true)!
-        scene.rootNode.addChildNode(cube)
-        return cube
-    }
-    //Roate the cube angle amount in the X direction
-    //NOTE direction should be -1 or 1 for positive X or negative X
-    private func rotateAllX(direction:Int, angle:Float = .pi/2){
-        var percentage = 0.0
-        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
-            if percentage == 0.0 {
-                percentage = elapsedTime / 0.25
-            }
-            let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
-            let rot2 = SCNMatrix4Mult(node.transform, rot)
-            node.transform = rot2
-        }
-        for cube in self.cubes{
-            cube.runAction(rotationAction)
-        }
-    }
-    //Roate the cube angle amount in the Y direction
-    //NOTE direction should be -1 or 1 for positive Y or negative Y
-    private func rotateAllY(direction:Int, angle:Float = .pi/2){
-        var percentage = 0.0
-        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
-            if percentage == 0.0 {
-                percentage = elapsedTime / 0.25
-            }
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
-            let rot2 = SCNMatrix4Mult(node.transform, rot)
-            node.transform = rot2
-        }
-        for cube in self.cubes{
-            cube.runAction(rotationAction)
-        }
-    }
-    //Roate the cube angle amount in the Y direction
-    //NOTE direction should be -1 or 1 for positive Y or negative Y
-    private func rotateAllZ(direction:Int, angle:Float = .pi/2){
-        var percentage = 0.0
-        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
-            if percentage == 0.0 {
-                percentage = elapsedTime / 0.25
-            }
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
-            let rot2 = SCNMatrix4Mult(node.transform, rot)
-            node.transform = rot2
-        }
-        for cube in self.cubes{
-            cube.runAction(rotationAction)
-        }
     }
     
     //MARK: Motion code
@@ -158,7 +103,6 @@ class PredictionViewController: UIViewController {
             self.isWaitingForMotionData = true
         })
     }
-    
     func startMotionUpdates(){
         // some internal inconsistency here: we need to ask the device manager for device
         
@@ -189,37 +133,38 @@ class PredictionViewController: UIViewController {
             self.isWaitingForMotionData = false
             //predict a label
             // TODO: Hard coded model, needs to be changed.
-            serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:4, model: "MLP"){
-                resp in
-                if resp == "x90" {
-                    self.rotateAllX(direction: 1)
-                }else if resp == "xNeg90" {
-                    self.rotateAllX(direction: -1)
-                }else if resp == "y90" {
-                    self.rotateAllY(direction: 1)
-                }else if resp == "yNeg90" {
-                    self.rotateAllY(direction: -1)
-                }else if resp == "z90" {
-                    self.rotateAllZ(direction: 1)
-                }else if resp == "zNeg90" {
-                    self.rotateAllZ(direction: -1)
-                }else if resp == "x180" {
-                    self.rotateAllX(direction: 1, angle:.pi)
-                }else if resp == "xNeg180" {
-                    self.rotateAllX(direction: -1, angle:.pi)
-                }else if resp == "y180" {
-                    self.rotateAllY(direction: 1, angle:.pi)
-                }else if resp == "yNeg180" {
-                    self.rotateAllY(direction: -1, angle:.pi)
-                }else if resp == "z180" {
-                    self.rotateAllZ(direction: 1, angle:.pi)
-                }else if resp == "zNeg180" {
-                    self.rotateAllZ(direction: -1, angle:.pi)
+            if let cube = Cube{
+                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:4, model: "MLP"){
+                    resp in
+                        if resp == "x90" {
+                            cube.rotateAllX(direction: 1)
+                        }else if resp == "xNeg90" {
+                            cube.rotateAllX(direction: -1)
+                        }else if resp == "y90" {
+                            cube.rotateAllY(direction: 1)
+                        }else if resp == "yNeg90" {
+                            cube.rotateAllY(direction: -1)
+                        }else if resp == "z90" {
+                            cube.rotateAllZ(direction: 1)
+                        }else if resp == "zNeg90" {
+                            cube.rotateAllZ(direction: -1)
+                        }else if resp == "x180" {
+                            cube.rotateAllX(direction: 1, angle:.pi)
+                        }else if resp == "xNeg180" {
+                            cube.rotateAllX(direction: -1, angle:.pi)
+                        }else if resp == "y180" {
+                            cube.rotateAllY(direction: 1, angle:.pi)
+                        }else if resp == "yNeg180" {
+                            cube.rotateAllY(direction: -1, angle:.pi)
+                        }else if resp == "z180" {
+                            cube.rotateAllZ(direction: 1, angle:.pi)
+                        }else if resp == "zNeg180" {
+                            cube.rotateAllZ(direction: -1, angle:.pi)
+                        }
                 }
             }
             // dont predict again for a bit
             setDelayedWaitingToTrue(0.5)
-
         }
     }
     /*
