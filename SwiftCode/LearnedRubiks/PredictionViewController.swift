@@ -10,10 +10,6 @@ import SceneKit
 import CoreMotion
 
 class PredictionViewController: UIViewController {
-    // MARK: Class Constants
-    var minPoint:Float = -0.55
-    var midPoint:Float = 0.0
-    var maxPoint:Float = 0.55
     // MARK: Outlets
     var cubes:[SCNNode] = []
     var imageToShow = "texture" // replace this with the image name, in segue to controller
@@ -40,12 +36,13 @@ class PredictionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // for nice animations on the text
         animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         animation.type = convertToCATransitionType(animationKey)
         animation.duration = 0.5
         sceneView.frame = self.view.frame
+        
+        //Start Listening to motion updates
         self.startMotionUpdates()
         self.isWaitingForMotionData = true
     }
@@ -54,6 +51,7 @@ class PredictionViewController: UIViewController {
         sceneView.backgroundColor = .black
         addCubes()
     }
+    
     // anmations for label
     let animation = CATransition()
     let animationKey = convertFromCATransitionType(CATransitionType.push)
@@ -61,14 +59,14 @@ class PredictionViewController: UIViewController {
     var scene : SCNScene!
     var cameraNode : SCNNode!
     var wallNode: SCNNode!
-    var motionManager : CMMotionManager!
-    var initialAttitude: (roll: Double, pitch:Double, yaw:Double)?
     
+    //Force the app to be portait
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         get {
             return .portraitUpsideDown
         }
     }
+    //To be called on init.  This will populate self.cubes which will contain all the inforatiom about the cube, and cubelets for the graphic
     func addCubes(){
         guard let sceneView = sceneView else {
             return
@@ -78,33 +76,10 @@ class PredictionViewController: UIViewController {
         scene = SCNScene()
         // load living room model we created in sketchup
         let cubes = SCNScene(named: "Cube.scn")!
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"1"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"2"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"3"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"4"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"5"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"6"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"7"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"8"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"9"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"10"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"11"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"12"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"13"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"14"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"15"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"16"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"17"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"18"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"19"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"20"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"21"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"22"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"23"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"24"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"25"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"26"))
-        self.cubes.append(addCube(scene:scene,cubes:cubes, number:"27"))
+        
+        for i in 1...27 {
+            self.cubes.append(addCube(scene:scene,cubes:cubes, number:String(i)))
+        }
         // Setup camera position from existing scene
         cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
         scene.rootNode.addChildNode(cameraNode)
@@ -116,19 +91,14 @@ class PredictionViewController: UIViewController {
         sceneView.showsStatistics = true
     
     }
-    func getMaterials(colors:[UIColor]) -> [SCNMaterial]{
-        return colors.map { color -> SCNMaterial in
-                let material = SCNMaterial()
-                material.diffuse.contents = color
-            return material
-        }
-    }
+    //This will take a cube# from cubes and add it to scene.
     func addCube(scene:SCNScene, cubes:SCNScene, number:String) -> SCNNode{
         let cube = cubes.rootNode.childNode(withName: "cube\(number)", recursively: true)!
         scene.rootNode.addChildNode(cube)
         return cube
     }
-    
+    //Roate the cube angle amount in the X direction
+    //NOTE direction should be -1 or 1 for positive X or negative X
     private func rotateAllX(direction:Int, angle:Float = .pi/2){
         var percentage = 0.0
         let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
@@ -143,6 +113,8 @@ class PredictionViewController: UIViewController {
             cube.runAction(rotationAction)
         }
     }
+    //Roate the cube angle amount in the Y direction
+    //NOTE direction should be -1 or 1 for positive Y or negative Y
     private func rotateAllY(direction:Int, angle:Float = .pi/2){
         var percentage = 0.0
         let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
@@ -157,6 +129,8 @@ class PredictionViewController: UIViewController {
             cube.runAction(rotationAction)
         }
     }
+    //Roate the cube angle amount in the Y direction
+    //NOTE direction should be -1 or 1 for positive Y or negative Y
     private func rotateAllZ(direction:Int, angle:Float = .pi/2){
         var percentage = 0.0
         let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
@@ -170,23 +144,6 @@ class PredictionViewController: UIViewController {
         for cube in self.cubes{
             cube.runAction(rotationAction)
         }
-    }
-    
-    private func xRotateToVector(cube:SCNNode) -> SCNVector3?{
-        //All the corner cases
-        if cube.position.x == minPoint  && cube.position.z ==  maxPoint {
-            return SCNVector3(maxPoint,cube.position.y,maxPoint)
-        }
-        else if cube.position.x == maxPoint  && cube.position.z ==  maxPoint {
-            return SCNVector3(maxPoint,cube.position.y,minPoint)
-        }
-        else if cube.position.x == maxPoint  && cube.position.z ==  minPoint {
-            return SCNVector3(minPoint,cube.position.y,minPoint)
-        }
-        else if cube.position.x == minPoint  && cube.position.z ==  minPoint {
-            return SCNVector3(minPoint,cube.position.y,maxPoint)
-        }
-        return nil
     }
     
     //MARK: Motion code
@@ -210,6 +167,7 @@ class PredictionViewController: UIViewController {
             self.motion.startDeviceMotionUpdates(to: motionOperationQueue, withHandler: self.handleMotion )
         }
     }
+    //Closure to be used when listening to motion
     func handleMotion(_ motionData:CMDeviceMotion?, error:Error?){
         if let accel = motionData?.userAcceleration {
             self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
