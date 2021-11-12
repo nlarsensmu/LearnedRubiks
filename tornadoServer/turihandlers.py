@@ -150,23 +150,23 @@ class UpdateModelForDatasetId(BaseHandler):
 
       (model_turi, acc_turi, model_path_turi) = self.create_turi(dsid)
 
-      # Add the best model
-      if acc_mlp > acc_turi:
-          self.db.trainedmodels.update({"dsid": dsid}, 
-            {"$set": 
-              {"dsid":dsid,
-              "ACC:": acc_mlp,
-              "type": 'MLP',
-              "path": model_path_mlp}}, upsert=True)
-          self.clf[dsid] = model_mlp
-      else:
-          self.db.trainedmodels.update({"dsid": dsid}, 
-            {"$set": 
-              {"dsid":dsid,
-              "ACC:": acc_mlp,
-              "type":'TURI',
-              "path": model_path_mlp}}, upsert=True)
-          self.clf[dsid] = model_turi
+      # Add the models to the database
+      self.db.trainedmodels.update({"dsid": dsid}, 
+        {"$set": 
+          {"dsid":dsid,
+          "ACC:": acc_mlp,
+          "type": 'MLP',
+          "path": model_path_mlp}}, upsert=True)
+
+      self.db.trainedmodels.update({"dsid": dsid}, 
+        {"$set": 
+          {"dsid":dsid,
+          "ACC:": acc_mlp,
+          "type":'TURI',
+          "path": model_path_mlp}}, upsert=True)
+
+      self.clf[dsid] = {"MLP": model_mlp,
+                       "TURI": model_turi}
 
 
   def create_mlp(self, dsid):
@@ -229,6 +229,7 @@ class UpdateModelForDatasetId(BaseHandler):
       # if training takes a while, we are blocking tornado!! No!!
       return (model, acc, model_path)
 
+
   def create_turi(self, dsid):
       """Use out of the box TURI Create to classify.
       """
@@ -288,23 +289,37 @@ class PredictOneFromDatasetId(BaseHandler):
         fvals = self.get_features_as_SFrame(data['feature'])
         dsid = data['dsid']
 
-        # load the model from the database (using pickle)
-        # we are blocking tornado!! no!!
+        #get the desired model to be used
+        model_type = "MLP"
+        if "model" in data.keys():
+            model_type = data["model"]
+
+        # if clf is a list make it a dictionary
         if (self.clf == []):
             self.clf = {}
-            print('Loading Model From file')
-        #            self.clf = tc.load_model('../models/turi_model_dsid%d' % (dsid))
 
         model = None
+
         if dsid in self.clf.keys():
-            model = self.clf[dsid]
-        else:
+            model = self.clf[dsid][model_type]
+           
+        else: # if the model has not been loaded. load it for both
+            model_mlp = None
+            model_turi = None
             try:
-                model = pickle.load(open('../models/mlp_model_dsid%d' % dsid, 'rb'))
-                self.clf[dsid] = model
+                model_mlp = pickle.load(open('../models/mlp_model_dsid%d' % dsid, 'rb'))
             except OSError:
-                print("Model has not yet been created")
-                raise Exception("Model %d has not yet been created" % (dsid))
+                print("Could not load MLP model, may not be created")
+                raise Exception("Model %d may not be created" % (dsid))
+            try:
+                model_turi = tc.load_model('../models/turi_model_dsid%d'%(dsid))
+            except OSError:
+                print("Could not load TURI model, may not be created")
+                raise Exception("Model %d may not be created" % (dsid))
+
+            self.clf[dsid] = {"MLP": model_mlp, "TURI": model_turi}
+
+        model = self.clf[dsid][model_type]
 
         fvals = fvals
         predLabel = model.predict(fvals)

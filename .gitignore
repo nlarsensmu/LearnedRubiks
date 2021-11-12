@@ -89,8 +89,7 @@ fastlane/test_output
 
 iOSInjectionProject/
 
-<<<<<<< HEAD
-./models/**
-=======
 **/models/**
->>>>>>> EnhanceModels
+./tornadoServer/.ida/**
+./tornadoServer/__pycache__/**
+./ipynb_checkpoints/**
