@@ -181,7 +181,7 @@ class ServerModel: NSObject, URLSessionDelegate {
     }
     
     typealias CompletionHandler = (String) -> Void
-    func getPrediction(_ array:[Double], dsid:Int,completionHandler: @escaping CompletionHandler ){
+    func getPrediction(_ array:[Double], dsid:Int, model:String, completionHandler: @escaping CompletionHandler ){
         let baseURL = "\(SERVER_URL)/PredictOne"
         let postUrl = URL(string: "\(baseURL)")
         
@@ -189,7 +189,7 @@ class ServerModel: NSObject, URLSessionDelegate {
         var request = URLRequest(url: postUrl!)
         
         // data to send in body of post request (send arguments as json)
-        let jsonUpload:NSDictionary = ["feature":array, "dsid":dsid]
+        let jsonUpload:NSDictionary = ["feature":array, "dsid":dsid, "model":model]
         
         
         let requestBody:Data? = self.convertDictionaryToData(with:jsonUpload)

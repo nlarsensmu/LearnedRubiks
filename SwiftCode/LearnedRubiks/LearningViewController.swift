@@ -173,6 +173,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     @IBOutlet weak var dsidLabel: UILabel!
     @IBOutlet weak var guessingLabel: UILabel!
     @IBOutlet weak var hintLabel: UILabel!
+    @IBOutlet weak var modelSegmented: UISegmentedControl!
     
     // MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -263,23 +264,22 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             if(self.isWaitingForMotionData)
             {
                 self.isWaitingForMotionData = false
+                self.setDelayedWaitingToTrue(0.5)
+                var model = ""
+                if let m = self.modelSegmented.titleForSegment(at: self.modelSegmented.selectedSegmentIndex)  {
+                    model = m
+                } else {
+                    model = "MLP"
+                }
                 serverModel?.getPrediction(self.ringBuffer.getDataAsVector(),
-                                           dsid: self.dsid) {
+                                           dsid: self.dsid,
+                                           model: model) {
                     resp in
-                    self.setDelayedWaitingToTrue(0.5)
                     DispatchQueue.main.async {
                         self.setAsCalibrating(self.guessingLabel)
                         self.displayLabelResponse(resp)
                     }
                 }
-//                self.isWaitingForMotionData = false
-//                //predict a label
-//                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), outController:self)
-//
-//                setDelayedWaitingToTrue(2.0)
-//                DispatchQueue.main.async {
-//                    self.setAsCalibrating(self.guessingLabel)
-//                }
             }
         }
     }

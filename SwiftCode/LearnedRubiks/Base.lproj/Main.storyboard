@@ -312,12 +312,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eaC-uh-qzh">
+                                <rect key="frame" x="295" y="504.5" width="99" height="32"/>
+                                <segments>
+                                    <segment title="MLP"/>
+                                    <segment title="TURI"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="jv1-5c-Ac8" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.884058" id="4qm-4v-WjM"/>
                             <constraint firstItem="jv1-5c-Ac8" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ao8-KE-1WM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eaC-uh-qzh" secondAttribute="trailing" constant="20" id="FQ5-q1-QUp"/>
+                            <constraint firstItem="eaC-uh-qzh" firstAttribute="centerY" secondItem="PnW-yb-h0g" secondAttribute="centerY" id="G0p-Py-Fj3"/>
                             <constraint firstItem="Ms9-db-WIE" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GzG-OP-gEU"/>
                             <constraint firstItem="e49-32-IHB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="HoS-jO-BI5"/>
                             <constraint firstItem="h0b-p8-T6l" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="J7r-tx-FFm"/>
@@ -349,6 +358,7 @@
                         <outlet property="guessingLabel" destination="48W-sQ-oVY" id="6Ql-Dg-DHI"/>
                         <outlet property="hintLabel" destination="1SP-x3-C9O" id="ecQ-Fm-bjq"/>
                         <outlet property="largeMotionMagnitude" destination="jv1-5c-Ac8" id="1YQ-f4-g9E"/>
+                        <outlet property="modelSegmented" destination="eaC-uh-qzh" id="kr4-dZ-Ghw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -188,7 +188,8 @@ class PredictionViewController: UIViewController {
         {
             self.isWaitingForMotionData = false
             //predict a label
-            serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:4){
+            // TODO: Hard coded model, needs to be changed.
+            serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:4, model: "MLP"){
                 resp in
                 if resp == "x90" {
                     self.rotateAllX(direction: 1)
