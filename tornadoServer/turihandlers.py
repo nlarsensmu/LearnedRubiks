@@ -286,7 +286,7 @@ class PredictOneFromDatasetId(BaseHandler):
         """Predict the class of a sent feature vector
         """
         data = json.loads(self.request.body.decode("utf-8"))
-        fvals = self.get_features_as_SFrame(data['feature'])
+        fvals = self.get_features_as_numpy(data['feature'])
         dsid = data['dsid']
 
         #get the desired model to be used
@@ -321,12 +321,19 @@ class PredictOneFromDatasetId(BaseHandler):
 
         model = self.clf[dsid][model_type]
 
-        fvals = fvals
+        # conver fvals to sframe for turi
+        if model_type == "TURI":
+            data = {'sequence': fvals}
+            fvals = tc.SFrame(data=data)
+
         predLabel = model.predict(fvals)
-        predLabel = self.encode_to_str(predLabel[0])
+
+        # if the model is MLP get the real label
+        if model_type == "MLP":
+            predLabel = self.encode_to_str(predLabel[0])
         self.write_json({"prediction": str(predLabel)})
 
-    def get_features_as_SFrame(self, vals):
+    def get_features_as_numpy(self, vals):
         # create feature vectors from array input
         # convert to dictionary of arrays for tc
 
