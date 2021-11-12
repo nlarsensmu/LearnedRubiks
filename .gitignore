@@ -90,6 +90,6 @@ fastlane/test_output
 iOSInjectionProject/
 
 **/models/**
-./tornadoServer/.ida/**
-./tornadoServer/__pycache__/**
+./tornadoServer/.idea/**
+./**/__pycache__/
 ./ipynb_checkpoints/**
