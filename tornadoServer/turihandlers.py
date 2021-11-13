@@ -65,13 +65,25 @@ class RequestNewDatasetId(BaseHandler):
         self.write_json({"dsid": newSessionId})
 
 
-class GetDatasetCount(BaseHandler):
+class GetLearnedModelData(BaseHandler):
     def get(self):
         dsid = self.get_int_arg("dsid", default=0)
         find = {"dsid": dsid}
-        doc_count = self.db.labeledinstances.count_documents(find)
-        print(doc_count)
-        self.write_json({"count": doc_count})
+        doc = self.db.trainedmodels.find_one(find)
+
+        print(doc)
+
+        count = doc["count"]
+        acc_mlp = float(doc["acc_mlp"])
+        acc_turi = float(doc["acc_turi"])
+
+        d = dict()
+        d["dsid"] = dsid
+        d["acc_mlp"] = float(acc_mlp)
+        d["acc_turi"] = float(acc_turi)
+        d["count"] = count
+
+        self.write_json( d )
 
 
 class DeleteADsId(BaseHandler):
@@ -88,33 +100,6 @@ class RequestAllDatasetIds(BaseHandler):
     def get(self):
         dsids = self.db.labeledinstances.find().distinct('dsid')
         self.write_json({"dsids": dsids})
-
-
-class UpdateModelForDatasetIdOld(BaseHandler):
-    def get(self):
-        """The old way using turi create
-        """
-        dsid = self.get_int_arg("dsid", default=0)
-
-        data = self.get_features_and_labels_as_SFrame(dsid)
-
-        # fit the model to the data
-        acc = -1
-        best_model = 'unknown'
-        if self.clf == []:
-            self.clf == {}
-
-        if len(data) > 0:
-            model = tc.classifier.create(data, target='target', verbose=0)  # training
-            yhat = model.predict(data)  # type: object
-            self.clf[dsid] = model
-            acc = sum(yhat == data['target']) / float(len(data))
-            # save model for use later, if desired
-            model.save('../models/turi_model_dsid%d' % (dsid))
-
-        # send back the re substitution accuracy
-        # if training takes a while, we are blocking tornado!! No!!
-        self.write_json({"resubAccuracy": acc})
 
 
 class UpdateModelForDatasetId(BaseHandler):
@@ -145,8 +130,7 @@ class UpdateModelForDatasetId(BaseHandler):
           self.clf = {}
 
       dsid = self.get_int_arg("dsid", default=0)
-      (model_mlp, acc_mlp, model_path_mlp) = self.create_mlp(dsid)
-      self.write_json({"resubAccuracy": acc_mlp})
+      (model_mlp, acc_mlp, model_path_mlp, count) = self.create_mlp(dsid)
 
       (model_turi, acc_turi, model_path_turi) = self.create_turi(dsid)
 
@@ -154,19 +138,16 @@ class UpdateModelForDatasetId(BaseHandler):
       self.db.trainedmodels.update({"dsid": dsid}, 
         {"$set": 
           {"dsid":dsid,
-          "ACC:": acc_mlp,
-          "type": 'MLP',
-          "path": model_path_mlp}}, upsert=True)
-
-      self.db.trainedmodels.update({"dsid": dsid}, 
-        {"$set": 
-          {"dsid":dsid,
-          "ACC:": acc_mlp,
-          "type":'TURI',
-          "path": model_path_mlp}}, upsert=True)
+          "acc_mlp": acc_mlp,
+          "acc_turi": acc_turi,
+          "path_mlp": model_path_mlp,
+          "path_turi": model_path_turi,
+          "count":count}}, upsert=True)
 
       self.clf[dsid] = {"MLP": model_mlp,
                        "TURI": model_turi}
+      
+      self.write_json({"resubAccuracy": acc_mlp})
 
 
   def create_mlp(self, dsid):
@@ -227,7 +208,7 @@ class UpdateModelForDatasetId(BaseHandler):
 
       # send back the re substitution accuracy
       # if training takes a while, we are blocking tornado!! No!!
-      return (model, acc, model_path)
+      return (model, acc, model_path, len(y))
 
 
   def create_turi(self, dsid):

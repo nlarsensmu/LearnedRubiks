@@ -552,27 +552,61 @@
                                     <action selector="deleteAllRecordsPressed:" destination="VOW-cK-TtB" eventType="touchUpInside" id="yzQ-CP-g9Y"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MLP ACC:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UzK-2M-UE1">
+                                <rect key="frame" x="20" y="265" width="143" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="THj-Bs-svr">
+                                <rect key="frame" x="334" y="265" width="60" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TURI ACC:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fxt-5h-YCZ">
+                                <rect key="frame" x="20" y="325" width="148" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oI3-mi-q5L">
+                                <rect key="frame" x="334" y="325" width="60" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NAU-lv-AGi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6fX-Rg-ieU" firstAttribute="centerY" secondItem="IzI-ze-O9I" secondAttribute="centerY" id="3iY-cV-bk6"/>
+                            <constraint firstItem="NAU-lv-AGi" firstAttribute="trailing" secondItem="THj-Bs-svr" secondAttribute="trailing" constant="20" id="E3m-dr-HpP"/>
+                            <constraint firstItem="UzK-2M-UE1" firstAttribute="leading" secondItem="NAU-lv-AGi" secondAttribute="leading" constant="20" id="G2V-hu-wpn"/>
                             <constraint firstItem="IzI-ze-O9I" firstAttribute="top" secondItem="oiP-Fd-Pwf" secondAttribute="bottom" constant="21" id="G8g-l2-PBf"/>
                             <constraint firstItem="oiP-Fd-Pwf" firstAttribute="top" secondItem="NAU-lv-AGi" secondAttribute="top" constant="57" id="N0j-B6-m4O"/>
+                            <constraint firstItem="NAU-lv-AGi" firstAttribute="trailing" secondItem="oI3-mi-q5L" secondAttribute="trailing" constant="20" id="Sp7-3K-10z"/>
                             <constraint firstItem="NAU-lv-AGi" firstAttribute="trailing" secondItem="tml-QT-rLy" secondAttribute="trailing" constant="20" id="TSL-ai-rMV"/>
                             <constraint firstItem="A4b-hA-l1H" firstAttribute="centerX" secondItem="NAU-lv-AGi" secondAttribute="centerX" id="XHv-R6-zp2"/>
                             <constraint firstItem="IzI-ze-O9I" firstAttribute="leading" secondItem="NAU-lv-AGi" secondAttribute="leading" constant="20" id="XVn-93-5dz"/>
+                            <constraint firstItem="UzK-2M-UE1" firstAttribute="top" secondItem="IzI-ze-O9I" secondAttribute="bottom" constant="21" id="Xjh-kD-nwH"/>
                             <constraint firstItem="A4b-hA-l1H" firstAttribute="centerY" secondItem="NAU-lv-AGi" secondAttribute="centerY" constant="-4" id="b7P-GM-93B"/>
+                            <constraint firstItem="oI3-mi-q5L" firstAttribute="centerY" secondItem="Fxt-5h-YCZ" secondAttribute="centerY" id="dEj-JY-mzD"/>
+                            <constraint firstItem="Fxt-5h-YCZ" firstAttribute="leading" secondItem="NAU-lv-AGi" secondAttribute="leading" constant="20" id="gLT-ea-emI"/>
                             <constraint firstItem="tml-QT-rLy" firstAttribute="centerY" secondItem="oiP-Fd-Pwf" secondAttribute="centerY" id="nF5-y5-rxF"/>
                             <constraint firstItem="oiP-Fd-Pwf" firstAttribute="leading" secondItem="NAU-lv-AGi" secondAttribute="leading" constant="20" id="odc-a8-Cel"/>
                             <constraint firstItem="NAU-lv-AGi" firstAttribute="trailing" secondItem="6fX-Rg-ieU" secondAttribute="trailing" constant="20" id="rVU-Ls-H96"/>
+                            <constraint firstItem="THj-Bs-svr" firstAttribute="centerY" secondItem="UzK-2M-UE1" secondAttribute="centerY" id="ss7-mJ-Fge"/>
+                            <constraint firstItem="Fxt-5h-YCZ" firstAttribute="top" secondItem="UzK-2M-UE1" secondAttribute="bottom" constant="21" id="y8n-Lx-fJ2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fcb-ho-coQ"/>
                     <connections>
                         <outlet property="deleteButton" destination="A4b-hA-l1H" id="NNW-7s-KoZ"/>
                         <outlet property="dsidLabel" destination="tml-QT-rLy" id="gtt-df-xoa"/>
+                        <outlet property="mlpAcc" destination="THj-Bs-svr" id="WL6-u9-8xP"/>
                         <outlet property="samplesLabel" destination="6fX-Rg-ieU" id="sZK-Jq-LiA"/>
+                        <outlet property="turiAcc" destination="oI3-mi-q5L" id="li8-6A-wJa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gs4-dC-SSh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

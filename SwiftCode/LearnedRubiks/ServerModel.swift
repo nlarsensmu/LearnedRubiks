@@ -75,18 +75,19 @@ class ServerModel: NSObject, URLSessionDelegate {
         dataTask.resume() // start the task
     }
     
-    func getDsIdCount(outController: DeleteDatasetViewController) {
+    
+    typealias CompletionHandler2 = (NSDictionary) -> Void
+    func getLearnedModelData(from dsid:Int, completionHandler: @escaping CompletionHandler2) {
         
         //http://192.168.1.221:8000/GetDatasetCount?dsid=1
         
-        let baseURL = "\(SERVER_URL)/GetDatasetCount"
-        let args = "\(outController.dsid)"
+        let baseURL = "\(SERVER_URL)/GetLearnedModelData"
+        let args = "\(dsid)"
         let getUrl = URL(string: "\(baseURL)?dsid=\(args)")
         
         let request: URLRequest = URLRequest(url: getUrl!)
         
-        let dataTask : URLSessionDataTask = self.session.dataTask(with: request,
-              completionHandler:{(data, response, error) in
+        let dataTask : URLSessionDataTask = self.session.dataTask(with: request) {(data, response, error) in
                 // handle error!
                 if (error != nil) {
                     if let res = response{
@@ -95,17 +96,9 @@ class ServerModel: NSObject, URLSessionDelegate {
                 }
                 else{
                     let jsonDictionary = self.convertDataToDictionary(with: data)
-                    
-                    if let data = jsonDictionary["count"]{
-                        print(data)
-                        let dsCount = data as! Int
-                        DispatchQueue.main.async {
-                            outController.samplesLabel.text = "\(dsCount)"
-                            
-                        }
-                    }
+                    completionHandler(jsonDictionary)
                 }
-        })
+        }
         
         dataTask.resume() // start the task
     }
