@@ -43,14 +43,14 @@ class ServerModel: NSObject, URLSessionDelegate {
     
     // MARK: comm with Server
     
-    func getAllDsIds(outContoller:DatasetsTableView){
+    typealias getAllDsIdsCompletionHandler = ([Any]) -> Void
+    func getAllDsIds(completionHandler3: @escaping getAllDsIdsCompletionHandler){
         let baseURL = "\(SERVER_URL)/GetAllDatasetIds"
         let getUrl = URL(string: "\(baseURL)")
         
         let request: URLRequest = URLRequest(url: getUrl!)
         
-        let dataTask : URLSessionDataTask = self.session.dataTask(with: request,
-              completionHandler:{(data, response, error) in
+        let dataTask : URLSessionDataTask = self.session.dataTask(with: request) {(data, response, error) in
                 // handle error!
                 if (error != nil) {
                     if let res = response{
@@ -59,34 +59,28 @@ class ServerModel: NSObject, URLSessionDelegate {
                 }
                 else{
                     let jsonDictionary = self.convertDataToDictionary(with: data)
-                    
-                    if let dsids = jsonDictionary["dsids"]{
-                        print(dsids)
+                    if let dsids = jsonDictionary["dsids"] {
                         let list = dsids as! [Any]
-                        outContoller.dsids = list
-                        DispatchQueue.main.async {
-                            outContoller.tableView.reloadData()
-                        }
+                        completionHandler3(list)
                     }
                 }
-                                                                    
-        })
-        
+        }
         dataTask.resume() // start the task
     }
     
-    func getDsIdCount(outController: DeleteDatasetViewController) {
+    
+    typealias getLearnedModelDataCompletionHandler = (NSDictionary) -> Void
+    func getLearnedModelData(dsid:Int, completionHandler: @escaping getLearnedModelDataCompletionHandler) {
         
         //http://192.168.1.221:8000/GetDatasetCount?dsid=1
         
-        let baseURL = "\(SERVER_URL)/GetDatasetCount"
-        let args = "\(outController.dsid)"
+        let baseURL = "\(SERVER_URL)/GetLearnedModelData"
+        let args = "\(dsid)"
         let getUrl = URL(string: "\(baseURL)?dsid=\(args)")
         
         let request: URLRequest = URLRequest(url: getUrl!)
         
-        let dataTask : URLSessionDataTask = self.session.dataTask(with: request,
-              completionHandler:{(data, response, error) in
+        let dataTask : URLSessionDataTask = self.session.dataTask(with: request) {(data, response, error) in
                 // handle error!
                 if (error != nil) {
                     if let res = response{
@@ -95,27 +89,20 @@ class ServerModel: NSObject, URLSessionDelegate {
                 }
                 else{
                     let jsonDictionary = self.convertDataToDictionary(with: data)
-                    
-                    if let data = jsonDictionary["count"]{
-                        print(data)
-                        let dsCount = data as! Int
-                        DispatchQueue.main.async {
-                            outController.samplesLabel.text = "\(dsCount)"
-                            
-                        }
-                    }
+                    completionHandler(jsonDictionary)
                 }
-        })
+        }
         
         dataTask.resume() // start the task
     }
     
-    func deleteDsIdRecords(outController: DeleteDatasetViewController) {
+    typealias deleteDsIdRecordsCompletionHandler = () -> Void
+    func deleteDsIdRecords(dsid:Int, completionHandler: @escaping deleteDsIdRecordsCompletionHandler) {
         
         //http://192.168.1.221:8000/DeleteADsId?dsid=2
         
         let baseURL = "\(SERVER_URL)/DeleteADsId"
-        let args = "\(outController.dsid)"
+        let args = "\(dsid)"
         let getUrl = URL(string: "\(baseURL)?dsid=\(args)")
         
         let request: URLRequest = URLRequest(url: getUrl!)
@@ -129,9 +116,10 @@ class ServerModel: NSObject, URLSessionDelegate {
                     }
                 }
                 else{
-                    DispatchQueue.main.async {
-                        outController.deleteButton.isEnabled = false
-                    }
+                    completionHandler()
+//                    DispatchQueue.main.async {
+//                        outController.deleteButton.isEnabled = false
+//                    }
                 }
         })
         
@@ -180,8 +168,8 @@ class ServerModel: NSObject, URLSessionDelegate {
         postTask.resume() // start the task
     }
     
-    typealias CompletionHandler = (String) -> Void
-    func getPrediction(_ array:[Double], dsid:Int, model:String, completionHandler: @escaping CompletionHandler ){
+    typealias getPredictionCompletionHandler = (String) -> Void
+    func getPrediction(_ array:[Double], dsid:Int, model:String, completionHandler: @escaping getPredictionCompletionHandler ){
         let baseURL = "\(SERVER_URL)/PredictOne"
         let postUrl = URL(string: "\(baseURL)")
         

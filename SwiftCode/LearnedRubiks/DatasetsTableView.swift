@@ -64,7 +64,12 @@ class DatasetsTableView: UITableViewController {
         super.viewWillAppear(true)
         
         // update the Table view
-        serverModel?.getAllDsIds(outContoller: self)
+        serverModel?.getAllDsIds() { dsids in
+            DispatchQueue.main.async {
+                self.dsids = dsids
+                self.tableView.reloadData()
+            }
+        }
     }
     
 
