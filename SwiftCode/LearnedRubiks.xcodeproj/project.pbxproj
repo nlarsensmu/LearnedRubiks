@@ -23,6 +23,7 @@
 		FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */; };
 		FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */; };
 		FDFA660A273CA76D00A866F8 /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = FDFA6609273CA76C00A866F8 /* Cube.scn */; };
+		FDFA660E27407A8800A866F8 /* ModelDsId4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FDFA660D27407A8800A866F8 /* ModelDsId4.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPredViewController.swift; sourceTree = "<group>"; };
 		FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedSettingsViewController.swift; sourceTree = "<group>"; };
 		FDFA6609273CA76C00A866F8 /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
+		FDFA660D27407A8800A866F8 /* ModelDsId4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ModelDsId4.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 		FD31FBA327385830006DE220 = {
 			isa = PBXGroup;
 			children = (
+				FDFA660D27407A8800A866F8 /* ModelDsId4.mlmodel */,
 				FD31FBAE27385830006DE220 /* LearnedRubiks */,
 				FD31FBAD27385830006DE220 /* Products */,
 				FDFA6606273CA6BA00A866F8 /* Recovered References */,
@@ -179,6 +182,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDFA660E27407A8800A866F8 /* ModelDsId4.mlmodel in Sources */,
 				FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */,
 				FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */,
 				FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */,

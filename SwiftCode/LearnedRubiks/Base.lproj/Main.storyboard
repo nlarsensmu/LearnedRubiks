@@ -272,7 +272,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="PnW-yb-h0g">
-                                <rect key="frame" x="96" y="504" width="94" height="32"/>
+                                <rect key="frame" x="160" y="504" width="94" height="32"/>
                                 <connections>
                                     <action selector="didStep:" destination="BYZ-38-t0r" eventType="valueChanged" id="Ctt-NH-ECk"/>
                                 </connections>
@@ -313,10 +313,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eaC-uh-qzh">
-                                <rect key="frame" x="295" y="504.5" width="99" height="32"/>
+                                <rect key="frame" x="110" y="557" width="194" height="32"/>
                                 <segments>
                                     <segment title="MLP"/>
                                     <segment title="TURI"/>
+                                    <segment title="Loaded"/>
                                 </segments>
                             </segmentedControl>
                         </subviews>
@@ -324,9 +325,8 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="jv1-5c-Ac8" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.884058" id="4qm-4v-WjM"/>
+                            <constraint firstItem="eaC-uh-qzh" firstAttribute="top" secondItem="PnW-yb-h0g" secondAttribute="bottom" constant="21" id="4vD-9D-fhU"/>
                             <constraint firstItem="jv1-5c-Ac8" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Ao8-KE-1WM"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eaC-uh-qzh" secondAttribute="trailing" constant="20" id="FQ5-q1-QUp"/>
-                            <constraint firstItem="eaC-uh-qzh" firstAttribute="centerY" secondItem="PnW-yb-h0g" secondAttribute="centerY" id="G0p-Py-Fj3"/>
                             <constraint firstItem="Ms9-db-WIE" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GzG-OP-gEU"/>
                             <constraint firstItem="e49-32-IHB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="HoS-jO-BI5"/>
                             <constraint firstItem="h0b-p8-T6l" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="J7r-tx-FFm"/>
@@ -337,9 +337,9 @@
                             <constraint firstItem="zpE-Sp-yTE" firstAttribute="top" secondItem="1SP-x3-C9O" secondAttribute="bottom" constant="8" symbolic="YES" id="bAl-fF-2yJ"/>
                             <constraint firstItem="zpE-Sp-yTE" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-1.5" id="dN4-pa-YxG"/>
                             <constraint firstItem="YYR-ds-ZcE" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="e80-bz-rMz"/>
-                            <constraint firstItem="PnW-yb-h0g" firstAttribute="leading" secondItem="e49-32-IHB" secondAttribute="trailing" constant="17" id="gcF-Lt-ghT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ms9-db-WIE" secondAttribute="bottom" constant="38" id="iBR-s7-uAQ"/>
                             <constraint firstItem="Bzi-ic-OwC" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.884058" id="ln1-og-ZAU"/>
+                            <constraint firstItem="eaC-uh-qzh" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lvn-rp-ep3"/>
                             <constraint firstItem="48W-sQ-oVY" firstAttribute="top" secondItem="ufO-2T-yKB" secondAttribute="bottom" constant="8" symbolic="YES" id="nVz-GE-ZUi"/>
                             <constraint firstItem="PnW-yb-h0g" firstAttribute="centerY" secondItem="e49-32-IHB" secondAttribute="centerY" id="on6-dZ-qgB"/>
                             <constraint firstItem="h0b-p8-T6l" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="ovC-lk-M6y"/>
@@ -349,6 +349,7 @@
                             <constraint firstItem="YYR-ds-ZcE" firstAttribute="top" secondItem="jv1-5c-Ac8" secondAttribute="bottom" constant="22" id="tky-tO-wXb"/>
                             <constraint firstItem="zpE-Sp-yTE" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="unM-HS-3VY"/>
                             <constraint firstItem="1SP-x3-C9O" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="vhM-Lq-eFd"/>
+                            <constraint firstItem="PnW-yb-h0g" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="wJf-MY-Aln"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="agB-NI-wuH"/>
