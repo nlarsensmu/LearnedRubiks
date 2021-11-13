@@ -20,7 +20,7 @@ class DeleteDatasetViewController: UIViewController {
             self.dsidLabel.text = "\(self.dsid)"
         }
         
-        serverModel?.getLearnedModelData(from: self.dsid) { dict in
+        serverModel?.getLearnedModelData(dsid: self.dsid) { dict in
             var count = 0
             var mlp_acc:Double = 0.0
             var turi_acc:Double = 0.0
@@ -56,7 +56,11 @@ class DeleteDatasetViewController: UIViewController {
     }
     
     @IBAction func deleteAllRecordsPressed(_ sender: Any) {
-        serverModel?.deleteDsIdRecords(outController: self)
+        serverModel?.deleteDsIdRecords(dsid:self.dsid) {
+            DispatchQueue.main.async {
+                self.deleteButton.isEnabled = false
+            }
+        }
     }
     @IBOutlet weak var dsidLabel: UILabel!
     @IBOutlet weak var samplesLabel: UILabel!
