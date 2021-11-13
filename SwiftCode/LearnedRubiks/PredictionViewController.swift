@@ -10,41 +10,61 @@ import SceneKit
 import CoreMotion
 
 class PredictionViewController: UIViewController {
-    var Cube:RubiksCube? = nil
     // MARK: Outlets
     @IBOutlet weak var sceneView: SCNView!
     @IBAction func xRotate(_ sender: Any) {
         if let cube = Cube{
             cube.rotateAllX(direction:1)
+            cube.printCube()
         }
     }
     @IBAction func xRotateNeg(_ sender: Any) {
         if let cube = Cube{
             cube.rotateAllX(direction:-1)
+            cube.printCube()
         }
     }
     @IBAction func yRotate(_ sender: Any) {
         if let cube = Cube{
             cube.rotateAllY(direction:1)
+            cube.printCube()
         }
     }
     @IBAction func yRotateNeg(_ sender: Any) {
         if let cube = Cube{
             cube.rotateAllY(direction:-1)
+            cube.printCube()
         }
     }
     @IBAction func zRotate(_ sender: Any) {
         if let cube = Cube{
             cube.rotateAllZ(direction:1)
+            cube.printCube()
         }
     }
     @IBAction func zRotateNeg(_ sender: Any) {
         if let cube = Cube{
             cube.rotateAllZ(direction:-1)
+            cube.printCube()
         }
     }
     // MARK: variables
-    
+    //The actual cube in code
+    var Cube:RubiksCube? = nil
+    // anmations for label
+    let animation = CATransition()
+    let animationKey = convertFromCATransitionType(CATransitionType.push)
+    // Scene
+    var scene : SCNScene!
+    //Motion
+    let motion = CMMotionManager()
+    let motionOperationQueue = OperationQueue()
+    let calibrationOperationQueue = OperationQueue()
+    var ringBuffer = RingBuffer()
+    var isWaitingForMotionData = false
+    //server
+    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // for nice animations on the text
@@ -52,7 +72,6 @@ class PredictionViewController: UIViewController {
         animation.type = convertToCATransitionType(animationKey)
         animation.duration = 0.5
         sceneView.frame = self.view.frame
-        
         //Start Listening to motion updates
         self.startMotionUpdates()
         self.isWaitingForMotionData = true
@@ -62,15 +81,6 @@ class PredictionViewController: UIViewController {
         sceneView.backgroundColor = .black
         addCubes()
     }
-    
-    // anmations for label
-    let animation = CATransition()
-    let animationKey = convertFromCATransitionType(CATransitionType.push)
-    // SCN setup
-    var scene : SCNScene!
-    var cameraNode : SCNNode!
-    var wallNode: SCNNode!
-    
     //Force the app to be portait
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         get {
@@ -84,20 +94,9 @@ class PredictionViewController: UIViewController {
         }
         self.Cube = RubiksCube()
         scene = Cube?.getScene()
-
         sceneView.scene = scene
-//        //Debugging
-//        sceneView.showsStatistics = true
-    
     }
-    
     //MARK: Motion code
-    let motion = CMMotionManager()
-    let motionOperationQueue = OperationQueue()
-    let calibrationOperationQueue = OperationQueue()
-    var ringBuffer = RingBuffer()
-    var isWaitingForMotionData = false
-    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     func setDelayedWaitingToTrue(_ time:Double){
         DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: {
             self.isWaitingForMotionData = true
@@ -105,7 +104,6 @@ class PredictionViewController: UIViewController {
     }
     func startMotionUpdates(){
         // some internal inconsistency here: we need to ask the device manager for device
-        
         if self.motion.isDeviceMotionAvailable{
             self.motion.deviceMotionUpdateInterval = 1.0/200
             self.motion.startDeviceMotionUpdates(to: motionOperationQueue, withHandler: self.handleMotion )

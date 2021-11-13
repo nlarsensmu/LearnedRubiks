@@ -79,9 +79,9 @@
 			isa = PBXGroup;
 			children = (
 				FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */,
+				FD31FBB327385830006DE220 /* LearningViewController.swift */,
 				FD31FBAF27385830006DE220 /* AppDelegate.swift */,
 				FD31FBB127385830006DE220 /* SceneDelegate.swift */,
-				FD31FBB327385830006DE220 /* LearningViewController.swift */,
 				FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */,
 				FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */,
 				FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */,
