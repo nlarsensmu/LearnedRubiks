@@ -8,7 +8,7 @@ A future project will contain a fully functioning virtual Rubik's Cube.
 This class(es) will be what we use to analyze the state of the cube and perform turns. 
 The RubiksCube class has a list of Cublets that each have the following properties:
 * node:SCNNode - the node that is in the SCNScene 
-* pos - a position that repersents where the cublet is on the cube see [cuble position](#-Cublet-Position)
+* pos - a position that repersents where the cublet is on the cube see [cuble position](#cublet-position)
 
 * delete this 
 * delte this
@@ -47,7 +47,7 @@ The RubiksCube class has a list of Cublets that each have the following properti
 
 
 ## Index
-### Cublet Position
+### [Cublet Position](#cublet-position)
 Each layer follow the same order and the pieces are numbered in the following manner:
 * Down Right Front Corner: 1
 * Down Right Wedge: 2
