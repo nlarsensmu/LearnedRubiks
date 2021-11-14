@@ -62,6 +62,7 @@ class PredictionViewController: UIViewController {
     let calibrationOperationQueue = OperationQueue()
     var ringBuffer = RingBuffer()
     var isWaitingForMotionData = false
+    var model:Model? = nil
     //server
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
 
@@ -132,7 +133,13 @@ class PredictionViewController: UIViewController {
             //predict a label
             // TODO: Hard coded model, needs to be changed.
             if let cube = Cube{
-                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:4, model: "MLP"){
+                var modelString:String = ""
+                var dsid:Int = 0
+                if let m = self.model{
+                    modelString = m.model
+                    dsid = m.dsid
+                }
+                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:dsid, model: modelString){
                     resp in
                         if resp == "x90" {
                             cube.rotateAllX(direction: 1)

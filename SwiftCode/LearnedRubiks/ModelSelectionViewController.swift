@@ -31,10 +31,10 @@ class ModelSelectionViewController: UITableViewController {
             if let dsid =  data["dsid"] as! Int?,
                let count = data["count"] as! Int? {
                  if let mlpAcc = data["acc_mlp"] as! Double? {
-                     self.models.append(Model(dsid: dsid, modelName: "MLP-Model", accuracy: mlpAcc, count: count))
+                     self.models.append(Model(dsid: dsid, modelName: "MLP-Model", accuracy: mlpAcc, count: count, model: "MLP"))
                  }
                  if let turiAcc = data["acc_turi"] as! Double? {
-                     self.models.append(Model(dsid: dsid, modelName: "Turi-Model", accuracy: turiAcc, count: count))
+                     self.models.append(Model(dsid: dsid, modelName: "Turi-Model", accuracy: turiAcc, count: count, model: "TURI"))
                  }
                 DispatchQueue.main.async{
                     self.tableView.reloadData()
@@ -68,8 +68,8 @@ class ModelSelectionViewController: UITableViewController {
         let cellID = "dsidCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         // Configure the cell...
-        cell.textLabel?.text = "\(models[indexPath.row].dsid) : \(models[indexPath.row].modelName)"
-        cell.detailTextLabel?.text = String(format: "%.2%%", models[indexPath.row].accuracy*100)
+        cell.textLabel?.text = "\(models[indexPath.row].dsid) : \(models[indexPath.row].modelName) : \(models[indexPath.row].count)"
+        cell.detailTextLabel?.text = String(format: "%.2lf%%", models[indexPath.row].accuracy*100)
         return cell
     }
      
@@ -79,11 +79,11 @@ class ModelSelectionViewController: UITableViewController {
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
          // Get the new view controller using segue.destination.
          // Pass the selected object to the new view controller.
-         if let vc = segue.destination as? DeleteDatasetViewController,
+         if let vc = segue.destination as? PredictionViewController,
             let cell = sender as? UITableViewCell,
-            let indexPath = self.tableView.indexPath(for: cell),
-            let dsid = self.dsids[indexPath.row] as? Int {
-             vc.dsid = dsid
+            let indexPath = self.tableView.indexPath(for: cell)
+         {
+             vc.model = self.models[indexPath.row]
          }
      }
 }
@@ -94,10 +94,12 @@ class Model{
     var modelName:String
     var accuracy:Double
     var count:Int
-    init(dsid:Int, modelName:String, accuracy:Double, count:Int){
+    var model:String
+    init(dsid:Int, modelName:String, accuracy:Double, count:Int, model:String){
         self.dsid = dsid
         self.modelName = modelName
         self.accuracy = accuracy
         self.count = count
+        self.model = model
     }
 }
