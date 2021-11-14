@@ -11,6 +11,7 @@ let SERVER_URL = "http://192.168.1.221:8001"  // just hard coded for now
 
 import UIKit
 import CoreMotion
+import CoreML
 
 class LearningViewController: UIViewController, URLSessionDelegate {
     
@@ -30,6 +31,16 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             delegate: self,
             delegateQueue:self.operationQueue)
         
+    }()
+    
+    lazy var loadedModel:ModelDsId4 = {
+        do{
+            let config = MLModelConfiguration()
+            return try ModelDsId4(configuration: config)
+        }catch{
+            print(error)
+            fatalError("Could not load ModelDsId4")
+        }
     }()
     
     let operationQueue = OperationQueue()
@@ -241,7 +252,7 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         }
     }
     
-    //MARK: Calibration procedure
+    //MARK: Calibration/Prediction
     func largeMotionEventOccurred(){
         if(self.isCalibrating){
             //send a labeled example
@@ -271,13 +282,28 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 } else {
                     model = "MLP"
                 }
-                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(),
-                                           dsid: self.dsid,
-                                           model: model) {
-                    resp in
-                    DispatchQueue.main.async {
-                        self.setAsCalibrating(self.guessingLabel)
-                        self.displayLabelResponse(resp)
+                if model != "Loaded" {
+                    serverModel?.getPrediction(self.ringBuffer.getDataAsVector(),
+                                               dsid: self.dsid,
+                                               model: model) {
+                        resp in
+                        DispatchQueue.main.async {
+                            self.setAsCalibrating(self.guessingLabel)
+                            self.displayLabelResponse(resp)
+                        }
+                    }
+                }
+                else {
+                    do {
+                        let array = try MLMultiArray(self.ringBuffer.getDataAsVector())
+                        let input = ModelDsId4Input(sequence: array)
+                        let ret = try loadedModel.prediction(input: input)
+                        DispatchQueue.main.async {
+                            self.setAsCalibrating(self.guessingLabel)
+                            self.displayLabelResponse(ret.target)
+                        }
+                    } catch _{
+                        print("failed to classify")
                     }
                 }
             }
