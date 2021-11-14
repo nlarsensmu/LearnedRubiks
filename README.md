@@ -8,93 +8,44 @@ A future project will contain a fully functioning virtual Rubik's Cube.
 This class(es) will be what we use to analyze the state of the cube and perform turns. 
 The RubiksCube class has a list of Cublets that each have the following properties:
 * node:SCNNode - the node that is in the SCNScene 
-* pos - a position that repersents where the cublet is on the cube see [cuble position](###-Cublet-Position)
+* pos - a position that repersents where the cublet is on the cube see [cuble position](#-Cublet-Position)
 
-## Title
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
+* delete this 
+* delte this
 
-### Place 1
 
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).## Title
-
-### Place 1
-
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).## Title
-
-### Place 1
-
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).## Title
-
-### Place 1
-
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).## Title
-
-### Place 1
-
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).## Title
-
-### Place 1
-
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).## Title
-
-### Place 1
-
-Hello, this is some text to fill in this, [here](#place-2), is a link to the second place.
-
-### Place 2
-
-Place one has the fun times of linking here, but I can also link back [here](#place-1).
-
-### Place's 3: other example
-
-Place one has the fun times of linking here, but I can also link back [here](#places-3-other-example).
 ## Index
 ### Cublet Position
 Each layer follow the same order and the pieces are numbered in the following manner:
