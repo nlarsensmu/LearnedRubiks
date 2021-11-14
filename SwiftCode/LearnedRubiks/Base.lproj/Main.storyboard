@@ -319,6 +319,9 @@
                                     <segment title="TURI"/>
                                     <segment title="Loaded"/>
                                 </segments>
+                                <connections>
+                                    <action selector="modelSegmented:" destination="BYZ-38-t0r" eventType="valueChanged" id="bgt-ZF-Dkw"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
