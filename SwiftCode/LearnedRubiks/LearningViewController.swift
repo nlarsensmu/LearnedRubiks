@@ -186,6 +186,31 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     @IBOutlet weak var hintLabel: UILabel!
     @IBOutlet weak var modelSegmented: UISegmentedControl!
     
+    enum ModelTypes {
+        case MLP
+        case TURI
+        case LOADED
+    }
+    
+    var selectedModel = ModelTypes.MLP
+    @IBAction func modelSegmented(_ sender: UISegmentedControl) {
+        DispatchQueue.main.async {
+            switch sender.selectedSegmentIndex {
+            
+            case 0:
+                self.selectedModel = ModelTypes.MLP
+                break
+            case 1:
+                self.selectedModel = ModelTypes.TURI
+                break
+            case 2:
+                self.selectedModel = ModelTypes.LOADED
+                break
+            default:
+                self.selectedModel = ModelTypes.MLP
+            }
+        }
+    }
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -253,6 +278,16 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     }
     
     //MARK: Calibration/Prediction
+    func getModelName(type:ModelTypes) -> String {
+        let dict:Dictionary = [ModelTypes.MLP:"MLP",
+                               ModelTypes.TURI:"TURI",
+                               ModelTypes.LOADED:"Loaded"]
+        if let s = dict[type] {
+            return s
+        }
+        return ""
+    }
+    
     func largeMotionEventOccurred(){
         if(self.isCalibrating){
             //send a labeled example
@@ -276,16 +311,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             {
                 self.isWaitingForMotionData = false
                 self.setDelayedWaitingToTrue(0.5)
-                var model = ""
-                if let m = self.modelSegmented.titleForSegment(at: self.modelSegmented.selectedSegmentIndex)  {
-                    model = m
-                } else {
-                    model = "MLP"
-                }
-                if model != "Loaded" {
+                
+                if selectedModel != ModelTypes.LOADED {
                     serverModel?.getPrediction(self.ringBuffer.getDataAsVector(),
                                                dsid: self.dsid,
-                                               model: model) {
+                                               model: getModelName(type: self.selectedModel)) {
                         resp in
                         DispatchQueue.main.async {
                             self.setAsCalibrating(self.guessingLabel)
@@ -341,7 +371,12 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     
     func displayLabelResponse(_ response:String) {
         DispatchQueue.main.async {
-            self.guessingLabel.text = "Guessing: \(response)"
+            if response != "No model yet!" {
+                self.guessingLabel.text = "Guessing: \(response)"
+            } else {
+                self.guessingLabel.text = response
+            }
+            
         }
     }
     

@@ -55,6 +55,7 @@ class ServerModel: NSObject, URLSessionDelegate {
                 if (error != nil) {
                     if let res = response{
                         print("Response:\n",res)
+                        completionHandler3([])
                     }
                 }
                 else{
@@ -149,6 +150,7 @@ class ServerModel: NSObject, URLSessionDelegate {
                         if(error != nil){
                             if let res = response{
                                 print("Response:\n",res)
+                                
                             }
                         }
                         else{ // no error we are aware of
@@ -191,6 +193,7 @@ class ServerModel: NSObject, URLSessionDelegate {
                         if(error != nil){
                             if let res = response{
                                 print("Response:\n",res)
+                                completionHandler("Error When Predicting")
                             }
                         }
                         else{ // no error we are aware of
@@ -200,7 +203,7 @@ class ServerModel: NSObject, URLSessionDelegate {
                                 print(labelResponse)
                                 completionHandler(labelResponse as! String)
                             } else {
-                                print("No model yet!")
+                                completionHandler("No model yet!")
                             }
                         }
                                                                     
