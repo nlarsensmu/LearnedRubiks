@@ -23,7 +23,6 @@
 		FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */; };
 		FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */; };
 		FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */; };
-		FDFA660A273CA76D00A866F8 /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = FDFA6609273CA76C00A866F8 /* Cube.scn */; };
 		FDFA660E27407A8800A866F8 /* ModelDsId4.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FDFA660D27407A8800A866F8 /* ModelDsId4.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +45,6 @@
 		FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDatasetViewController.swift; sourceTree = "<group>"; };
 		FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPredViewController.swift; sourceTree = "<group>"; };
 		FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedSettingsViewController.swift; sourceTree = "<group>"; };
-		FDFA6609273CA76C00A866F8 /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
 		FDFA660D27407A8800A866F8 /* ModelDsId4.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ModelDsId4.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +103,7 @@
 		FDFA6606273CA6BA00A866F8 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				B78647CF273F20C3004BB50B /* Cube.scn */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -342,7 +341,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XGS97V26UJ;
+				DEVELOPMENT_TEAM = 2U52JNW2M5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearnedRubiks/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -357,7 +356,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = SMU.Lab5.LearnedRubiksss;
+				PRODUCT_BUNDLE_IDENTIFIER = SMU.Lab5.LearnedRubikss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

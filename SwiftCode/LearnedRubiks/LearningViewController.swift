@@ -14,25 +14,17 @@ import CoreMotion
 import CoreML
 
 class LearningViewController: UIViewController, URLSessionDelegate {
-    
-    
     // MARK: Class Properties
-    
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
-    
     lazy var session: URLSession = {
         let sessionConfig = URLSessionConfiguration.ephemeral
-        
         sessionConfig.timeoutIntervalForRequest = 5.0
         sessionConfig.timeoutIntervalForResource = 8.0
         sessionConfig.httpMaximumConnectionsPerHost = 1
-        
         return URLSession(configuration: sessionConfig,
             delegate: self,
             delegateQueue:self.operationQueue)
-        
     }()
-    
     lazy var loadedModel:ModelDsId4 = {
         do{
             let config = MLModelConfiguration()
@@ -42,29 +34,25 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             fatalError("Could not load ModelDsId4")
         }
     }()
-    
+    //Motion and motion data variables
     let operationQueue = OperationQueue()
     let motionOperationQueue = OperationQueue()
     let calibrationOperationQueue = OperationQueue()
-    
     var ringBuffer = RingBuffer()
     let animation = CATransition()
     let motion = CMMotionManager()
-    
+    //UI variables
     var magValue = 0.1  // Just hard coded for now
     var isCalibrating = false
-    
     var isWaitingForMotionData = false
     var usedStages:[CalibrationStage] = []
-    
     var dsid = 1 {
         didSet {
             DispatchQueue.main.async {
                 self.dsidLabel.text = String(format: "DSID: %d", self.dsid)
             }
         }
-    }// think about how we want to change this
-    
+    }
     // MARK: Class Properties with Observers
     enum CalibrationStage {
         case notCalibrating
@@ -81,7 +69,6 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         case z180
         case zNeg180
     }
-    
     var calibrationStage:CalibrationStage = .notCalibrating {
         didSet{
             switch calibrationStage {
@@ -178,15 +165,14 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
+    //MARK: Outlets
     @IBOutlet weak var largeMotionMagnitude: UIProgressView!
     @IBOutlet weak var calibrationLabel: UILabel!
     @IBOutlet weak var dsidLabel: UILabel!
     @IBOutlet weak var guessingLabel: UILabel!
     @IBOutlet weak var hintLabel: UILabel!
     @IBOutlet weak var modelSegmented: UISegmentedControl!
-    
-    // MARK: ViewDidLoad
+    // MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         startMotionUpdates()
@@ -200,9 +186,6 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         self.motion.stopAccelerometerUpdates()
         self.motion.stopDeviceMotionUpdates()
     }
-
-    
-    
     // MARK: Core Motion Updates
     func startMotionUpdates(){
         // some internal inconsistency here: we need to ask the device manager for device
@@ -212,24 +195,6 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             self.motion.startDeviceMotionUpdates(to: motionOperationQueue, withHandler: self.handleMotion )
         }
     }
-    
-    @IBAction func didStep(_ sender: UIStepper) {
-        self.dsid = Int(sender.value)
-    }
-    
-    @IBAction func calibrateOnce(_ sender: Any) {
-        self.isWaitingForMotionData = false
-        nextCalibrationStage()
-        // Turn off guessin label
-        DispatchQueue.main.async {
-            self.setAsNormal(self.guessingLabel)
-        }
-    }
-    
-    @IBAction func magnitudeChagned(_ sender: UISlider) {
-        self.magValue = Double(sender.value)
-    }
-    
     func handleMotion(_ motionData:CMDeviceMotion?, error:Error?){
         if let accel = motionData?.userAcceleration {
             self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
@@ -251,7 +216,27 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
+    //MARK: Actions
+    @IBAction func didStep(_ sender: UIStepper) {
+        self.dsid = Int(sender.value)
+    }
+    @IBAction func calibrateOnce(_ sender: Any) {
+        self.isWaitingForMotionData = false
+        nextCalibrationStage()
+        // Turn off guessin label
+        DispatchQueue.main.async {
+            self.setAsNormal(self.guessingLabel)
+        }
+    }
+    @IBAction func magnitudeChagned(_ sender: UISlider) {
+        self.magValue = Double(sender.value)
+    }
+    @IBAction func makeModel(_ sender: Any) {
+        // create a GET request for server to update the ML model with current data
+        serverModel?.makeModel(dsid: dsid)  { (acc) in
+            print("Resubstitution Accuracy is", acc)
+        }
+    }
     //MARK: Calibration/Prediction
     func largeMotionEventOccurred(){
         if(self.isCalibrating){
@@ -309,42 +294,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
-    @IBAction func makeModel(_ sender: Any) {
-        
-        // create a GET request for server to update the ML model with current data
-        let baseURL = "\(SERVER_URL)/UpdateModel"
-        let query = "?dsid=\(self.dsid)"
-        
-        let getUrl = URL(string: baseURL+query)
-        let request: URLRequest = URLRequest(url: getUrl!)
-        let dataTask : URLSessionDataTask = self.session.dataTask(with: request,
-              completionHandler:{(data, response, error) in
-                // handle error!
-                if (error != nil) {
-                    if let res = response{
-                        print("Response:\n",res)
-                    }
-                }
-                else{
-                    let jsonDictionary = self.convertDataToDictionary(with: data)
-                    
-                    if let resubAcc = jsonDictionary["resubAccuracy"]{
-                        print("Resubstitution Accuracy is", resubAcc)
-                    }
-                }
-                                                                    
-        })
-        
-        dataTask.resume() // start the task
-    }
-    
     func displayLabelResponse(_ response:String) {
         DispatchQueue.main.async {
             self.guessingLabel.text = "Guessing: \(response)"
         }
     }
-    
     let watingTime = 1.25
     func nextCalibrationStage(){
         switch self.calibrationStage {
@@ -415,17 +369,14 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             break
         }
     }
-    
     func setAsCalibrating(_ label: UILabel){
         label.layer.add(animation, forKey:nil)
         label.backgroundColor = UIColor.red
     }
-    
     func setAsNormal(_ label: UILabel){
         label.layer.add(animation, forKey:nil)
         label.backgroundColor = UIColor.white
     }
-    
     func setDelayedWaitingToTrue(_ time:Double){
         DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: {
             self.isWaitingForMotionData = true
@@ -436,47 +387,11 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             }
         })
     }
-    
-    // TODO Move this to another file so it can be accessed in other classes
-    //MARK: Comm with Server
     func sendFeatures(_ array:[Double], withLabel label:CalibrationStage){
-        let baseURL = "\(SERVER_URL)/AddDataPoint"
-        let postUrl = URL(string: "\(baseURL)")
-        
-        // create a custom HTTP POST request
-        var request = URLRequest(url: postUrl!)
-        
-        // data to send in body of post request (send arguments as json)
-        let jsonUpload:NSDictionary = ["feature":array,
-                                       "label":"\(label)",
-                                       "dsid":self.dsid]
-        
-        
-        let requestBody:Data? = self.convertDictionaryToData(with:jsonUpload)
-        
-        request.httpMethod = "POST"
-        request.httpBody = requestBody
-        
-        let postTask : URLSessionDataTask = self.session.dataTask(with: request,
-            completionHandler:{(data, response, error) in
-                if(error != nil){
-                    if let res = response{
-                        print("Response:\n",res)
-                    }
-                }
-                else{
-                    let jsonDictionary = self.convertDataToDictionary(with: data)
-                    
-                    print(jsonDictionary["feature"]!)
-                    print(jsonDictionary["label"]!)
-                }
-
-        })
-        
-        postTask.resume() // start the task
+        serverModel?.sendFeatures(array: array, label: label, dsid: dsid){
+            print("sent features")
+        }
     }
-    
-    
     //MARK: JSON Conversion Functions
     func convertDictionaryToData(with jsonUpload:NSDictionary) -> Data?{
         do { // try to make JSON and deal with errors using do/catch block
@@ -487,7 +402,6 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             return nil
         }
     }
-    
     func convertDataToDictionary(with data:Data?)->NSDictionary{
         do { // try to parse JSON and deal with errors using do/catch block
             let jsonDictionary: NSDictionary =
@@ -506,6 +420,5 @@ class LearningViewController: UIViewController, URLSessionDelegate {
             return NSDictionary() // just return empty
         }
     }
-
 }
 
