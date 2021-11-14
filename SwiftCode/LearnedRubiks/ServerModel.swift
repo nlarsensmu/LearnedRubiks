@@ -241,5 +241,65 @@ class ServerModel: NSObject, URLSessionDelegate {
             return NSDictionary() // just return empty
         }
     }
+    typealias makeModelHandler = (String) -> Void
+    func makeModel(dsid:Int, completionHandler: @escaping makeModelHandler){
+        // create a GET request for server to update the ML model with current data
+        let baseURL = "\(SERVER_URL)/UpdateModel"
+        let query = "?dsid=\(dsid)"
+        let getUrl = URL(string: baseURL+query)
+        let request: URLRequest = URLRequest(url: getUrl!)
+        let dataTask : URLSessionDataTask = self.session.dataTask(with: request)
+        {(data, response, error) in
+                // handle error!
+                if (error != nil) {
+                    if let res = response{
+                        print("Response:\n",res)
+                    }
+                }
+                else{
+                    let jsonDictionary = self.convertDataToDictionary(with: data)
+                    if let resubAcc = jsonDictionary["resubAccuracy"]{
+                        if let acc = resubAcc as? String {
+                            completionHandler(acc)
+                        }
+                    }
+                }
+                                                                    
+        }
+        dataTask.resume() // start the task
+    }
+    typealias sendFeaturesHandler = () -> Void
+    func sendFeatures(array: [Double], label:LearningViewController.CalibrationStage, dsid:Int, completionHandler: @escaping sendFeaturesHandler){
+        let baseURL = "\(SERVER_URL)/AddDataPoint"
+        let postUrl = URL(string: "\(baseURL)")
+        
+        // create a custom HTTP POST request
+        var request = URLRequest(url: postUrl!)
+        
+        // data to send in body of post request (send arguments as json)
+        let jsonUpload:NSDictionary = ["feature":array,
+                                       "label":"\(label)",
+                                       "dsid":dsid]
+        
+        
+        let requestBody:Data? = self.convertDictionaryToData(with:jsonUpload)
+        
+        request.httpMethod = "POST"
+        request.httpBody = requestBody
+        
+        let postTask : URLSessionDataTask = self.session.dataTask(with: request)
+        {(data, response, error) in
+                if(error != nil){
+                    if let res = response{
+                        print("Response:\n",res)
+                    }
+                }
+                else{
+                    completionHandler()
+                }
 
+        }
+        
+        postTask.resume() // start the task
+    }
 }
