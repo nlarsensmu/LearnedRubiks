@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B77C728A2740A9B400597316 /* ModelSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B77C72892740A9B400597316 /* ModelSelectionViewController.swift */; };
 		B78647CA2739FA85004BB50B /* Room.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647C92739FA85004BB50B /* Room.scn */; };
 		B78647D0273F20C3004BB50B /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647CF273F20C3004BB50B /* Cube.scn */; };
 		B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78647D1273F28DA004BB50B /* RubiksCube.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B77C72892740A9B400597316 /* ModelSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSelectionViewController.swift; sourceTree = "<group>"; };
 		B78647C92739FA85004BB50B /* Room.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Room.scn; sourceTree = "<group>"; };
 		B78647CF273F20C3004BB50B /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
 		B78647D1273F28DA004BB50B /* RubiksCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RubiksCube.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */,
 				B78647C92739FA85004BB50B /* Room.scn */,
 				B78647D1273F28DA004BB50B /* RubiksCube.swift */,
+				B77C72892740A9B400597316 /* ModelSelectionViewController.swift */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				FD31FBC427385A39006DE220 /* RingBuffer.swift in Sources */,
 				FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */,
 				FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */,
+				B77C728A2740A9B400597316 /* ModelSelectionViewController.swift in Sources */,
 				FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */,
 				B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */,
 				FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */,
