@@ -18,6 +18,7 @@ import json
 import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
 
 
 class PrintHandlers(BaseHandler):
@@ -198,9 +199,13 @@ class UpdateModelForDatasetId(BaseHandler):
                          'zNeg180': 11}
 
         y = np.array([encode_rotation[s] for s in data['target']])
-        model.fit(data['sequence'], y)
-        yhat = model.predict(data['sequence'])  # type: object
-        acc = sum(yhat == y) / float(len(data['sequence']))
+
+        X = data['sequence']
+        x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
+
+        model.fit(x_train, y_train)
+        yhat = model.predict(x_test)  # type: object
+        acc = accuracy_score(yhat,y_test)
 
         model_path = '../models/mlp_model_dsid%d' % dsid
         pickle.dump(model, open(model_path, 'wb'))
@@ -221,9 +226,11 @@ class UpdateModelForDatasetId(BaseHandler):
       acc = -1
 
       if len(data) > 0:
-          model = tc.classifier.create(data, target='target', verbose=0)  # training
-          yhat = model.predict(data)  # type: object
-          acc = sum(yhat == data['target']) / float(len(data))
+          data_train, test_test = data.random_split(.8, seed=5)
+
+          model = tc.classifier.create(data_train, target='target', verbose=0)  # training
+          yhat = model.predict(test_test)  # type: object
+          acc = sum(yhat == test_test['target']) / float(len(test_test))
           # save model for use later, if desired
           model_path = '../models/turi_model_dsid%d' % (dsid)
           model.save(model_path)
