@@ -201,7 +201,7 @@ class UpdateModelForDatasetId(BaseHandler):
         y = np.array([encode_rotation[s] for s in data['target']])
 
         X = data['sequence']
-        x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
+        x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.1, stratify=y)
 
         model.fit(x_train, y_train)
         yhat = model.predict(x_test)  # type: object
@@ -226,7 +226,7 @@ class UpdateModelForDatasetId(BaseHandler):
       acc = -1
 
       if len(data) > 0:
-          data_train, test_test = data.random_split(.8, seed=5)
+          data_train, test_test = data.random_split(.9, seed=5)
 
           model = tc.classifier.create(data_train, target='target', verbose=0)  # training
           yhat = model.predict(test_test)  # type: object

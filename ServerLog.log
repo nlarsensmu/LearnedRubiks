@@ -1,0 +1,179 @@
+[I 211115 19:03:11 web:2243] 200 GET /UpdateModel?dsid=4 (192.168.1.230) 4957.21ms
+[I 211115 19:03:11 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 5.45ms
+{'_id': ObjectId('618f0adf14e5094753ff8d61'), 'dsid': 4, 'acc_mlp': 0.893048128342246, 'acc_turi': 0.7840909090909091, 'count': 1866, 'path_mlp': '../models/mlp_model_dsid4', 'path_turi': '../models/turi_model_dsid4'}
+[I 211115 19:03:12 web:2243] 200 GET /GetLearnedModelData?dsid=4 (192.168.1.230) 1.94ms
+[I 211115 19:03:15 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 19.36ms
+{'_id': ObjectId('6190719adf62357d2f6a0f53'), 'dsid': 5, 'acc_mlp': 0.9949425287356322, 'acc_turi': 0.9917241379310345, 'count': 2175, 'path_mlp': '../models/mlp_model_dsid5', 'path_turi': '../models/turi_model_dsid5'}
+[I 211115 19:03:16 web:2243] 304 GET /GetLearnedModelData?dsid=5 (192.168.1.230) 2.19ms
+[I 211115 19:03:18 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 8.43ms
+[I 211115 19:03:21 web:2243] 200 POST /PredictOne (192.168.1.230) 4.50ms
+/Users/nicholaslarsen/opt/anaconda3/envs/mlenv2020/lib/python3.7/site-packages/sklearn/neural_network/_multilayer_perceptron.py:696: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  ConvergenceWarning,
+[I 211115 19:03:28 web:2243] 200 GET /UpdateModel?dsid=5 (192.168.1.230) 5558.04ms
+[I 211115 19:03:28 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 3.62ms
+{'_id': ObjectId('618f0adf14e5094753ff8d61'), 'dsid': 4, 'acc_mlp': 0.893048128342246, 'acc_turi': 0.7840909090909091, 'count': 1866, 'path_mlp': '../models/mlp_model_dsid4', 'path_turi': '../models/turi_model_dsid4'}
+[I 211115 19:03:29 web:2243] 304 GET /GetLearnedModelData?dsid=4 (192.168.1.230) 5.55ms
+[I 211115 19:03:30 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 19.90ms
+{'_id': ObjectId('6190719adf62357d2f6a0f53'), 'dsid': 5, 'acc_mlp': 0.8812785388127854, 'acc_turi': 0.7365853658536585, 'count': 2187, 'path_mlp': '../models/mlp_model_dsid5', 'path_turi': '../models/turi_model_dsid5'}
+[I 211115 19:03:30 web:2243] 200 GET /GetLearnedModelData?dsid=5 (192.168.1.230) 5.56ms
+[I 211115 19:05:15 web:2243] 200 POST /AddDataPoint (192.168.1.230) 8.91ms
+[I 211115 19:05:17 web:2243] 200 POST /AddDataPoint (192.168.1.230) 5.51ms
+[I 211115 19:05:20 web:2243] 200 POST /AddDataPoint (192.168.1.230) 4.95ms
+[I 211115 19:05:22 web:2243] 200 POST /AddDataPoint (192.168.1.230) 5.01ms
+[I 211115 19:05:25 web:2243] 200 POST /AddDataPoint (192.168.1.230) 4.22ms
+[I 211115 19:05:28 web:2243] 200 POST /AddDataPoint (192.168.1.230) 8.32ms
+[I 211115 19:05:30 web:2243] 200 POST /AddDataPoint (192.168.1.230) 5.51ms
+[I 211115 19:05:33 web:2243] 200 POST /AddDataPoint (192.168.1.230) 1.67ms
+[I 211115 19:05:35 web:2243] 200 POST /AddDataPoint (192.168.1.230) 5.25ms
+[I 211115 19:05:37 web:2243] 200 POST /AddDataPoint (192.168.1.230) 5.21ms
+[I 211115 19:05:39 web:2243] 200 POST /AddDataPoint (192.168.1.230) 3.92ms
+[I 211115 19:05:42 web:2243] 200 POST /AddDataPoint (192.168.1.230) 2.05ms
+/Users/nicholaslarsen/opt/anaconda3/envs/mlenv2020/lib/python3.7/site-packages/sklearn/neural_network/_multilayer_perceptron.py:696: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  ConvergenceWarning,
+[I 211115 19:05:51 web:2243] 200 GET /UpdateModel?dsid=4 (192.168.1.230) 6121.55ms
+[I 211115 19:05:51 web:2243] 200 POST /PredictOne (192.168.1.230) 0.77ms
+[I 211115 19:05:51 web:2243] 200 POST /PredictOne (192.168.1.230) 13.62ms
+[I 211115 19:05:56 web:2243] 200 POST /PredictOne (192.168.1.230) 3.63ms
+[I 211115 19:06:00 web:2243] 200 POST /PredictOne (192.168.1.230) 3.01ms
+[I 211115 19:06:03 web:2243] 200 POST /PredictOne (192.168.1.230) 1.32ms
+[I 211115 19:06:07 web:2243] 200 POST /PredictOne (192.168.1.230) 3.10ms
+[I 211115 19:06:19 web:2243] 200 POST /PredictOne (192.168.1.230) 8.66ms
+[I 211115 19:06:22 web:2243] 200 POST /PredictOne (192.168.1.230) 3.21ms
+[I 211115 19:06:26 web:2243] 200 POST /PredictOne (192.168.1.230) 9.85ms
+[I 211115 19:06:29 web:2243] 200 POST /PredictOne (192.168.1.230) 6.89ms
+[I 211115 19:06:30 web:2243] 200 POST /PredictOne (192.168.1.230) 5.13ms
+[I 211115 19:06:32 web:2243] 200 POST /PredictOne (192.168.1.230) 6.49ms
+[I 211115 19:06:35 web:2243] 200 POST /PredictOne (192.168.1.230) 6.71ms
+[I 211115 19:06:38 web:2243] 200 POST /PredictOne (192.168.1.230) 5.01ms
+[I 211115 19:07:09 web:2243] 200 GET /GetAllDatasetIds (192.168.1.230) 15.47ms
+{'_id': ObjectId('61904dbddf62357d2f69f8eb'), 'dsid': 1, 'acc_mlp': 0.5357142857142857, 'acc_turi': 0.40384615384615385, 'count': 554, 'path_mlp': '../models/mlp_model_dsid1', 'path_turi': '../models/turi_model_dsid1', 'ACC:': 0.99, 'ds_id': 1, 'path': 'path13'}
+[I 211115 19:07:09 web:2243] 200 GET /GetLearnedModelData?dsid=1 (192.168.1.230) 5.54ms
+{'_id': ObjectId('61904dc0df62357d2f69f8f5'), 'dsid': 2, 'acc_mlp': 0.5833333333333334, 'acc_turi': 0.46153846153846156, 'count': 60, 'path_mlp': '../models/mlp_model_dsid2', 'path_turi': '../models/turi_model_dsid2'}
+[I 211115 19:07:09 web:2243] 200 GET /GetLearnedModelData?dsid=2 (192.168.1.230) 3.06ms
+{'_id': ObjectId('61904dc2df62357d2f69f8fd'), 'dsid': 3, 'acc_mlp': 0.5283018867924528, 'acc_turi': 0.3620689655172414, 'count': 264, 'path_mlp': '../models/mlp_model_dsid3', 'path_turi': '../models/turi_model_dsid3'}
+[I 211115 19:07:09 web:2243] 200 GET /GetLearnedModelData?dsid=3 (192.168.1.230) 2.79ms
+{'_id': ObjectId('618f0adf14e5094753ff8d61'), 'dsid': 4, 'acc_mlp': 0.9148936170212766, 'acc_turi': 0.8324022346368715, 'count': 1878, 'path_mlp': '../models/mlp_model_dsid4', 'path_turi': '../models/turi_model_dsid4'}
+[I 211115 19:07:09 web:2243] 200 GET /GetLearnedModelData?dsid=4 (192.168.1.230) 3.15ms
+{'_id': ObjectId('6190719adf62357d2f6a0f53'), 'dsid': 5, 'acc_mlp': 0.8812785388127854, 'acc_turi': 0.7365853658536585, 'count': 2187, 'path_mlp': '../models/mlp_model_dsid5', 'path_turi': '../models/turi_model_dsid5'}
+[I 211115 19:07:09 web:2243] 200 GET /GetLearnedModelData?dsid=5 (192.168.1.230) 3.29ms
+[I 211115 19:07:34 web:2243] 200 POST /PredictOne (192.168.1.230) 3.51ms
+[I 211115 19:07:37 web:2243] 200 POST /PredictOne (192.168.1.230) 1.18ms
+[I 211115 19:07:41 web:2243] 200 POST /PredictOne (192.168.1.230) 3.38ms
+[I 211115 19:07:44 web:2243] 200 POST /PredictOne (192.168.1.230) 3.10ms
+[I 211115 19:07:52 web:2243] 200 POST /PredictOne (192.168.1.230) 3.58ms
+[I 211115 19:07:56 web:2243] 200 POST /PredictOne (192.168.1.230) 2.17ms
+[I 211115 19:08:08 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 15.57ms
+{'_id': ObjectId('618f0adf14e5094753ff8d61'), 'dsid': 4, 'acc_mlp': 0.9148936170212766, 'acc_turi': 0.8324022346368715, 'count': 1878, 'path_mlp': '../models/mlp_model_dsid4', 'path_turi': '../models/turi_model_dsid4'}
+[I 211115 19:08:09 web:2243] 304 GET /GetLearnedModelData?dsid=4 (192.168.1.230) 3.78ms
+[I 211115 19:08:14 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 14.91ms
+{'_id': ObjectId('6190719adf62357d2f6a0f53'), 'dsid': 5, 'acc_mlp': 0.8812785388127854, 'acc_turi': 0.7365853658536585, 'count': 2187, 'path_mlp': '../models/mlp_model_dsid5', 'path_turi': '../models/turi_model_dsid5'}
+[I 211115 19:08:14 web:2243] 304 GET /GetLearnedModelData?dsid=5 (192.168.1.230) 4.08ms
+[I 211115 19:08:15 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 4.76ms
+{'_id': ObjectId('61904dc2df62357d2f69f8fd'), 'dsid': 3, 'acc_mlp': 0.5283018867924528, 'acc_turi': 0.3620689655172414, 'count': 264, 'path_mlp': '../models/mlp_model_dsid3', 'path_turi': '../models/turi_model_dsid3'}
+[I 211115 19:08:16 web:2243] 304 GET /GetLearnedModelData?dsid=3 (192.168.1.230) 3.61ms
+[I 211115 19:08:17 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 15.65ms
+[I 211115 19:08:26 web:2243] 200 POST /PredictOne (192.168.1.230) 1.67ms
+[I 211115 19:12:00 web:2243] 200 POST /PredictOne (192.168.1.230) 3.73ms
+[I 211115 19:12:00 web:2243] 200 POST /AddDataPoint (192.168.1.230) 6.28ms
+[I 211115 19:12:03 web:2243] 200 POST /PredictOne (192.168.1.230) 1.89ms
+[I 211115 19:12:03 web:2243] 200 POST /AddDataPoint (192.168.1.230) 2.72ms
+[I 211115 19:12:05 web:2243] 200 POST /AddDataPoint (192.168.1.230) 5.08ms
+[I 211115 19:12:05 web:2243] 200 POST /PredictOne (192.168.1.230) 3.70ms
+[I 211115 19:12:07 web:2243] 200 POST /AddDataPoint (192.168.1.230) 1.48ms
+[I 211115 19:12:07 web:2243] 200 POST /PredictOne (192.168.1.230) 2.07ms
+[I 211115 19:12:09 web:2243] 200 POST /PredictOne (192.168.1.230) 1.97ms
+[I 211115 19:12:09 web:2243] 200 POST /AddDataPoint (192.168.1.230) 2.91ms
+[I 211115 19:12:11 web:2243] 200 POST /PredictOne (192.168.1.230) 3.33ms
+[I 211115 19:12:11 web:2243] 200 POST /AddDataPoint (192.168.1.230) 3.37ms
+[I 211115 19:12:13 web:2243] 200 POST /PredictOne (192.168.1.230) 3.46ms
+[I 211115 19:12:13 web:2243] 200 POST /AddDataPoint (192.168.1.230) 6.80ms
+[I 211115 19:12:16 web:2243] 200 POST /PredictOne (192.168.1.230) 3.54ms
+[I 211115 19:12:16 web:2243] 200 POST /AddDataPoint (192.168.1.230) 3.96ms
+[I 211115 19:12:17 web:2243] 200 POST /PredictOne (192.168.1.230) 3.37ms
+[I 211115 19:12:17 web:2243] 200 POST /AddDataPoint (192.168.1.230) 1.34ms
+[I 211115 19:12:19 web:2243] 200 POST /PredictOne (192.168.1.230) 3.18ms
+[I 211115 19:12:19 web:2243] 200 POST /AddDataPoint (192.168.1.230) 6.45ms
+[I 211115 19:12:21 web:2243] 200 POST /AddDataPoint (192.168.1.230) 5.14ms
+[I 211115 19:12:21 web:2243] 200 POST /PredictOne (192.168.1.230) 6.42ms
+[I 211115 19:12:24 web:2243] 200 POST /PredictOne (192.168.1.230) 3.39ms
+[I 211115 19:12:24 web:2243] 200 POST /AddDataPoint (192.168.1.230) 3.67ms
+[I 211115 19:12:25 web:2243] 200 POST /PredictOne (192.168.1.230) 3.39ms
+/Users/nicholaslarsen/opt/anaconda3/envs/mlenv2020/lib/python3.7/site-packages/sklearn/neural_network/_multilayer_perceptron.py:696: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  ConvergenceWarning,
+[I 211115 19:12:34 web:2243] 200 GET /UpdateModel?dsid=4 (192.168.1.230) 6106.68ms
+[I 211115 19:12:36 web:2243] 200 POST /PredictOne (192.168.1.230) 5.43ms
+[I 211115 19:12:36 web:2243] 200 POST /PredictOne (192.168.1.230) 0.93ms
+[I 211115 19:12:39 web:2243] 200 POST /PredictOne (192.168.1.230) 3.02ms
+[I 211115 19:12:39 web:2243] 200 POST /PredictOne (192.168.1.230) 2.75ms
+[I 211115 19:12:42 web:2243] 200 POST /PredictOne (192.168.1.230) 1.92ms
+[I 211115 19:12:42 web:2243] 200 POST /PredictOne (192.168.1.230) 6.85ms
+[I 211115 19:12:45 web:2243] 200 POST /PredictOne (192.168.1.230) 5.23ms
+[I 211115 19:12:45 web:2243] 200 POST /PredictOne (192.168.1.230) 5.73ms
+[I 211115 19:12:49 web:2243] 200 POST /PredictOne (192.168.1.230) 3.31ms
+[I 211115 19:12:49 web:2243] 200 POST /PredictOne (192.168.1.230) 4.22ms
+[I 211115 19:12:52 web:2243] 200 POST /PredictOne (192.168.1.230) 3.39ms
+[I 211115 19:12:52 web:2243] 200 POST /PredictOne (192.168.1.230) 5.47ms
+[I 211115 19:12:53 web:2243] 200 POST /PredictOne (192.168.1.230) 3.63ms
+[I 211115 19:12:53 web:2243] 200 POST /PredictOne (192.168.1.230) 5.09ms
+[I 211115 19:12:57 web:2243] 200 POST /PredictOne (192.168.1.230) 0.97ms
+[I 211115 19:12:57 web:2243] 200 POST /PredictOne (192.168.1.230) 4.69ms
+[I 211115 19:13:00 web:2243] 200 POST /PredictOne (192.168.1.230) 3.12ms
+[I 211115 19:13:00 web:2243] 200 POST /PredictOne (192.168.1.230) 6.55ms
+[I 211115 19:13:04 web:2243] 200 POST /PredictOne (192.168.1.230) 3.21ms
+[I 211115 19:13:04 web:2243] 200 POST /PredictOne (192.168.1.230) 9.07ms
+[I 211115 19:13:06 web:2243] 200 POST /PredictOne (192.168.1.230) 3.67ms
+[I 211115 19:13:06 web:2243] 200 POST /PredictOne (192.168.1.230) 8.93ms
+[I 211115 19:13:09 web:2243] 200 POST /PredictOne (192.168.1.230) 1.66ms
+[I 211115 19:13:09 web:2243] 200 POST /PredictOne (192.168.1.230) 3.85ms
+[I 211115 19:13:11 web:2243] 200 POST /PredictOne (192.168.1.230) 4.73ms
+[I 211115 19:13:11 web:2243] 200 POST /PredictOne (192.168.1.230) 5.60ms
+[I 211115 19:13:13 web:2243] 200 POST /PredictOne (192.168.1.230) 2.59ms
+[I 211115 19:13:13 web:2243] 200 POST /PredictOne (192.168.1.230) 6.90ms
+[I 211115 19:13:23 web:2243] 200 POST /PredictOne (192.168.1.230) 3.07ms
+[I 211115 19:13:25 web:2243] 200 POST /PredictOne (192.168.1.230) 3.30ms
+[I 211115 19:13:27 web:2243] 200 POST /PredictOne (192.168.1.230) 3.14ms
+[I 211115 19:13:38 web:2243] 200 POST /PredictOne (192.168.1.230) 2.24ms
+[I 211115 19:13:41 web:2243] 200 POST /PredictOne (192.168.1.230) 1.77ms
+[I 211115 19:13:43 web:2243] 200 POST /PredictOne (192.168.1.230) 3.07ms
+[I 211115 19:13:51 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 17.01ms
+{'_id': ObjectId('61904dbddf62357d2f69f8eb'), 'dsid': 1, 'acc_mlp': 0.5357142857142857, 'acc_turi': 0.40384615384615385, 'count': 554, 'path_mlp': '../models/mlp_model_dsid1', 'path_turi': '../models/turi_model_dsid1', 'ACC:': 0.99, 'ds_id': 1, 'path': 'path13'}
+[I 211115 19:13:51 web:2243] 304 GET /GetLearnedModelData?dsid=1 (192.168.1.230) 2.56ms
+{'_id': ObjectId('61904dc0df62357d2f69f8f5'), 'dsid': 2, 'acc_mlp': 0.5833333333333334, 'acc_turi': 0.46153846153846156, 'count': 60, 'path_mlp': '../models/mlp_model_dsid2', 'path_turi': '../models/turi_model_dsid2'}
+[I 211115 19:13:51 web:2243] 304 GET /GetLearnedModelData?dsid=2 (192.168.1.230) 3.41ms
+{'_id': ObjectId('61904dc2df62357d2f69f8fd'), 'dsid': 3, 'acc_mlp': 0.5283018867924528, 'acc_turi': 0.3620689655172414, 'count': 264, 'path_mlp': '../models/mlp_model_dsid3', 'path_turi': '../models/turi_model_dsid3'}
+[I 211115 19:13:51 web:2243] 304 GET /GetLearnedModelData?dsid=3 (192.168.1.230) 2.77ms
+{'_id': ObjectId('618f0adf14e5094753ff8d61'), 'dsid': 4, 'acc_mlp': 0.8888888888888888, 'acc_turi': 0.8388888888888889, 'count': 1890, 'path_mlp': '../models/mlp_model_dsid4', 'path_turi': '../models/turi_model_dsid4'}
+[I 211115 19:13:51 web:2243] 200 GET /GetLearnedModelData?dsid=4 (192.168.1.230) 3.44ms
+{'_id': ObjectId('6190719adf62357d2f6a0f53'), 'dsid': 5, 'acc_mlp': 0.8812785388127854, 'acc_turi': 0.7365853658536585, 'count': 2187, 'path_mlp': '../models/mlp_model_dsid5', 'path_turi': '../models/turi_model_dsid5'}
+[I 211115 19:13:51 web:2243] 304 GET /GetLearnedModelData?dsid=5 (192.168.1.230) 2.13ms
+[I 211115 19:14:09 web:2243] 200 POST /PredictOne (192.168.1.230) 3.65ms
+[I 211115 19:14:09 web:2243] 200 POST /PredictOne (192.168.1.230) 6.21ms
+[I 211115 19:14:16 web:2243] 200 POST /PredictOne (192.168.1.230) 3.41ms
+[I 211115 19:14:16 web:2243] 200 POST /PredictOne (192.168.1.230) 7.33ms
+[I 211115 19:14:17 web:2243] 200 POST /PredictOne (192.168.1.230) 1.64ms
+[I 211115 19:14:17 web:2243] 200 POST /PredictOne (192.168.1.230) 0.81ms
+[I 211115 19:14:25 web:2243] 200 POST /PredictOne (192.168.1.230) 3.80ms
+[I 211115 19:14:25 web:2243] 200 POST /PredictOne (192.168.1.230) 0.92ms
+[I 211115 19:14:30 web:2243] 200 POST /PredictOne (192.168.1.230) 2.10ms
+[I 211115 19:14:30 web:2243] 200 POST /PredictOne (192.168.1.230) 6.45ms
+[I 211115 19:14:34 web:2243] 200 POST /PredictOne (192.168.1.230) 3.47ms
+[I 211115 19:14:34 web:2243] 200 POST /PredictOne (192.168.1.230) 2.23ms
+[I 211115 19:14:38 web:2243] 200 POST /PredictOne (192.168.1.230) 3.17ms
+[I 211115 19:14:38 web:2243] 200 POST /PredictOne (192.168.1.230) 2.45ms
+[I 211115 19:14:47 web:2243] 200 POST /PredictOne (192.168.1.230) 3.33ms
+[I 211115 19:14:47 web:2243] 200 POST /PredictOne (192.168.1.230) 2.91ms
+[I 211115 19:14:50 web:2243] 200 POST /PredictOne (192.168.1.230) 3.12ms
+[I 211115 19:14:50 web:2243] 200 POST /PredictOne (192.168.1.230) 5.08ms
+[I 211115 19:14:52 web:2243] 200 POST /PredictOne (192.168.1.230) 3.29ms
+[I 211115 19:14:52 web:2243] 200 POST /PredictOne (192.168.1.230) 6.64ms
+[I 211115 19:14:55 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 18.80ms
+{'_id': ObjectId('618f0adf14e5094753ff8d61'), 'dsid': 4, 'acc_mlp': 0.8888888888888888, 'acc_turi': 0.8388888888888889, 'count': 1890, 'path_mlp': '../models/mlp_model_dsid4', 'path_turi': '../models/turi_model_dsid4'}
+[I 211115 19:14:58 web:2243] 304 GET /GetLearnedModelData?dsid=4 (192.168.1.230) 1.43ms
+[I 211115 19:15:02 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 13.99ms
+{'_id': ObjectId('6190719adf62357d2f6a0f53'), 'dsid': 5, 'acc_mlp': 0.8812785388127854, 'acc_turi': 0.7365853658536585, 'count': 2187, 'path_mlp': '../models/mlp_model_dsid5', 'path_turi': '../models/turi_model_dsid5'}
+[I 211115 19:15:03 web:2243] 304 GET /GetLearnedModelData?dsid=5 (192.168.1.230) 2.71ms
+[I 211115 19:15:12 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 15.52ms
+[I 211115 19:15:14 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 13.98ms
+{'_id': ObjectId('618f0adf14e5094753ff8d61'), 'dsid': 4, 'acc_mlp': 0.8888888888888888, 'acc_turi': 0.8388888888888889, 'count': 1890, 'path_mlp': '../models/mlp_model_dsid4', 'path_turi': '../models/turi_model_dsid4'}
+[I 211115 19:15:17 web:2243] 304 GET /GetLearnedModelData?dsid=4 (192.168.1.230) 3.36ms
+[I 211115 19:15:25 web:2243] 304 GET /GetAllDatasetIds (192.168.1.230) 11.91ms

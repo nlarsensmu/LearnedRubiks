@@ -1,3 +1,6 @@
+# Lab 4 Submission Notes
+There is a video of the app working along with the server log during that session, it may have captured a little more or less than what was in the video.
+
 # LearnedRubiks
 Learned Rubiks will be a application that solves a rubiks cube in some regaurd. 
 Currently it will vizualize a rubiks cube and listen to gestures to perform full cube rotations. 
