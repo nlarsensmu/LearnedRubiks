@@ -19,7 +19,7 @@ from tornado.options import define, options
 
 # custom imports
 from basehandler import BaseHandler
-import turihandlers as th
+import handlers as th
 import examplehandlers as eh
 
 # Setup information for tornado class
