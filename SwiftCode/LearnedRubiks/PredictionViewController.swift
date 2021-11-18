@@ -112,6 +112,11 @@ class PredictionViewController: UIViewController {
         }
     }
     
+    @IBAction func solveButton(_ sender: Any) {
+        let crossSolver = SolverCross(c: self.Cube!)
+        crossSolver.solve()        
+    }
+    
     // MARK: variables
     //The actual cube in code
     var Cube:RubiksCube? = nil

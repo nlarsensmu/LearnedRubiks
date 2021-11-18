@@ -18,6 +18,8 @@
 		FD31FBB927385831006DE220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD31FBB827385831006DE220 /* Assets.xcassets */; };
 		FD31FBBC27385831006DE220 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD31FBBA27385831006DE220 /* LaunchScreen.storyboard */; };
 		FD31FBC427385A39006DE220 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBC327385A39006DE220 /* RingBuffer.swift */; };
+		FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E0B47274601B600F4CB6E /* SolverCross.swift */; };
+		FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E0B49274606D300F4CB6E /* SolverBase.swift */; };
 		FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */; };
 		FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */; };
 		FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D3227388BE100A26E19 /* ServerModel.swift */; };
@@ -41,6 +43,8 @@
 		FD31FBBB27385831006DE220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD31FBBD27385831006DE220 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD31FBC327385A39006DE220 /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
+		FD9E0B47274601B600F4CB6E /* SolverCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverCross.swift; sourceTree = "<group>"; };
+		FD9E0B49274606D300F4CB6E /* SolverBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBase.swift; sourceTree = "<group>"; };
 		FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionViewController.swift; sourceTree = "<group>"; };
 		FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetsTableView.swift; sourceTree = "<group>"; };
 		FDF76D3227388BE100A26E19 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 				B78647C92739FA85004BB50B /* Room.scn */,
 				B78647D1273F28DA004BB50B /* RubiksCube.swift */,
 				B77C72892740A9B400597316 /* ModelSelectionViewController.swift */,
+				FD9E0B47274601B600F4CB6E /* SolverCross.swift */,
+				FD9E0B49274606D300F4CB6E /* SolverBase.swift */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -184,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */,
 				FDFA660E27407A8800A866F8 /* ModelDsId4.mlmodel in Sources */,
 				FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */,
 				FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */,
@@ -196,6 +203,7 @@
 				FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */,
 				B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */,
 				FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */,
+				FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */,
 				FD31FBB227385830006DE220 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

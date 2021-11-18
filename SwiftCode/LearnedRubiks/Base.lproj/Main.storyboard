@@ -325,6 +325,15 @@
                                     <action selector="scrambleCube:" destination="Iie-K7-svU" eventType="touchUpInside" id="Ke5-wF-7cs"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gw1-mh-G1Y">
+                                <rect key="frame" x="258" y="815" width="101" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Solve Cross"/>
+                                <connections>
+                                    <action selector="solveButton:" destination="Iie-K7-svU" eventType="touchUpInside" id="5Co-We-G2p"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Nwe-jl-IVX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -356,7 +365,9 @@
                             <constraint firstItem="myk-nH-CqK" firstAttribute="leading" secondItem="7gK-a1-kLo" secondAttribute="trailing" constant="8" symbolic="YES" id="exa-AU-pin"/>
                             <constraint firstItem="7VS-nw-Kti" firstAttribute="centerY" secondItem="hwW-kI-y6k" secondAttribute="centerY" id="fWe-sh-y7T"/>
                             <constraint firstItem="xt1-kb-vKe" firstAttribute="leading" secondItem="GhN-E5-TV6" secondAttribute="trailing" constant="9" id="fjy-PR-HFW"/>
+                            <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerY" secondItem="Qbf-h8-C0j" secondAttribute="centerY" id="gXB-Zl-QOS"/>
                             <constraint firstItem="6ns-gm-zVa" firstAttribute="centerY" secondItem="Hev-8n-TrB" secondAttribute="centerY" id="hFt-Vs-a9r"/>
+                            <constraint firstItem="Gw1-mh-G1Y" firstAttribute="leading" secondItem="Qbf-h8-C0j" secondAttribute="trailing" constant="8.5" id="hHU-5j-tTe"/>
                             <constraint firstItem="M8a-Cw-ad5" firstAttribute="centerY" secondItem="xt1-kb-vKe" secondAttribute="centerY" id="lcI-Mu-3Qj"/>
                             <constraint firstItem="Qbf-h8-C0j" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" id="lyh-7R-Awh"/>
                             <constraint firstItem="hpn-Tv-rif" firstAttribute="centerX" secondItem="Hev-8n-TrB" secondAttribute="centerX" id="m9I-cx-9ds"/>
