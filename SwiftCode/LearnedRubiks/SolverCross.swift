@@ -93,29 +93,38 @@ class SolverCross : SolverBase {
         var actions:[SCNAction] = []
         if pos == 10 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.RN]))
+            var newPos = 2
             if protectedFaces.contains(.R) {
+                newPos = 6
                 actions.append(contentsOf: cube.getTurnActions(turns: [.D, .R]))
             }
-            return (2, actions)
+            return (newPos, actions)
         } else if pos == 12 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.R]))
+            var newPos = 2
             if protectedFaces.contains(.R) {
+                newPos = 6
                 actions.append(contentsOf: cube.getTurnActions(turns: [.D, .RN]))
             }
-            return (2, actions)
+            return (newPos, actions)
         } else if pos == 16 {
+            var newPos = 8
             actions.append(contentsOf: cube.getTurnActions(turns: [.L]))
             if protectedFaces.contains(.L) {
                 actions.append(contentsOf: cube.getTurnActions(turns: [.D, .LN]))
+                newPos = 4
             }
-            return (8, actions)
+            return (newPos, actions)
         } else if pos == 18 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.LN]))
+            var newPos = 8
             if protectedFaces.contains(.L) {
                 actions.append(contentsOf: cube.getTurnActions(turns: [.D, .L]))
+                newPos = 4
             }
-            return (8, actions)
+            return (newPos, actions)
         }
+        
         // Wedge on the top, these can't be protected
         else if pos == 20 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.R2]))
