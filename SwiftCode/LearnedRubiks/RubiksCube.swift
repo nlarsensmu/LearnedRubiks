@@ -32,6 +32,7 @@ public class RubiksCube{
     private let YRotationNegative = [0, 3, 6, 9, 2, 5, 8, 1, 4, 7,12,15,18,11,14,17,10,13,16,21,24,27,20,23,26,19,22,25]
     private let XRotationPositive = [0,19,10, 1,22,13, 4,25,16, 7,20,11, 2,23,14, 5,26,17, 8,21,12, 3,24,15, 6,27,18, 9]
     private let XRotationNegative = [0, 3,12,21, 6,15,24, 9,18,27, 2,11,20, 5,14,23, 8,17,26, 1,10,19, 4,13,22, 7,16,25]
+    var duration = 0.25
     
     //MARK: Setup functions
     public init(){
@@ -115,42 +116,43 @@ public class RubiksCube{
         self.addCublet(pos:26,upDown:  .green, leftRight:   .orange, frontBack:     .noColor)
         self.addCublet(pos:27,upDown:  .green, leftRight:   .orange, frontBack:     .white)
     }
+    
     public func getScene() -> SCNScene{
         return scene
     }
     
     // MARK: public Cube Manipulation Functions
-    public func rightTurn(direction:Int) {
-        let _ = rotateXAxis(positions: rightPositions, direction: direction)
+    public func rightTurn(direction:Int) -> SCNAction {
+        return rotateXAxis(positions: rightPositions, direction: direction)
     }
-    public func leftTurn(direction:Int) {
+    public func leftTurn(direction:Int) -> SCNAction  {
         // The left face turns are the opposite of cube rotations about the X.
         let oppositeDirection = direction * -1
-        let _ = rotateXAxis(positions: leftPositions, direction: oppositeDirection)
+        return rotateXAxis(positions: leftPositions, direction: oppositeDirection)
     }
-    public func mTurn(direction:Int) {
-        let _ = rotateXAxis(positions: mPositions, direction: direction)
+    public func mTurn(direction:Int) -> SCNAction  {
+        return rotateXAxis(positions: mPositions, direction: direction)
     }
     
-    public func upTurn(direction:Int) {
-        let _ = rotateYAxis(positions: upPositions, direction: direction)
+    public func upTurn(direction:Int) -> SCNAction  {
+        return rotateYAxis(positions: upPositions, direction: direction)
     }
-    public func downTurn(direction:Int) {
+    public func downTurn(direction:Int) -> SCNAction  {
         let oppositeDirection = direction * -1
-        let _ = rotateYAxis(positions: downPosition, direction: oppositeDirection)
+        return rotateYAxis(positions: downPosition, direction: oppositeDirection)
     }
-    public func eTurn(direction:Int) {
-        let _ = rotateYAxis(positions: ePositions, direction: direction)
+    public func eTurn(direction:Int) -> SCNAction  {
+        return rotateYAxis(positions: ePositions, direction: direction)
     }
-    public func frontTurn(direction:Int) {
-        let _ = rotateZAxis(positions: frontPositions, direction: direction)
+    public func frontTurn(direction:Int) -> SCNAction  {
+        return rotateZAxis(positions: frontPositions, direction: direction)
     }
-    public func backTurn(direction:Int) {
+    public func backTurn(direction:Int) -> SCNAction  {
         let oppositeDirection = direction * -1
-        let _ = rotateZAxis(positions: backPositions, direction: oppositeDirection)
+        return rotateZAxis(positions: backPositions, direction: oppositeDirection)
     }
-    public func sTurn(direction:Int) {
-        let _ = rotateZAxis(positions: sPositions, direction: direction)
+    public func sTurn(direction:Int) -> SCNAction  {
+        return rotateZAxis(positions: sPositions, direction: direction)
     }
     
     public func scramble(turnsCount:Int = 30) {
@@ -158,95 +160,130 @@ public class RubiksCube{
                      Turn.L, Turn.LN, Turn.U, Turn.UN, Turn.B, Turn.BN,
                      Turn.L2, Turn.R2, Turn.B2, Turn.F2, Turn.U2, Turn.D2]
         
+        var actions:[SCNAction] = []
         for _ in 0..<turnsCount {
             let turn = turns.randomElement()
             if let t = turn {
-                turnFromEnum(turn: t)
+                actions.append(turnFromEnum(turn: t))
             }
         }
+        let action = SCNAction.sequence(actions)
+        scene.rootNode.runAction(action)
+        
+        // Try to perform two turns in succession.
+    }
+    
+    public func runTurns(turns:[Turn]) {
+        var actions:[SCNAction] = []
+        
+        for t in turns {
+            actions.append(turnFromEnum(turn: t))
+        }
+        scene.rootNode.runAction(SCNAction.sequence(actions))	
+    }
+    
+    //Whole cube rotations
+    
+    //Roate the cube angle amount in the X direction
+    public func rotateAllX(direction:Int) -> SCNAction {
+        return rotateXAxis(positions: allPositions, direction: direction)
+    }
+    
+    //Roate the cube angle amount in the Y direction
+    public func rotateAllY(direction:Int) -> SCNAction {
+        return rotateYAxis(positions: allPositions, direction: direction)
+    }
+    
+    //Roate the cube angle amount in the Y direction
+    public func rotateAllZ(direction:Int) -> SCNAction {
+        return rotateZAxis(positions: allPositions, direction: direction)
     }
     
     // MARK: private turn set functions
-    private func turnFromEnum(turn:Turn) {
+    private func turnFromEnum(turn:Turn) -> SCNAction {
         switch turn {
+        // Standard Turns
         case Turn.D:
-            downTurn(direction: 1)
-            break
+            return downTurn(direction: 1)
         case Turn.DN:
-            downTurn(direction: -1)
-            break
+            return downTurn(direction: -1)
         case Turn.D2:
-            downTurn(direction: 1)
-            downTurn(direction: 1)
-            break
+            return SCNAction.sequence([downTurn(direction: 1), downTurn(direction: 1)])
         case Turn.U:
-            upTurn(direction: 1)
-            break
+            return upTurn(direction: 1)
         case Turn.UN:
-            upTurn(direction: -1)
-            break
+            return upTurn(direction: -1)
         case Turn.U2:
-            upTurn(direction: 1)
-            upTurn(direction: 1)
-            break
+            return SCNAction.sequence([upTurn(direction: 1), upTurn(direction: 1)])
         case Turn.R:
-            rightTurn(direction: 1)
-            break
+            return rightTurn(direction: 1)
         case Turn.RN:
-            rightTurn(direction: -1)
-            break
+            return rightTurn(direction: -1)
         case Turn.R2:
-            rightTurn(direction: 1)
-            rightTurn(direction: 1)
-            break
+            return SCNAction.sequence([rightTurn(direction: 1), rightTurn(direction: 1)])
         case Turn.L:
-            leftTurn(direction: 1)
-            break
+            return leftTurn(direction: 1)
         case Turn.LN:
-            leftTurn(direction: -1)
-            break
+            return leftTurn(direction: -1)
         case Turn.L2:
-            leftTurn(direction: 1)
-            leftTurn(direction: 1)
-            break
+            return SCNAction.sequence([leftTurn(direction: 1), leftTurn(direction: 1)])
         case Turn.F:
-            frontTurn(direction: 1)
-            break
+            return frontTurn(direction: 1)
         case Turn.FN:
-            frontTurn(direction: -1)
-            break
+            return frontTurn(direction: -1)
         case Turn.F2:
-            frontTurn(direction: 1)
-            frontTurn(direction: 1)
-            break
+            return SCNAction.sequence([frontTurn(direction: 1), frontTurn(direction: 1)])
         case Turn.B:
-            backTurn(direction: 1)
-            break
+            return backTurn(direction: 1)
         case Turn.BN:
-            backTurn(direction: -1)
-            break
+            return backTurn(direction: -1)
         case Turn.B2:
-            backTurn(direction: 1)
-            backTurn(direction: 1)
-            break
-        default:
-            break
+            return SCNAction.sequence([backTurn(direction: 1), backTurn(direction: 1)])
+        // Middle layer turns
+        case Turn.M:
+            return mTurn(direction: 1)
+        case Turn.MN:
+            return mTurn(direction: -1)
+        case Turn.M2:
+            return SCNAction.sequence([mTurn(direction: 1), mTurn(direction: 1)])
+        case Turn.E:
+            return eTurn(direction: 1)
+        case Turn.EN:
+            return eTurn(direction: -1)
+        case Turn.E2:
+            return SCNAction.sequence([eTurn(direction: 1), eTurn(direction: 1)])
+        case Turn.S:
+            return sTurn(direction: 1)
+        case Turn.SN:
+            return sTurn(direction: -1)
+        case Turn.S2:
+            return SCNAction.sequence([sTurn(direction: 1), sTurn(direction: 1)])
+        case Turn.X:
+            return rotateAllX(direction: 1)
+        case Turn.XN:
+            return rotateAllX(direction: -1)
+        case Turn.X2:
+            return SCNAction.sequence([rotateAllX(direction: 1), rotateAllX(direction: 1)])
+        case Turn.Y:
+            return rotateAllY(direction: 1)
+        case Turn.YN:
+            return rotateAllY(direction: -1)
+        case Turn.Y2:
+            return SCNAction.sequence([rotateAllY(direction: 1), rotateAllY(direction: 1)])
+        case Turn.Z:
+            return rotateAllZ(direction: 1)
+        case Turn.ZN:
+            return rotateAllZ(direction: -1)
+        case Turn.Z2:
+            return SCNAction.sequence([rotateAllZ(direction: 1), rotateAllZ(direction: 1)])
         }
         
     }
     // Turn R, M, L
-    private func rotateXAxis(positions:[Int], direction:Int, angle:Float = .pi/2) -> Bool{
+    private func rotateXAxis(positions:[Int], direction:Int) -> SCNAction {
         
-        //Graphics Code
-        var percentage = 0.0
-        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
-            if percentage == 0.0 {
-                percentage = elapsedTime / 0.25
-            }
-            let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
-            let rot2 = SCNMatrix4Mult(node.transform, rot)
-            node.transform = rot2
-        }
+        var actions:[SCNAction] = []
+        let angle:Float = .pi/2
         
         //Go through every cube
         for cube in self.cubelets{
@@ -256,8 +293,20 @@ public class RubiksCube{
                 continue
             }
             
+            //Graphics Code
+            var percentage = 0.0
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+                if percentage == 0.0 {
+                    percentage = elapsedTime / self.duration
+                }
+                let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+            }
+            
             // Turn the physical cube
-            cube.node.runAction(rotationAction)
+//            cube.node.runAction(rotationAction)
+            actions.append(rotationAction)
             
             //update the position
             if direction > 0{
@@ -266,38 +315,29 @@ public class RubiksCube{
             else{
                 cube.pos = self.XRotationNegative[cube.pos]
             }
-            //update the faces if angle does not equal .pi
-            if angle != .pi{
-                switch cube.type{
-                case .corner:
-                    cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-                    break
-                case .wedge:
-                    cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-                    break
-                case.middlePiece:
-                    break
-                case.center:
-                    cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-                    break
-                }
+            
+            switch cube.type{
+            case .corner:
+                cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+                break
+            case .wedge:
+                cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+                break
+            case.middlePiece:
+                break
+            case.center:
+                cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+                break
             }
         }
-        return true
+        return SCNAction.group(actions)
     }
     
     // Turn U, E, D
-    private func rotateYAxis(positions:[Int], direction:Int, angle:Float = .pi/2){
-        //Grpahics Code
-        var percentage = 0.0
-        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
-            if percentage == 0.0 {
-                percentage = elapsedTime / 0.25
-            }
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
-            let rot2 = SCNMatrix4Mult(node.transform, rot)
-            node.transform = rot2
-        }
+    private func rotateYAxis(positions:[Int], direction:Int) -> SCNAction{
+        
+        var actions:[SCNAction] = []
+        let angle:Float = .pi/2
         
         //update the position
         for cube in self.cubelets{
@@ -307,8 +347,19 @@ public class RubiksCube{
                 continue
             }
             
+            //Grpahics Code
+            var percentage = 0.0
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+                if percentage == 0.0 {
+                    percentage = elapsedTime / self.duration
+                }
+                let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+            }
+            
             // Physical cube
-            cube.node.runAction(rotationAction)
+            actions.append(rotationAction)
             
             //Logic Code
             if direction > 0{
@@ -317,37 +368,31 @@ public class RubiksCube{
             else{
                 cube.pos = self.YRotationNegative[cube.pos]
             }
-            //update the faces if angle does not equal .pi
-            if angle != .pi{
-                switch cube.type{
-                case .corner:
-                    cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-                    break
-                case .wedge:
-                    cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-                    break
-                case.middlePiece:
-                    break
-                case.center:
-                    cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-                    break
-                }
+            
+            switch cube.type{
+            case .corner:
+                cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+                break
+            case .wedge:
+                cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+                break
+            case.middlePiece:
+                break
+            case.center:
+                cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+                break
             }
+            
         }
+        
+        return SCNAction.group(actions)
     }
     
     // F, S, B turns
-    public func rotateZAxis(positions:[Int], direction:Int, angle:Float = .pi/2){
-        //Graphics Code
-        var percentage = 0.0
-        let rotationAction = SCNAction.customAction(duration: 0.25) { (node, elapsedTime) -> () in
-            if percentage == 0.0 {
-                percentage = elapsedTime / 0.25
-            }
-            let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
-            let rot2 = SCNMatrix4Mult(node.transform, rot)
-            node.transform = rot2
-        }
+    private func rotateZAxis(positions:[Int], direction:Int) -> SCNAction {
+        
+        var actions:[SCNAction] = []
+        let angle:Float = .pi/2
         
         //update the position
         for cube in self.cubelets{
@@ -357,8 +402,19 @@ public class RubiksCube{
                 continue
             }
             
+            //Graphics Code
+            var percentage = 0.0
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+                if percentage == 0.0 {
+                    percentage = elapsedTime / self.duration
+                }
+                let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+            }
+            
             // Physical Cube
-            cube.node.runAction(rotationAction)
+            actions.append(rotationAction)
             
             //Logic Code
             if direction > 0{
@@ -367,132 +423,28 @@ public class RubiksCube{
             else{
                 cube.pos = self.ZRotationNegative[cube.pos]
             }
-            //update the faces if angle does not equal .pi
-            if angle != .pi{
-                switch cube.type{
-                case .corner:
-                    cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-                    break
-                case .wedge:
-                    cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-                    break
-                case.middlePiece:
-                    break
-                case.center:
-                    cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-                    break
-                }
+            
+            switch cube.type{
+            case .corner:
+                cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+                break
+            case .wedge:
+                cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+                break
+            case.middlePiece:
+                break
+            case.center:
+                cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+                break
             }
         }
+        return SCNAction.group(actions)
     }
     
-    //MARK: Whole cube rotations
-    //Roate the cube angle amount in the X direction
-    //NOTE direction should be -1 or 1 for positive X or negative X
-    public func rotateAllX(direction:Int, angle:Float = .pi/2){
-        let _ = rotateXAxis(positions: allPositions, direction: direction, angle: angle)
-    }
-    
-    //Roate the cube angle amount in the Y direction
-    //NOTE direction should be -1 or 1 for positive Y or negative Y
-    public func rotateAllY(direction:Int, angle:Float = .pi/2){
-        let _ = rotateYAxis(positions: allPositions, direction: direction, angle: angle)
-    }
-    
-    //Roate the cube angle amount in the Y direction
-    //NOTE direction should be -1 or 1 for positive Y or negative Y
-    public func rotateAllZ(direction:Int, angle:Float = .pi/2){
-        let _ = rotateZAxis(positions: allPositions, direction: direction, angle: angle)
-    }
     private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor){
         let node = cubes.rootNode.childNode(withName: "cube\(pos)", recursively: true)!
         scene.rootNode.addChildNode(node)
         cubelets.append(Cublet(node:node, pos:pos,upDown: upDown,leftRight: leftRight, frontBack: frontBack))
-    }
-    //MARK: Functions to diaply the logical cube
-    public func getFrontFace() -> String{
-        var s = ""
-        var i = 0
-        for cube in self.cubelets{
-            if self.frontPositions.contains(cube.pos){
-                s += "\(colorToString(color:cube.frontBack)) "
-                i = i + 1
-                if i % 3 == 0{
-                    s += "\n"
-                }
-            }
-        }
-        return s
-    }
-    public func getBackFace() -> String{
-        var s = ""
-        var i = 0
-        for cube in self.cubelets{
-            if self.backPositions.contains(cube.pos){
-                s += "\(colorToString(color:cube.frontBack)) "
-                i = i + 1
-                if i % 3 == 0{
-                    s += "\n"
-                }
-            }
-        }
-        return s
-    }
-    public func getRightFace() -> String{
-        var s = ""
-        var i = 0
-        for cube in self.cubelets{
-            if self.rightPositions.contains(cube.pos){
-                s += "\(colorToString(color:cube.leftRight)) "
-                i = i + 1
-                if i % 3 == 0{
-                    s += "\n"
-                }
-            }
-        }
-        return s
-    }
-    public func getLeftFace() -> String{
-        var s = ""
-        var i = 0
-        for cube in self.cubelets{
-            if self.leftPositions.contains(cube.pos){
-                s += "\(colorToString(color:cube.leftRight)) "
-                i = i + 1
-                if i % 3 == 0{
-                    s += "\n"
-                }
-            }
-        }
-        return s
-    }
-    public func getUpFace() -> String{
-        var s = ""
-        var i = 0
-        for cube in self.cubelets{
-            if self.upPositions.contains(cube.pos){
-                s += "\(colorToString(color:cube.upDown)) "
-                i = i + 1
-                if i % 3 == 0{
-                    s += "\n"
-                }
-            }
-        }
-        return s
-    }
-    public func getBottomFace() -> String{
-        var s = ""
-        var i = 0
-        for cube in self.cubelets{
-            if self.downPosition.contains(cube.pos){
-                s += "\(colorToString(color:cube.upDown)) "
-                i = i + 1
-                if i % 3 == 0{
-                    s += "\n"
-                }
-            }
-        }
-        return s
     }
 }
 //MARK: Cublet Class
@@ -567,7 +519,7 @@ enum PieceType {
     case center
     case middlePiece
 }
-enum Turn {
+public enum Turn {
     case U
     case UN
     case D
@@ -592,6 +544,18 @@ enum Turn {
     case B2
     case L2
     case R2
+    case M2
+    case E2
+    case S2
+    case X
+    case XN
+    case X2
+    case Y
+    case YN
+    case Y2
+    case Z
+    case ZN
+    case Z2
 }
 private func colorToString(color:CubletColor) -> String{
     switch color{

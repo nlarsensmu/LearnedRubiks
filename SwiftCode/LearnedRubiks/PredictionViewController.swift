@@ -16,112 +16,94 @@ class PredictionViewController: UIViewController {
     // Full cube
     @IBAction func xRotate(_ sender: Any) {
         if let cube = Cube{
-            cube.rotateAllX(direction:1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rotateAllX(direction:1))
         }
     }
     @IBAction func xRotateNeg(_ sender: Any) {
         if let cube = Cube{
-            cube.rotateAllX(direction:-1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rotateAllX(direction:-1))
         }
     }
     @IBAction func yRotate(_ sender: Any) {
         if let cube = Cube{
-            cube.rotateAllY(direction:1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rotateAllY(direction:1))
         }
     }
     @IBAction func yRotateNeg(_ sender: Any) {
         if let cube = Cube{
-            cube.rotateAllY(direction:-1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rotateAllY(direction:-1))
         }
     }
     @IBAction func zRotate(_ sender: Any) {
         if let cube = Cube{
-            cube.rotateAllZ(direction:1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rotateAllZ(direction:1))
         }
     }
     @IBAction func zRotateNeg(_ sender: Any) {
         if let cube = Cube{
-            cube.rotateAllZ(direction:-1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rotateAllZ(direction:-1))
         }
     }
     
     // One face
     @IBAction func upTurn(_ sender: Any) {
         if let cube = Cube {
-            cube.upTurn(direction: 1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.upTurn(direction: 1))
         }
     }
     @IBAction func upTurnNeg(_ sender: Any) {
         if let cube = Cube {
-            cube.upTurn(direction: -1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.upTurn(direction: -1))
         }
     }
     @IBAction func downTurn(_ sender: Any) {
         if let cube = Cube {
-            cube.downTurn(direction: 1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.downTurn(direction: 1))
         }
     }
     @IBAction func downTurnNeg(_ sender: Any) {
         if let cube = Cube {
-            cube.downTurn(direction: -1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.downTurn(direction: -1))
         }
     }
     @IBAction func rightTurn(_ sender: Any) {
         if let cube = Cube {
-            cube.rightTurn(direction: 1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rightTurn(direction: 1))
         }
     }
     @IBAction func rightTurnNeg(_ sender: Any) {
         if let cube = Cube {
-            cube.rightTurn(direction: -1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.rightTurn(direction: -1))
         }
     }
     @IBAction func leftTurn(_ sender: Any) {
         if let cube = Cube {
-            cube.leftTurn(direction: 1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.leftTurn(direction: 1))
         }
     }
     @IBAction func leftTurnNeg(_ sender: Any) {
         if let cube = Cube {
-            cube.leftTurn(direction: -1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.leftTurn(direction: -1))
         }
     }
     @IBAction func backTurn(_ sender: Any) {
         if let cube = Cube {
-            cube.backTurn(direction: 1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.backTurn(direction: 1))
         }
     }
     @IBAction func backTurnNeg(_ sender: Any) {
         if let cube = Cube {
-            cube.backTurn(direction: -1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.backTurn(direction: -1))
         }
     }
     @IBAction func frontTurn(_ sender: Any) {
         if let cube = Cube {
-            cube.frontTurn(direction: 1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.frontTurn(direction: 1))
         }
     }
     @IBAction func frontTurnNeg(_ sender: Any) {
         if let cube = Cube {
-            cube.frontTurn(direction: -1)
-            cube.printCube()
+            scene.rootNode.runAction(cube.frontTurn(direction: -1))
         }
     }    
     @IBAction func scrambleCube(_ sender: Any) {
@@ -224,29 +206,29 @@ class PredictionViewController: UIViewController {
                 serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:dsid, model: modelString){
                     resp in
                         if resp == "x90" {
-                            cube.rotateAllX(direction: 1)
+                            self.scene.rootNode.runAction(cube.rotateAllX(direction: 1))
                         }else if resp == "xNeg90" {
-                            cube.rotateAllX(direction: -1)
+                            self.scene.rootNode.runAction(cube.rotateAllX(direction: -1))
                         }else if resp == "y90" {
-                            cube.rotateAllY(direction: 1)
+                            self.scene.rootNode.runAction(cube.rotateAllY(direction: 1))
                         }else if resp == "yNeg90" {
-                            cube.rotateAllY(direction: -1)
+                            self.scene.rootNode.runAction(cube.rotateAllY(direction: -1))
                         }else if resp == "z90" {
-                            cube.rotateAllZ(direction: 1)
+                            self.scene.rootNode.runAction(cube.rotateAllZ(direction: 1))
                         }else if resp == "zNeg90" {
-                            cube.rotateAllZ(direction: -1)
+                            self.scene.rootNode.runAction(cube.rotateAllZ(direction: -1))
                         }else if resp == "x180" {
-                            cube.rotateAllX(direction: 1, angle:.pi)
+                            self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllX(direction: 1), cube.rotateAllX(direction: 1)]))
                         }else if resp == "xNeg180" {
-                            cube.rotateAllX(direction: -1, angle:.pi)
+                            self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllX(direction: -1), cube.rotateAllX(direction: -1)]))
                         }else if resp == "y180" {
-                            cube.rotateAllY(direction: 1, angle:.pi)
+                            self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllY(direction: 1), cube.rotateAllY(direction: 1)]))
                         }else if resp == "yNeg180" {
-                            cube.rotateAllY(direction: -1, angle:.pi)
+                            self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllY(direction: -1), cube.rotateAllY(direction: -1)]))
                         }else if resp == "z180" {
-                            cube.rotateAllZ(direction: 1, angle:.pi)
+                            self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllZ(direction: 1), cube.rotateAllZ(direction: 1)]))
                         }else if resp == "zNeg180" {
-                            cube.rotateAllZ(direction: -1, angle:.pi)
+                            self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllZ(direction: -1), cube.rotateAllZ(direction: -1)]))
                         }
                 }
             }
