@@ -10,20 +10,20 @@ import SceneKit
 
 public class RubiksCube{
     //MARK: Variables
-    private var cubelets:[Cublet] = []
+    public var cubelets:[Cublet] = []
     var scene = SCNScene()
     let cubes = SCNScene(named: "Cube.scn")!
     var cameraNode : SCNNode!
-    private let downPosition = [1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-    private let upPositions     = [19,20,21,22,23,24,25,26,27]
-    private let rightPositions  = [1, 2, 3, 10,11,12,19,20,21]
-    private let leftPositions   = [7, 8, 9, 16,17,18,25,26,27]
-    private let frontPositions  = [1, 4, 7, 10,13,16,19,22,25]
-    private let backPositions   = [3, 6, 9, 12,15,18,21,24,27]
-    private let mPositions =      [4, 5, 6, 13,14,15,22,23,24]
-    private let sPositions =      [2, 5, 8, 11,14,17,20,23,26]
-    private let ePositions =      [10,11,12,13,14,15,16,17,18]
-    private let allPositions = Array.init(1...27)
+    public let downPosition = [1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+    public let upPositions     = [19,20,21,22,23,24,25,26,27]
+    public let rightPositions  = [1, 2, 3, 10,11,12,19,20,21]
+    public let leftPositions   = [7, 8, 9, 16,17,18,25,26,27]
+    public let frontPositions  = [1, 4, 7, 10,13,16,19,22,25]
+    public let backPositions   = [3, 6, 9, 12,15,18,21,24,27]
+    public let mPositions =      [4, 5, 6, 13,14,15,22,23,24]
+    public let sPositions =      [2, 5, 8, 11,14,17,20,23,26]
+    public let ePositions =      [10,11,12,13,14,15,16,17,18]
+    public let allPositions = Array.init(1...27)
     //Rotation Array.  These will store the new pos at the index of the old pos
     //original positions    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27]
     private let ZRotationPositive = [0, 7, 8, 9,16,17,18,25,26,27,4 ,5 , 6,13,14,15,22,23,24, 1, 2, 3,10,11,12,19,20,21]
@@ -42,7 +42,7 @@ public class RubiksCube{
         scene.rootNode.addChildNode(cameraNode)
     }
     
-    private func cublet(at position:Int) -> Cublet {
+    public func cublet(at position:Int) -> Cublet {
         for c in cubelets {
             if c.pos == position {
                 return c
@@ -122,6 +122,10 @@ public class RubiksCube{
     }
     
     // MARK: public Cube Manipulation Functions
+    public func runTurn(direction:Int, operation: (Int) -> SCNAction) {
+        scene.rootNode.runAction(operation(direction))
+    }
+    
     public func rightTurn(direction:Int) -> SCNAction {
         return rotateXAxis(positions: rightPositions, direction: direction)
     }
@@ -174,12 +178,16 @@ public class RubiksCube{
     }
     
     public func runTurns(turns:[Turn]) {
+        scene.rootNode.runAction(SCNAction.sequence(getTurnActions(turns: turns)))
+    }
+    
+    public func getTurnActions(turns:[Turn]) -> [SCNAction] {
         var actions:[SCNAction] = []
         
         for t in turns {
             actions.append(turnFromEnum(turn: t))
         }
-        scene.rootNode.runAction(SCNAction.sequence(actions))	
+        return actions
     }
     
     //Whole cube rotations
@@ -457,7 +465,7 @@ public class RubiksCube{
 // if all three colors are colors then it is a corner
 // if on is noColor then it is a wedge
 // if 2 are noColor than it is a center piece
-private class Cublet{
+public class Cublet{
     var node:SCNNode
     var pos:Int
     var upDown:CubletColor
@@ -504,7 +512,7 @@ private class Cublet{
         return ""
     }
 }
-enum CubletColor {
+public enum CubletColor {
     case red
     case blue
     case yellow
