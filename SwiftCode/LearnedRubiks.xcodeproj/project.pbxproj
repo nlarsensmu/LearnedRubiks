@@ -20,6 +20,7 @@
 		FD31FBC427385A39006DE220 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBC327385A39006DE220 /* RingBuffer.swift */; };
 		FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E0B47274601B600F4CB6E /* SolverCross.swift */; };
 		FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E0B49274606D300F4CB6E /* SolverBase.swift */; };
+		FDA540CA2746F58100E11DAE /* SovlerFirstCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540C92746F58100E11DAE /* SovlerFirstCorners.swift */; };
 		FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */; };
 		FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */; };
 		FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D3227388BE100A26E19 /* ServerModel.swift */; };
@@ -45,6 +46,7 @@
 		FD31FBC327385A39006DE220 /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
 		FD9E0B47274601B600F4CB6E /* SolverCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverCross.swift; sourceTree = "<group>"; };
 		FD9E0B49274606D300F4CB6E /* SolverBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBase.swift; sourceTree = "<group>"; };
+		FDA540C92746F58100E11DAE /* SovlerFirstCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SovlerFirstCorners.swift; sourceTree = "<group>"; };
 		FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionViewController.swift; sourceTree = "<group>"; };
 		FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetsTableView.swift; sourceTree = "<group>"; };
 		FDF76D3227388BE100A26E19 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				B77C72892740A9B400597316 /* ModelSelectionViewController.swift */,
 				FD9E0B47274601B600F4CB6E /* SolverCross.swift */,
 				FD9E0B49274606D300F4CB6E /* SolverBase.swift */,
+				FDA540C92746F58100E11DAE /* SovlerFirstCorners.swift */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			files = (
 				FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */,
 				FDFA660E27407A8800A866F8 /* ModelDsId4.mlmodel in Sources */,
+				FDA540CA2746F58100E11DAE /* SovlerFirstCorners.swift in Sources */,
 				FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */,
 				FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */,
 				FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */,

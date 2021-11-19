@@ -60,6 +60,7 @@ class SolverCross : SolverBase {
         actions.append(contentsOf: result.1)
         var centerPos = getCubletPosition(c1: CubletColor.green, c2: CubletColor.noColor, c3: CubletColor.noColor)
         actions.append(contentsOf: turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos))
+        addPosToProtected(pos: centerPos)
         
         // White Red Wedge
         pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.red, c3: CubletColor.noColor)
@@ -68,6 +69,7 @@ class SolverCross : SolverBase {
         actions.append(contentsOf: result.1)
         centerPos = getCubletPosition(c1: CubletColor.red, c2: CubletColor.noColor, c3: CubletColor.noColor)
         actions.append(contentsOf: turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos))
+        addPosToProtected(pos: centerPos)
         
         // White Blue Wedge
         pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.blue, c3: CubletColor.noColor)
@@ -76,6 +78,7 @@ class SolverCross : SolverBase {
         actions.append(contentsOf: result.1)
         centerPos = getCubletPosition(c1: CubletColor.blue, c2: CubletColor.noColor, c3: CubletColor.noColor)
         actions.append(contentsOf: turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos))
+        addPosToProtected(pos: centerPos)
         
         // White Orange Wedge
         pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.orange, c3: CubletColor.noColor)
@@ -209,14 +212,15 @@ class SolverCross : SolverBase {
     }
     
     // After a wedge is in the right place add it to the protected faces.
+    // pos is the center pos representing that face
     func addPosToProtected(pos:Int) {
-        if pos == 20 {
+        if pos == 11 {
             protectedFaces.append(.R)
-        } else if pos == 26 {
+        } else if pos == 17 {
             protectedFaces.append(.L)
-        } else if pos == 22 {
+        } else if pos == 13 {
             protectedFaces.append(.F)
-        } else if pos == 24 {
+        } else if pos == 15 {
             protectedFaces.append(.B)
         }
     }
