@@ -140,7 +140,7 @@ class PredictionViewController: UIViewController {
         
         step = (step + 1) % steps.count
         DispatchQueue.main.async {
-	            self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
+            self.solveButtonOutlet.setTitle(self.steps[self.step], for: .normal)
         }
     }
     
