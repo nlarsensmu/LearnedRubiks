@@ -108,7 +108,7 @@ class PredictionViewController: UIViewController {
     }    
     @IBAction func scrambleCube(_ sender: Any) {
         if let cube = Cube {
-            cube.duration = 0.1
+            cube.duration = 0.05
             cube.scramble()
             step = 0
             DispatchQueue.main.async {
@@ -122,20 +122,26 @@ class PredictionViewController: UIViewController {
         
         Cube!.duration = 0.25
         if step == 0 {
-            Cube!.duration = 0.1
+            Cube!.duration = 0.05
             let crossSolver = SolverCross(c: self.Cube!)
             crossSolver.solve()
         }
         
         if step == 1 {
-            Cube!.duration = 0.1
+            Cube!.duration = 0.05
             let cornerSolver = SolverFirstCorners(cube: self.Cube!)
             cornerSolver.solve()
         }
         if step == 2 {
-            Cube!.duration = 0.1
+            Cube!.duration = 0.05
             let middleSolver = SolverMiddle(cube: self.Cube!)
             middleSolver.solve()
+        }
+        if step == 3 {
+            Cube!.duration = 0.25
+            let lastSolver = SolverLastCross(cube: self.Cube!)
+            lastSolver.solve()
+            return
         }
         
         step = (step + 1) % steps.count
@@ -163,7 +169,8 @@ class PredictionViewController: UIViewController {
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
     var step = 0
-    let steps = ["Solve Cross", "Solve Corners", "Solve Middle"]
+    let steps = ["Solve Cross", "Solve Corners", "Solve Middle", "Solve Last Cross",
+                 "Position Wedges"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
