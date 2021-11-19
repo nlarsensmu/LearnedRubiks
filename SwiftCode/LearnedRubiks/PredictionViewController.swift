@@ -108,13 +108,35 @@ class PredictionViewController: UIViewController {
     }    
     @IBAction func scrambleCube(_ sender: Any) {
         if let cube = Cube {
+            cube.duration = 0.1
             cube.scramble()
+            step = 0
+            DispatchQueue.main.async {
+                self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
+            }
         }
     }
     
+    @IBOutlet weak var solveButtonOutlet: UIButton!
     @IBAction func solveButton(_ sender: Any) {
-        let crossSolver = SolverCross(c: self.Cube!)
-        crossSolver.solve()        
+        
+        Cube!.duration = 0.25
+        if step == 0 {
+            Cube!.duration = 0.1
+            let crossSolver = SolverCross(c: self.Cube!)
+            crossSolver.solve()
+        }
+        
+        if step == 1 {
+            Cube!.duration = 0.25
+            let cornerSolver = SolverFirstCorners(cube: self.Cube!)
+            cornerSolver.solve()
+        }
+        
+        step = (step + 1) % steps.count
+        DispatchQueue.main.async {
+            self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
+        }
     }
     
     // MARK: variables
@@ -134,6 +156,9 @@ class PredictionViewController: UIViewController {
     var model:Model? = nil
     //server
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
+    
+    var step = 0
+    let steps = ["Solve Cross", "Solve Corners"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
