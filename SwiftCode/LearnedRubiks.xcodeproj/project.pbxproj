@@ -22,7 +22,8 @@
 		FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E0B49274606D300F4CB6E /* SolverBase.swift */; };
 		FDA540CA2746F58100E11DAE /* SovlerFirstCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540C92746F58100E11DAE /* SovlerFirstCorners.swift */; };
 		FDA540CD2748357D00E11DAE /* SolverMiddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540CC2748357D00E11DAE /* SolverMiddle.swift */; };
-		FDA540D12748563200E11DAE /* SolverLastCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540D02748563200E11DAE /* SolverLastCross.swift */; };
+		FDA540D12748563200E11DAE /* SolverLastCrossBB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540D02748563200E11DAE /* SolverLastCrossBB.swift */; };
+		FDA540D3274861E600E11DAE /* SolverLLWedgePositons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540D2274861E600E11DAE /* SolverLLWedgePositons.swift */; };
 		FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */; };
 		FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */; };
 		FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D3227388BE100A26E19 /* ServerModel.swift */; };
@@ -50,7 +51,8 @@
 		FD9E0B49274606D300F4CB6E /* SolverBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBase.swift; sourceTree = "<group>"; };
 		FDA540C92746F58100E11DAE /* SovlerFirstCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SovlerFirstCorners.swift; sourceTree = "<group>"; };
 		FDA540CC2748357D00E11DAE /* SolverMiddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverMiddle.swift; sourceTree = "<group>"; };
-		FDA540D02748563200E11DAE /* SolverLastCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverLastCross.swift; sourceTree = "<group>"; };
+		FDA540D02748563200E11DAE /* SolverLastCrossBB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverLastCrossBB.swift; sourceTree = "<group>"; };
+		FDA540D2274861E600E11DAE /* SolverLLWedgePositons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverLLWedgePositons.swift; sourceTree = "<group>"; };
 		FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionViewController.swift; sourceTree = "<group>"; };
 		FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetsTableView.swift; sourceTree = "<group>"; };
 		FDF76D3227388BE100A26E19 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
@@ -121,7 +123,8 @@
 				FD9E0B49274606D300F4CB6E /* SolverBase.swift */,
 				FD9E0B47274601B600F4CB6E /* SolverCross.swift */,
 				FDA540CC2748357D00E11DAE /* SolverMiddle.swift */,
-				FDA540D02748563200E11DAE /* SolverLastCross.swift */,
+				FDA540D02748563200E11DAE /* SolverLastCrossBB.swift */,
+				FDA540D2274861E600E11DAE /* SolverLLWedgePositons.swift */,
 			);
 			path = Solvers;
 			sourceTree = "<group>";
@@ -217,12 +220,13 @@
 				FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */,
 				FD31FBC427385A39006DE220 /* RingBuffer.swift in Sources */,
 				FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */,
-				FDA540D12748563200E11DAE /* SolverLastCross.swift in Sources */,
+				FDA540D12748563200E11DAE /* SolverLastCrossBB.swift in Sources */,
 				FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */,
 				B77C728A2740A9B400597316 /* ModelSelectionViewController.swift in Sources */,
 				FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */,
 				B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */,
 				FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */,
+				FDA540D3274861E600E11DAE /* SolverLLWedgePositons.swift in Sources */,
 				FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */,
 				FD31FBB227385830006DE220 /* SceneDelegate.swift in Sources */,
 			);

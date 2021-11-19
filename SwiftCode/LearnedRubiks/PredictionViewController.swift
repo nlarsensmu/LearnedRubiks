@@ -138,9 +138,14 @@ class PredictionViewController: UIViewController {
             middleSolver.solve()
         }
         if step == 3 {
-            Cube!.duration = 0.25
-            let lastSolver = SolverLastCross(cube: self.Cube!)
+            Cube!.duration = 0.05
+            let lastSolver = SolverLastCrossBB(cube: self.Cube!)
             lastSolver.solve()
+        }
+        if step == 4 {
+            Cube!.duration = 0.25
+            let solver = SolverLLWedgePossitions(cube:self.Cube!)
+            solver.solve()
             return
         }
         

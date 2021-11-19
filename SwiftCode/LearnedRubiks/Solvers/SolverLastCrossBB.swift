@@ -8,7 +8,7 @@
 import Foundation
 import SceneKit
 
-class SolverLastCross: SolverBase {
+class SolverLastCrossBB: SolverBase {
     
     
     var cube: RubiksCube
