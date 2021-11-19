@@ -94,8 +94,6 @@ class SolverFirstCorners: SolverBase {
         let pos1 = getCubletPosition(c1: c1, c2: .noColor, c3: .noColor)
         let pos2 = getCubletPosition(c1: c2, c2: .noColor, c3: .noColor)
         
-        print(pos1, pos2)
-        
         // pos1 is 13.
         if pos1 == 13 && pos2 == 11 {
             return 1
@@ -121,7 +119,6 @@ class SolverFirstCorners: SolverBase {
             return 9
         }
         
-        print("bad two pos")
         return 0
     }
     

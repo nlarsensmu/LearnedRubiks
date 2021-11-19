@@ -128,14 +128,19 @@ class PredictionViewController: UIViewController {
         }
         
         if step == 1 {
-            Cube!.duration = 0.25
+            Cube!.duration = 0.1
             let cornerSolver = SolverFirstCorners(cube: self.Cube!)
             cornerSolver.solve()
+        }
+        if step == 2 {
+            Cube!.duration = 0.1
+            let middleSolver = SolverMiddle(cube: self.Cube!)
+            middleSolver.solve()
         }
         
         step = (step + 1) % steps.count
         DispatchQueue.main.async {
-            self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
+            self.solveButtonOutlet.setTitle(self.steps[self.step], for: .normal)
         }
     }
     
@@ -158,7 +163,7 @@ class PredictionViewController: UIViewController {
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
     var step = 0
-    let steps = ["Solve Cross", "Solve Corners"]
+    let steps = ["Solve Cross", "Solve Corners", "Solve Middle"]
 
     override func viewDidLoad() {
         super.viewDidLoad()

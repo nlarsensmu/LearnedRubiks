@@ -317,7 +317,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qbf-h8-C0j">
-                                <rect key="frame" x="164.5" y="815" width="85" height="31"/>
+                                <rect key="frame" x="61" y="815" width="85" height="31"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Scramble"/>
@@ -326,8 +326,11 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gw1-mh-G1Y">
-                                <rect key="frame" x="258" y="815" width="101" height="31"/>
+                                <rect key="frame" x="235.5" y="815" width="150" height="31"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="1M5-A3-Ul6"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Solve Cross"/>
                                 <connections>
@@ -367,9 +370,9 @@
                             <constraint firstItem="xt1-kb-vKe" firstAttribute="leading" secondItem="GhN-E5-TV6" secondAttribute="trailing" constant="9" id="fjy-PR-HFW"/>
                             <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerY" secondItem="Qbf-h8-C0j" secondAttribute="centerY" id="gXB-Zl-QOS"/>
                             <constraint firstItem="6ns-gm-zVa" firstAttribute="centerY" secondItem="Hev-8n-TrB" secondAttribute="centerY" id="hFt-Vs-a9r"/>
-                            <constraint firstItem="Gw1-mh-G1Y" firstAttribute="leading" secondItem="Qbf-h8-C0j" secondAttribute="trailing" constant="8.5" id="hHU-5j-tTe"/>
+                            <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" multiplier="1.5" id="hoD-rW-brD"/>
                             <constraint firstItem="M8a-Cw-ad5" firstAttribute="centerY" secondItem="xt1-kb-vKe" secondAttribute="centerY" id="lcI-Mu-3Qj"/>
-                            <constraint firstItem="Qbf-h8-C0j" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" id="lyh-7R-Awh"/>
+                            <constraint firstItem="Qbf-h8-C0j" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" multiplier="0.5" id="lyh-7R-Awh"/>
                             <constraint firstItem="hpn-Tv-rif" firstAttribute="centerX" secondItem="Hev-8n-TrB" secondAttribute="centerX" id="m9I-cx-9ds"/>
                             <constraint firstItem="7gK-a1-kLo" firstAttribute="centerY" secondItem="i60-5N-fRO" secondAttribute="centerY" id="ozR-Xt-33S"/>
                             <constraint firstItem="258-0O-0Iq" firstAttribute="leading" secondItem="6ns-gm-zVa" secondAttribute="trailing" constant="8" symbolic="YES" id="pFH-G0-kng"/>
