@@ -26,7 +26,6 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         var actions:[SCNAction] = []
         
         actions.append(contentsOf: positionCorner())
-        actions.append(contentsOf: orientateCorners())
         
         cube.scene.rootNode.runAction(SCNAction.sequence(actions))
     }
