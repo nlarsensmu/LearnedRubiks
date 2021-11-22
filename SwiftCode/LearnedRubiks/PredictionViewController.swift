@@ -113,9 +113,9 @@ class PredictionViewController: UIViewController {
         if let cube = Cube {
             cube.duration = 0.25
             let actions = cube.scramble()
-            disableEnableButtons()
+            self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
-                self.disableEnableButtons()
+                self.animationRunning = false
             }
             step = 0
             DispatchQueue.main.async {
@@ -129,38 +129,31 @@ class PredictionViewController: UIViewController {
         
         if step == 0 {
             let crossSolver = SolverCross(c: self.Cube!)
-//            crossSolver.solve()
             runSolver(solver: crossSolver)
         }
         
         if step == 1 {
             let cornerSolver = SolverFirstCorners(cube: self.Cube!)
-//            cornerSolver.solve()
             runSolver(solver: cornerSolver)
         }
         if step == 2 {
             let middleSolver = SolverMiddle(cube: self.Cube!)
-//            middleSolver.solve()
             runSolver(solver: middleSolver)
         }
         if step == 3 {
             let lastSolver = SolverLastCrossBB(cube: self.Cube!)
-//            lastSolver.solve()
             runSolver(solver: lastSolver)
         }
         if step == 4 {
             let solver = SolverLLWedgePossitions(cube:self.Cube!)
-//            solver.solve()
             runSolver(solver: solver)
         }
         if step == 5 {
             let solver = SolverBeginnerLLCornersPosition(cube:self.Cube!)
-//            solver.solve()
             runSolver(solver: solver)
         }
         if step == 6 {
             let solver = SolverBeginnerLLCornersOrientation(cube:self.Cube!)
-//            solver.solve()
             runSolver(solver: solver)
         }
         
@@ -172,9 +165,9 @@ class PredictionViewController: UIViewController {
     
     func runSolver(solver:SolverBase) {
         let actions = solver.solve()
-        disableEnableButtons()
+        self.animationRunning = true
         scene.rootNode.runAction(SCNAction.sequence(actions)) {
-            self.disableEnableButtons()
+            self.animationRunning = false
         }
     }
     func disableEnableButtons() {
@@ -199,6 +192,18 @@ class PredictionViewController: UIViewController {
     var ringBuffer = RingBuffer()
     var isWaitingForMotionData = false
     var model:Model? = nil
+    
+    // While we are running an animation prevent more
+    var _animationRunning:Bool = false
+    var animationRunning:Bool {
+        get {
+            return _animationRunning
+        }
+        set {
+            _animationRunning = newValue
+            disableEnableButtons()
+        }
+    }
     //server
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
@@ -253,20 +258,19 @@ class PredictionViewController: UIViewController {
     //Closure to be used when listening to motion
     func handleMotion(_ motionData:CMDeviceMotion?, error:Error?){
         
-        // TODO: Put back in
-//        if let accel = motionData?.userAcceleration {
-//            self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
-//            let mag = fabs(accel.x)+fabs(accel.y)+fabs(accel.z)
-//            
-//            if mag > 1 {
-//                // buffer up a bit more data and then notify of occurrence
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-//                        // something large enough happened to warrant
-//                        self.largeMotionEventOccurred()
-//                    
-//                })
-//            }
-//        }
+        if let accel = motionData?.userAcceleration {
+            self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
+            let mag = fabs(accel.x)+fabs(accel.y)+fabs(accel.z)
+            
+            if mag > 1 && !animationRunning {
+                // buffer up a bit more data and then notify of occurrence
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                        // something large enough happened to warrant
+                        self.largeMotionEventOccurred()
+                    
+                })
+            }
+        }
     }
     func largeMotionEventOccurred(){
         if(self.isWaitingForMotionData)
