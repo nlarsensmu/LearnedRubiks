@@ -48,7 +48,7 @@ public class RubiksCube{
                 return c
             }
         }
-        return self.cubelets[1]
+        return self.cubelets[0]
     }
     
     public func printCube(){
@@ -172,7 +172,9 @@ public class RubiksCube{
             }
         }
         let action = SCNAction.sequence(actions)
-        scene.rootNode.runAction(action)
+        DispatchQueue.main.async {
+            self.scene.rootNode.runAction(action)
+        }
         
         // Try to perform two turns in succession.
     }
@@ -302,18 +304,21 @@ public class RubiksCube{
             }
             
             //Graphics Code
-            var percentage = 0.0
             let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
-                if percentage == 0.0 {
-                    percentage = elapsedTime / self.duration
-                }
+
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+                
                 let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
                 let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
                 cube.node.transform = rot2
+                
+                if elapsedTime == self.duration {
+                    cube.lastElapsedTime = 0.0
+                }
             }
             
             // Turn the physical cube
-//            cube.node.runAction(rotationAction)
             actions.append(rotationAction)
             
             //update the position
@@ -355,16 +360,20 @@ public class RubiksCube{
                 continue
             }
             
-            //Grpahics Code
-            var percentage = 0.0
             let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
-                if percentage == 0.0 {
-                    percentage = elapsedTime / self.duration
-                }
+
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+
                 let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
                 let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
                 cube.node.transform = rot2
+                
+                if elapsedTime == self.duration {
+                    cube.lastElapsedTime = 0.0
+                }
             }
+            
             
             // Physical cube
             actions.append(rotationAction)
@@ -411,14 +420,18 @@ public class RubiksCube{
             }
             
             //Graphics Code
-            var percentage = 0.0
             let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
-                if percentage == 0.0 {
-                    percentage = elapsedTime / self.duration
-                }
+
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+                
                 let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
                 let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
                 cube.node.transform = rot2
+                
+                if elapsedTime == self.duration {
+                    cube.lastElapsedTime = 0.0
+                }
             }
             
             // Physical Cube
@@ -472,6 +485,7 @@ public class Cublet{
     var leftRight:CubletColor
     var frontBack:CubletColor
     let type:PieceType
+    var lastElapsedTime:Double = 0.0
     init(node:SCNNode, pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor){
         self.node = node
         self.pos = pos

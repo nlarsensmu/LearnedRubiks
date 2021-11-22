@@ -107,8 +107,9 @@ class PredictionViewController: UIViewController {
         }
     }    
     @IBAction func scrambleCube(_ sender: Any) {
+        print("Scramble")
         if let cube = Cube {
-            cube.duration = 0.1
+            cube.duration = 0.25
             cube.scramble()
             step = 0
             DispatchQueue.main.async {
@@ -120,22 +121,34 @@ class PredictionViewController: UIViewController {
     @IBOutlet weak var solveButtonOutlet: UIButton!
     @IBAction func solveButton(_ sender: Any) {
         
-        Cube!.duration = 0.25
         if step == 0 {
-            Cube!.duration = 0.1
             let crossSolver = SolverCross(c: self.Cube!)
             crossSolver.solve()
         }
         
         if step == 1 {
-            Cube!.duration = 0.1
             let cornerSolver = SolverFirstCorners(cube: self.Cube!)
             cornerSolver.solve()
         }
         if step == 2 {
-            Cube!.duration = 0.1
             let middleSolver = SolverMiddle(cube: self.Cube!)
             middleSolver.solve()
+        }
+        if step == 3 {
+            let lastSolver = SolverLastCrossBB(cube: self.Cube!)
+            lastSolver.solve()
+        }
+        if step == 4 {
+            let solver = SolverLLWedgePossitions(cube:self.Cube!)
+            solver.solve()
+        }
+        if step == 5 {
+            let solver = SolverBeginnerLLCornersPosition(cube:self.Cube!)
+            solver.solve()
+        }
+        if step == 6 {
+            let solver = SolverBeginnerLLCornersOrientation(cube:self.Cube!)
+            solver.solve()
         }
         
         step = (step + 1) % steps.count
@@ -163,7 +176,8 @@ class PredictionViewController: UIViewController {
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
     var step = 0
-    let steps = ["Solve Cross", "Solve Corners", "Solve Middle"]
+    let steps = ["Solve Cross", "Solve Corners", "Solve Middle", "Solve Last Cross",
+                 "Position Wedges", "Solver Position Last Corners", "Rotate Last Corners"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -211,19 +225,21 @@ class PredictionViewController: UIViewController {
     }
     //Closure to be used when listening to motion
     func handleMotion(_ motionData:CMDeviceMotion?, error:Error?){
-        if let accel = motionData?.userAcceleration {
-            self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
-            let mag = fabs(accel.x)+fabs(accel.y)+fabs(accel.z)
-            
-            if mag > 1 {
-                // buffer up a bit more data and then notify of occurrence
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                        // something large enough happened to warrant
-                        self.largeMotionEventOccurred()
-                    
-                })
-            }
-        }
+        
+        // TODO: Put back in
+//        if let accel = motionData?.userAcceleration {
+//            self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
+//            let mag = fabs(accel.x)+fabs(accel.y)+fabs(accel.z)
+//            
+//            if mag > 1 {
+//                // buffer up a bit more data and then notify of occurrence
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+//                        // something large enough happened to warrant
+//                        self.largeMotionEventOccurred()
+//                    
+//                })
+//            }
+//        }
     }
     func largeMotionEventOccurred(){
         if(self.isWaitingForMotionData)
