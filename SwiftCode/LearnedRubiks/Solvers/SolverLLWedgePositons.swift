@@ -44,6 +44,20 @@ class SolverLLWedgePossitions: SolverBase {
             actions.append(contentsOf: solveCase2())
         }
         
+        // Turn U or UN or U2 to make finsih out
+        let frontUp = cube.cublet(at: 22)
+        let rightCenter = cube.cublet(at: 11)
+        let backCetner = cube.cublet(at: 15)
+        let leftCenter = cube.cublet(at: 17)
+        
+        if frontUp.frontBack == leftCenter.leftRight {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+        } else if frontUp.frontBack == backCetner.frontBack {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.U2]))
+        } else if frontUp.frontBack == rightCenter.leftRight {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.UN]))
+        }
+        
         cube.scene.rootNode.runAction(SCNAction.sequence(actions))
     }
     
@@ -63,6 +77,9 @@ class SolverLLWedgePossitions: SolverBase {
                 }
                 return 3
             } else if sum == 92 {
+                for _ in 0..<count {
+                    let _ = cube.upTurn(direction: -1)
+                }
                 return 1
             } else { // 42, 44, 48, 50 // case 2
                 for _ in 0..<count {
