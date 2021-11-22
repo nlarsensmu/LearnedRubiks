@@ -21,7 +21,7 @@ class SolverFirstCorners: SolverBase {
         self.cube = cube
     }
     
-    func solve() {
+    func solve() -> [SCNAction]{
         var actions:[SCNAction] = []
         
         actions.append(contentsOf: getCornerDown(c1: CubletColor.red, c2: CubletColor.green, c3: CubletColor.white))
@@ -41,7 +41,8 @@ class SolverFirstCorners: SolverBase {
         actions.append(contentsOf: reapeatCornerAlg())
         
         
-        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+        return actions
     }
     
     func getCornerDown(c1:CubletColor, c2:CubletColor, c3:CubletColor) -> [SCNAction] {

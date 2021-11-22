@@ -105,12 +105,18 @@ class PredictionViewController: UIViewController {
         if let cube = Cube {
             scene.rootNode.runAction(cube.frontTurn(direction: -1))
         }
-    }    
+    }
+    
+    @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
         print("Scramble")
         if let cube = Cube {
             cube.duration = 0.25
-            cube.scramble()
+            let actions = cube.scramble()
+            disableEnableButtons()
+            scene.rootNode.runAction(SCNAction.sequence(actions)) {
+                self.disableEnableButtons()
+            }
             step = 0
             DispatchQueue.main.async {
                 self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
@@ -123,37 +129,58 @@ class PredictionViewController: UIViewController {
         
         if step == 0 {
             let crossSolver = SolverCross(c: self.Cube!)
-            crossSolver.solve()
+//            crossSolver.solve()
+            runSolver(solver: crossSolver)
         }
         
         if step == 1 {
             let cornerSolver = SolverFirstCorners(cube: self.Cube!)
-            cornerSolver.solve()
+//            cornerSolver.solve()
+            runSolver(solver: cornerSolver)
         }
         if step == 2 {
             let middleSolver = SolverMiddle(cube: self.Cube!)
-            middleSolver.solve()
+//            middleSolver.solve()
+            runSolver(solver: middleSolver)
         }
         if step == 3 {
             let lastSolver = SolverLastCrossBB(cube: self.Cube!)
-            lastSolver.solve()
+//            lastSolver.solve()
+            runSolver(solver: lastSolver)
         }
         if step == 4 {
             let solver = SolverLLWedgePossitions(cube:self.Cube!)
-            solver.solve()
+//            solver.solve()
+            runSolver(solver: solver)
         }
         if step == 5 {
             let solver = SolverBeginnerLLCornersPosition(cube:self.Cube!)
-            solver.solve()
+//            solver.solve()
+            runSolver(solver: solver)
         }
         if step == 6 {
             let solver = SolverBeginnerLLCornersOrientation(cube:self.Cube!)
-            solver.solve()
+//            solver.solve()
+            runSolver(solver: solver)
         }
         
         step = (step + 1) % steps.count
         DispatchQueue.main.async {
             self.solveButtonOutlet.setTitle(self.steps[self.step], for: .normal)
+        }
+    }
+    
+    func runSolver(solver:SolverBase) {
+        let actions = solver.solve()
+        disableEnableButtons()
+        scene.rootNode.runAction(SCNAction.sequence(actions)) {
+            self.disableEnableButtons()
+        }
+    }
+    func disableEnableButtons() {
+        DispatchQueue.main.async {
+            self.scrambleButton.isEnabled = !self.scrambleButton.isEnabled
+            self.solveButtonOutlet.isEnabled = !self.solveButtonOutlet.isEnabled
         }
     }
     
