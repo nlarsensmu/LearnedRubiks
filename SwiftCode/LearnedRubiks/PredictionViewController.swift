@@ -119,12 +119,14 @@ class PredictionViewController: UIViewController {
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
+                self.Cube?.printCube()
             }
             step = 0
             DispatchQueue.main.async {
                 self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
             }
         }
+        
     }
     
     @IBOutlet weak var solveButtonOutlet: UIButton!
@@ -241,14 +243,16 @@ class PredictionViewController: UIViewController {
         guard let sceneView = sceneView else {
             return
         }
-        let front:[CubletColor] = [.yellow,.yellow,.yellow,.yellow,.yellow,.yellow,.yellow,.yellow,.yellow]
-        let back:[CubletColor] = [.white,.white,.white,.white,.white,.white,.white,.white,.white]
-        let left:[CubletColor] = [.orange,.orange,.orange,.orange,.orange,.orange,.orange,.orange,.orange]
-        let right:[CubletColor] = [.red,.red,.red,.red,.red,.red,.red,.red,.red]
-        let up:[CubletColor] = [.green,.green,.green,.green,.green,.green,.green,.green,.green]
-        let down:[CubletColor] = [.blue,.blue,.blue,.blue,.blue,.blue,.blue,.blue,.blue]
-//        self.Cube = RubiksCube(front: front, left: left, right: right, up: up, down:down, back: back)
-        self.Cube = RubiksCube()
+        
+        let right:[CubletColor] = [.blue,.yellow,.white,.green,.red,.red,.yellow,.red,.green]
+        let left:[CubletColor] =  [.green,.white,.blue,.white,.orange,.blue,.orange,.white,.white]
+        let front:[CubletColor] = [.red,.yellow,.red,.orange,.yellow,.orange,.orange,.blue,.blue]
+        let back:[CubletColor] =  [.blue,.red,.orange,.blue,.white,.yellow,.red,.yellow,.green]
+        let up:[CubletColor] =    [.green,.white,.white,.orange,.green,.red,.yellow,.blue,.orange]
+        let down:[CubletColor] =  [.yellow,.green,.red,.orange,.blue,.green,.yellow,.green,.white]
+        self.Cube = RubiksCube(front: front, left: left, right: right, up: up, down:down, back: back)
+        self.Cube?.printCube()
+        //				self.Cube = RubiksCube()
         scene = Cube?.getScene()
         sceneView.scene = scene
     }
