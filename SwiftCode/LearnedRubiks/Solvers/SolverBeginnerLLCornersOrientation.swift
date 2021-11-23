@@ -22,12 +22,13 @@ class SolverBeginnerLLCornersOrientation: SolverBase {
         self.cube = cube
     }
     
-    func solve() {
+    func solve() -> [SCNAction]{
         var actions:[SCNAction] = []
         
         actions.append(contentsOf: orientateCorners())
         
-        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+        return actions
     }
     
     // MARK: position the conrners

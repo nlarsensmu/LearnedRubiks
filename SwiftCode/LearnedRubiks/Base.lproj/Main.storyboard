@@ -386,6 +386,7 @@
                     <navigationItem key="navigationItem" id="7qi-PG-SV0"/>
                     <connections>
                         <outlet property="sceneView" destination="Bin-Bk-2fe" id="iIS-Fj-Ly9"/>
+                        <outlet property="scrambleButton" destination="Qbf-h8-C0j" id="L7V-o1-UbV"/>
                         <outlet property="solveButtonOutlet" destination="Gw1-mh-G1Y" id="usQ-GX-HRp"/>
                     </connections>
                 </viewController>

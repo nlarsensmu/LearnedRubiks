@@ -159,7 +159,7 @@ public class RubiksCube{
         return rotateZAxis(positions: sPositions, direction: direction)
     }
     
-    public func scramble(turnsCount:Int = 30) {
+    public func scramble(turnsCount:Int = 30) -> [SCNAction] {
         let turns = [Turn.D, Turn.DN, Turn.F, Turn.FN, Turn.R, Turn.RN,
                      Turn.L, Turn.LN, Turn.U, Turn.UN, Turn.B, Turn.BN,
                      Turn.L2, Turn.R2, Turn.B2, Turn.F2, Turn.U2, Turn.D2]
@@ -171,11 +171,7 @@ public class RubiksCube{
                 actions.append(turnFromEnum(turn: t))
             }
         }
-        let action = SCNAction.sequence(actions)
-        DispatchQueue.main.async {
-            self.scene.rootNode.runAction(action)
-        }
-        
+        return actions
         // Try to perform two turns in succession.
     }
     

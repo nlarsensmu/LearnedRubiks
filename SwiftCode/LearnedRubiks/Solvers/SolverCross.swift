@@ -21,14 +21,15 @@ class SolverCross : SolverBase {
         cube = c
     }
     
-    func solve() {
+    func solve() -> [SCNAction] {
         var actions:[SCNAction] = []
         
         actions.append(contentsOf: whiteOnTop())
         actions.append(contentsOf: solveWedgePositions())
         actions.append(contentsOf: fixOrientation())
         
-        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+        return actions
     }
     
     func whiteOnTop() -> [SCNAction]{

@@ -30,7 +30,7 @@ class SolverLLWedgePossitions: SolverBase {
         self.cube = cube
     }
     
-    func solve() {
+    func solve() -> [SCNAction]{
         var actions:[SCNAction] = []
         
         var wedgeCase = determineCase()
@@ -58,7 +58,8 @@ class SolverLLWedgePossitions: SolverBase {
             actions.append(contentsOf: cube.getTurnActions(turns: [.UN]))
         }
         
-        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
+        return actions
     }
     
     // This function will perform turns, but undo them. The actions will not be run

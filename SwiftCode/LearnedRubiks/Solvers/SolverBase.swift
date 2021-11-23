@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import SceneKit
 
 protocol SolverBase {
     var cube:RubiksCube { get }
     var hashColorDict:Dictionary<CubletColor, Int> { get }
-    func solve()
+    func solve() -> [SCNAction]
 }
 
 extension SolverBase {
