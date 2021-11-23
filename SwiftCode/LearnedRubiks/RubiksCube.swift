@@ -368,7 +368,7 @@ public class RubiksCube{
                 let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
                 cube.node.transform = rot2
                 
-                if elapsedTime == self.duration {
+                if elapsedTime >= self.duration {
                     cube.lastElapsedTime = 0.0
                 }
             }
@@ -424,7 +424,7 @@ public class RubiksCube{
                 let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
                 cube.node.transform = rot2
                 
-                if elapsedTime == self.duration {
+                if elapsedTime >= self.duration {
                     cube.lastElapsedTime = 0.0
                 }
             }
@@ -484,7 +484,7 @@ public class RubiksCube{
                 let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
                 cube.node.transform = rot2
                 
-                if elapsedTime == self.duration {
+                if elapsedTime >= self.duration {
                     cube.lastElapsedTime = 0.0
                 }
             }
