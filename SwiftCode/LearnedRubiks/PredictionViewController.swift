@@ -111,7 +111,6 @@ class PredictionViewController: UIViewController {
     @IBAction func scrambleCube(_ sender: Any) {
         print("Scramble")
         if let cube = Cube {
-            cube.duration = 0.25
             let actions = cube.scramble()
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
