@@ -41,6 +41,65 @@ public class RubiksCube{
         cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
         scene.rootNode.addChildNode(cameraNode)
     }
+    public init(front:[CubletColor], left:[CubletColor], right:[CubletColor], up:[CubletColor], down:[CubletColor], back:[CubletColor]){
+        self.addCublet(pos:1,upDown:   .blue, leftRight:    .red    ,frontBack:     .yellow
+                       , materials: toMaterials(from:[cubletColor(from:right[0]),.gray,.gray,cubletColor(from: front[0]),.gray,cubletColor(from: down[0])]))
+        self.addCublet(pos:2,upDown:   .blue, leftRight:    .red, frontBack:        .noColor
+                       , materials: toMaterials(from:[cubletColor(from:right[1]),.gray,.gray,.gray,.gray,cubletColor(from: down[1])]))
+        self.addCublet(pos:3,upDown:   .blue, leftRight:    .red, frontBack:        .white
+                       , materials: toMaterials(from:[cubletColor(from:right[2]),cubletColor(from: back[0]),.gray,.gray,.gray,cubletColor(from: down[2])]))
+        self.addCublet(pos:4,upDown:   .blue, leftRight:    .noColor, frontBack:    .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:5,upDown:   .blue, leftRight:    .noColor, frontBack:    .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:6,upDown:   .blue, leftRight:    .noColor, frontBack:    .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:7,upDown:   .blue, leftRight:    .orange, frontBack:     .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:8,upDown:   .blue, leftRight:    .orange, frontBack:     .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:9,upDown:   .blue, leftRight:    .orange, frontBack:     .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:10,upDown:  .noColor, leftRight: .red, frontBack:        .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:11,upDown:  .noColor, leftRight: .red, frontBack:        .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:12,upDown:  .noColor, leftRight: .red, frontBack:        .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:13,upDown:  .noColor, leftRight: .noColor, frontBack:    .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:14,upDown:  .noColor, leftRight: .noColor, frontBack:    .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:15,upDown:  .noColor, leftRight: .noColor, frontBack:    .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:16,upDown:  .noColor, leftRight: .orange, frontBack:     .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:17,upDown:  .noColor, leftRight: .orange, frontBack:     .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:18,upDown:  .noColor, leftRight: .orange, frontBack:     .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:19,upDown:  .green, leftRight:   .red, frontBack:        .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:20,upDown:  .green, leftRight:   .red, frontBack:        .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:21,upDown:  .green, leftRight:   .red, frontBack:        .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:22,upDown:  .green, leftRight:   .noColor, frontBack:    .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:23,upDown:  .green, leftRight:   .noColor, frontBack:    .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:24,upDown:  .green, leftRight:   .noColor, frontBack:    .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:25,upDown:  .green, leftRight:   .orange, frontBack:     .yellow
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:26,upDown:  .green, leftRight:   .orange, frontBack:     .noColor
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        self.addCublet(pos:27,upDown:  .green, leftRight:   .orange, frontBack:     .white
+                       , materials: toMaterials(from:[.gray,.gray,.gray,.gray,.gray,.gray]))
+        // Setup camera position from existing scene
+        cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
+        scene.rootNode.addChildNode(cameraNode)
+    }
     
     public func cublet(at position:Int) -> Cublet {
         for c in cubelets {
@@ -463,6 +522,20 @@ public class RubiksCube{
         scene.rootNode.addChildNode(node)
         cubelets.append(Cublet(node:node, pos:pos,upDown: upDown,leftRight: leftRight, frontBack: frontBack))
     }
+    private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor, materials: [SCNMaterial]){
+        let node = cubes.rootNode.childNode(withName: "cube\(pos)", recursively: true)!
+        node.geometry?.materials = materials
+        scene.rootNode.addChildNode(node)
+        cubelets.append(Cublet(node:node, pos:pos,upDown: upDown,leftRight: leftRight, frontBack: frontBack))
+    }
+    private func toMaterials(from colors:[UIColor]) -> [SCNMaterial]{
+        return colors.map { color -> SCNMaterial in
+            let material = SCNMaterial()
+            material.diffuse.contents = color
+            material.locksAmbientWithDiffuse = true
+            return material
+        }
+    }
 }
 //MARK: Cublet Class
 //node - the actual SCNNode that diplays this cublet
@@ -530,6 +603,24 @@ public enum CubletColor {
     case orange
     case green
     case noColor
+}
+public func cubletColor(from :CubletColor) -> UIColor {
+    switch from{
+    case .red:
+        return UIColor.red
+    case .blue:
+        return UIColor.blue
+    case .yellow:
+        return UIColor.yellow
+    case .white:
+        return UIColor.white
+    case .orange:
+        return UIColor.orange
+    case .green:
+        return UIColor.green
+    case .noColor:
+        return UIColor.gray
+    }
 }
 enum PieceType {
     case corner

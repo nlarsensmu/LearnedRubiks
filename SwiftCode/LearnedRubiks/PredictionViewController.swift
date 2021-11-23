@@ -59,6 +59,7 @@ class PredictionViewController: UIViewController {
     @IBAction func downTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.downTurn(direction: 1))
+            cube.printCube()
         }
     }
     @IBAction func downTurnNeg(_ sender: Any) {
@@ -98,7 +99,10 @@ class PredictionViewController: UIViewController {
     }
     @IBAction func frontTurn(_ sender: Any) {
         if let cube = Cube {
-            scene.rootNode.runAction(cube.frontTurn(direction: 1))
+            self.animationRunning = true
+            scene.rootNode.runAction(cube.frontTurn(direction: 1)) {
+                self.animationRunning = false
+            }
         }
     }
     @IBAction func frontTurnNeg(_ sender: Any) {
@@ -238,6 +242,13 @@ class PredictionViewController: UIViewController {
         guard let sceneView = sceneView else {
             return
         }
+        let front:[CubletColor] = [.yellow,.yellow,.yellow,.yellow,.yellow,.yellow,.yellow,.yellow,.yellow]
+        let back:[CubletColor] = [.white,.white,.white,.white,.white,.white,.white,.white,.white]
+        let left:[CubletColor] = [.orange,.orange,.orange,.orange,.orange,.orange,.orange,.orange,.orange]
+        let right:[CubletColor] = [.red,.red,.red,.red,.red,.red,.red,.red,.red]
+        let up:[CubletColor] = [.green,.green,.green,.green,.green,.green,.green,.green,.green]
+        let down:[CubletColor] = [.blue,.blue,.blue,.blue,.blue,.blue,.blue,.blue,.blue]
+//        self.Cube = RubiksCube(front: front, left: left, right: right, up: up, down:down, back: back)
         self.Cube = RubiksCube()
         scene = Cube?.getScene()
         sceneView.scene = scene
