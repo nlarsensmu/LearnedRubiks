@@ -42,7 +42,7 @@ class ReadCubeViewController: UIViewController {
         if !videoManager.isRunning{
             videoManager.start()
         }
-        self.bridge.processType = 1
+        self.bridge.processType = 8
     }
     //MARK: Process image output
     func processImageSwift(inputImage:CIImage) -> CIImage{
@@ -71,9 +71,15 @@ class ReadCubeViewController: UIViewController {
         
         //HINT: you can also send in the bounds of the face to ONLY process the face in OpenCV
         // or any bounds to only process a certain bounding region in OpenCV
+        
+        // Get square that is width/2
+        let width = retImage.extent.width/2
+        let imageWidth = retImage.extent.width
+        let imageHeight = retImage.extent.height
+        let rect = CGRect(x: imageWidth/2 - width/2, y: imageHeight/2 - width/2, width: width, height: width)
         self.bridge.setTransforms(self.videoManager.transform)
         self.bridge.setImage(retImage,
-                             withBounds: CGRect(x: 0.0, y: 0.0, width: retImage.extent.size.width, height: retImage.extent.size.height), // the first face bounds
+                             withBounds: rect, // the first face bounds
                              andContext: self.videoManager.getCIContext())
         
         self.bridge.processImage()
