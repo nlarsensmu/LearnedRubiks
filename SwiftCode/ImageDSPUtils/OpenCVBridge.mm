@@ -18,9 +18,6 @@ using namespace cv;
 @property (nonatomic) CGAffineTransform transform;
 @property (nonatomic) CGAffineTransform inverseTransform;
 @property (atomic) cv::CascadeClassifier classifier;
-@property (nonatomic) double red;
-@property (nonatomic) double green;
-@property (nonatomic) double blue;
 
 @property NSMutableArray *colorsCublets;
 @end
@@ -67,8 +64,8 @@ using namespace cv;
             cv::Rect outer;
             outer.x = 0;
             outer.y = 0;
-            outer.width = _image.cols;
-            outer.height = _image.rows;
+            outer.width = _bounds.size.width;
+            outer.height = _bounds.size.width;
             
             int cubleWidth = outer.width/3;
             int error = 10;
@@ -88,41 +85,50 @@ using namespace cv;
                     int x1 = boundingRect.x, x2 = boundingRect.x+boundingRect.width,
                     y1 = boundingRect.y, y2 = boundingRect.y + boundingRect.height;
                     
-                    int tx1 = 0, tx2 = cubleWidth, ty1 = 0, ty2 = cubleWidth;
-                    
-                    if ((x1 < tx1+error && x1 > tx1-error) && (y1 < ty1+error && y1 > ty1 - error)
-                        && (x2 < tx2+error && x2 > tx2-error) && (y2 < ty2+error && y2 > ty2 - error)
-                        && _colorsCublets[0] == [NSNumber numberWithInt:0]) {
-                        // Read the top left square
-                        char text[50];
-                        Scalar avgPixelIntensity;
+                    // Test if it is one of the cublet squares
+                    /* Below is the order the squares are processed
+                     0 1 2
+                     3 4 5
+                     6 7 8
+                     */
+                    for (int j = 0; j < 9; j++) {
+                        int tx1 = (j%3)*cubleWidth, ty1 = (j/3)*cubleWidth, tx2 = ((j%3)+1)*cubleWidth, ty2 = ((j/3) + 1)*cubleWidth;
                         
-                        cvtColor(_image, image_copy, CV_BGRA2BGR); // get rid of alpha for processing
-                        
-                        cv::Mat cubletImage = cv::Mat(image_copy, boundingRect);
-                        
-                        avgPixelIntensity = cv::mean( cubletImage );
-                        sprintf(text,"Avg. B: %.0f, G: %.0f, R: %.0f", avgPixelIntensity.val[0],avgPixelIntensity.val[1],avgPixelIntensity.val[2]);
-                        _red = avgPixelIntensity.val[0];
-                        _green = avgPixelIntensity.val[1];
-                        _blue = avgPixelIntensity.val[2];
-                        cv::putText(_image, text, cv::Point(0, 10), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
-                        
-                        _colorsCublets[0] = [NSNumber numberWithInt:1];
+                        if ((x1 < tx1+error && x1 > tx1-error) && (y1 < ty1+error && y1 > ty1 - error)
+                            && (x2 < tx2+error && x2 > tx2-error) && (y2 < ty2+error && y2 > ty2 - error)
+                            && _colorsCublets[j*3] == [NSNumber numberWithDouble:0.0]) {
+                            Scalar avgPixelIntensity;
+                            
+                            cvtColor(_image, image_copy, CV_BGRA2BGR); // get rid of alpha for processing
+                            
+                            cv::Mat cubletImage = cv::Mat(image_copy, boundingRect);
+                            
+                            avgPixelIntensity = cv::mean( cubletImage );
+                            double red = avgPixelIntensity.val[0];
+                            double green = avgPixelIntensity.val[1];
+                            double blue = avgPixelIntensity.val[2];
+                            
+                            _colorsCublets[j*3 + 0] = [NSNumber numberWithDouble:red];
+                            _colorsCublets[j*3 + 1] = [NSNumber numberWithDouble:green];
+                            _colorsCublets[j*3 + 2] = [NSNumber numberWithDouble:blue];
+                        }
+                        else {
+                            cv::rectangle(_image, boundingRect, Scalar(255,255,255,255));
+                        }
                     }
-                    else {
-                        cv::rectangle(_image, boundingRect, Scalar(255,255,255,255));
-                    }
-                    
                     
                 }
             }
             
-            if(_colorsCublets[0] != [NSNumber numberWithInt:0]) {
-                char text[50];
-                sprintf(text,"Avg. B: %.0f, G: %.0f, R: %.0f", _blue, _green, _red);
-                cv::putText(_image, text, cv::Point(0, 10), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
-                cv::rectangle(_image, cv::Rect(0, 0, cubleWidth, cubleWidth), Scalar(0,0,255,255));
+            for (int i = 0; i < 9; i++) {
+                if(_colorsCublets[i*3] != [NSNumber numberWithDouble:0.0]) {
+                    int x = i%3, y = i/3;
+                    int r = [_colorsCublets[i*3 + 0] intValue];
+                    int g = [_colorsCublets[i*3 + 1] intValue];
+                    int b = [_colorsCublets[i*3 + 2] intValue];
+                    Scalar s = Scalar(r, g, b, 255);
+                    cv::rectangle(_image, cv::Rect(x*cubleWidth, y*cubleWidth, cubleWidth, cubleWidth), s);
+                }
             }
             
             break;
@@ -151,8 +157,8 @@ using namespace cv;
     self = [super init];
     
     _colorsCublets = [NSMutableArray array];
-    for (int i = 0; i <9; i++) {
-        [_colorsCublets addObject:[[NSNumber alloc] initWithInt:0]];
+    for (int i = 0; i <9*3; i++) {
+        [_colorsCublets addObject:[[NSNumber alloc] initWithDouble:0.0]];
     }
     
     if(self != nil){

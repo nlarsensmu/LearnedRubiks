@@ -44,11 +44,17 @@ class ReadCubeViewController: UIViewController {
         }
         self.bridge.processType = 8
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.videoManager.turnOffFlash()
+        self.videoManager.stop()
+    }
+    
     //MARK: Process image output
     func processImageSwift(inputImage:CIImage) -> CIImage{
         
-        // detect faces
-        let f = getFaces(img: inputImage)
+        let _ = self.videoManager.turnOnFlashwithLevel(0.5)
         
         // if no faces, just return original image
 //        if f.count == 0 { return inputImage }
