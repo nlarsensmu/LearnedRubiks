@@ -44,7 +44,6 @@ class PredictionViewController: UIViewController {
             scene.rootNode.runAction(cube.rotateAllZ(direction:-1))
         }
     }
-    
     // One face
     @IBAction func upTurn(_ sender: Any) {
         if let cube = Cube {
@@ -111,74 +110,68 @@ class PredictionViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var stepText: UILabel!
     @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
-        print("Scramble")
         if let cube = Cube {
-            let actions = cube.scramble()
+            let actions = cube.scramble(turnsCount: 30)
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
+                self.solverIndex = 0
+                self.solver = SolverCross(c: cube)
+                self.nextStep = self.solver!.getNextStep()
+                self.displayStep = stepsToString(steps: self.nextStep.steps)
+                self.step = "Solve Cross"
+                DispatchQueue.main.async {
+                    self.nextStepOutlet.setTitle("White On Top", for: .normal)  
+                }
                 self.Cube?.printCube()
             }
-            step = 0
-            DispatchQueue.main.async {
-                self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
+        }
+        
+    }
+    
+    var nextStep:SolvingStep = SolvingStep(description: "", actions: [], steps: [])
+    @IBOutlet weak var nextSteps: UILabel!
+    @IBOutlet weak var nextStepOutlet: UIButton!
+    @IBAction func nextStepButton(_ sender: Any) {
+        if let s = solver{
+            let actions = self.nextStep.actions
+            sceneView.scene?.rootNode.runAction(SCNAction.sequence(actions))
+            if !s.hasNextStep(){
+                if s is SolverCross {
+                    solver = SolverFirstCorners(cube: Cube!)
+                }
+                else if s is SolverFirstCorners{
+                    solver = SolverMiddle(cube: Cube!)
+                }
+                else if s is SolverMiddle{
+                    solver = SolverLastCrossBB(cube: Cube!)
+                }
+                else if s is SolverLastCrossBB{
+                    solver = SolverLLWedgePossitions(cube: Cube!)
+                }
+                else if s is SolverLLWedgePossitions{
+                    solver = SolverBeginnerLLCornersPosition(cube: Cube!)
+                }
+                else if s is SolverBeginnerLLCornersPosition{
+                    solver = SolverBeginnerLLCornersOrientation(cube: Cube!)
+                }
             }
         }
-        
-    }
-    
-    @IBOutlet weak var solveButtonOutlet: UIButton!
-    @IBAction func solveButton(_ sender: Any) {
-        
-        if step == 0 {
-            let crossSolver = SolverCross(c: self.Cube!)
-            runSolver(solver: crossSolver)
-        }
-        
-        if step == 1 {
-            let cornerSolver = SolverFirstCorners(cube: self.Cube!)
-            runSolver(solver: cornerSolver)
-        }
-        if step == 2 {
-            let middleSolver = SolverMiddle(cube: self.Cube!)
-            runSolver(solver: middleSolver)
-        }
-        if step == 3 {
-            let lastSolver = SolverLastCrossBB(cube: self.Cube!)
-            runSolver(solver: lastSolver)
-        }
-        if step == 4 {
-            let solver = SolverLLWedgePossitions(cube:self.Cube!)
-            runSolver(solver: solver)
-        }
-        if step == 5 {
-            let solver = SolverBeginnerLLCornersPosition(cube:self.Cube!)
-            runSolver(solver: solver)
-        }
-        if step == 6 {
-            let solver = SolverBeginnerLLCornersOrientation(cube:self.Cube!)
-            runSolver(solver: solver)
-        }
-        
-        step = (step + 1) % steps.count
-        DispatchQueue.main.async {
-            self.solveButtonOutlet.setTitle(self.steps[self.step], for: .normal)
-        }
-    }
-    
-    func runSolver(solver:SolverBase) {
-        let actions = solver.solve()
-        self.animationRunning = true
-        scene.rootNode.runAction(SCNAction.sequence(actions)) {
-            self.animationRunning = false
+        if let s = solver{
+            self.nextStep = s.getNextStep()
+            self.displayStep = stepsToString(steps: self.nextStep.steps)
+            DispatchQueue.main.async {
+                self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+            }
         }
     }
     func disableEnableButtons() {
         DispatchQueue.main.async {
             self.scrambleButton.isEnabled = !self.scrambleButton.isEnabled
-            self.solveButtonOutlet.isEnabled = !self.solveButtonOutlet.isEnabled
+            self.nextStepOutlet.isEnabled = !self.nextStepOutlet.isEnabled
         }
     }
     
@@ -197,7 +190,21 @@ class PredictionViewController: UIViewController {
     var ringBuffer = RingBuffer()
     var isWaitingForMotionData = false
     var model:Model? = nil
-    
+    var currentSteps:[SolvingStep] = []
+    var step = "Solved"{
+        didSet{
+            DispatchQueue.main.async {
+                self.stepText.text = self.step
+            }
+        }
+    }
+    var displayStep = "" {
+        didSet{
+            DispatchQueue.main.async {
+                self.nextSteps.text = self.displayStep
+            }
+        }
+    }
     // While we are running an animation prevent more
     var _animationRunning:Bool = false
     var animationRunning:Bool {
@@ -212,10 +219,8 @@ class PredictionViewController: UIViewController {
     //server
     weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
-    var step = 0
-    let steps = ["Solve Cross", "Solve Corners", "Solve Middle", "Solve Last Cross",
-                 "Position Wedges", "Solver Position Last Corners", "Rotate Last Corners"]
-
+    var solverIndex = 0
+    var solver:SolverBase? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         // for nice animations on the text
@@ -235,7 +240,7 @@ class PredictionViewController: UIViewController {
     //Force the app to be portait
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         get {
-            return .portraitUpsideDown
+            return .portrait
         }
     }
     //To be called on init.  This will populate self.cubes which will contain all the inforatiom about the cube, and cubelets for the graphic
@@ -347,3 +352,120 @@ fileprivate func convertToCATransitionType(_ input: String) -> CATransitionType 
 }
 
 
+func stepsToString(steps:[Turn]) -> String {
+    var stepsString = ""
+    for step in steps {
+        switch step {
+        case .U:
+            stepsString += "U"
+            break;
+        case .UN:
+            stepsString += "UN"
+            break;
+        case .D:
+            stepsString += "D"
+            break;
+        case .DN:
+            stepsString += "DN"
+            break;
+        case .R:
+            stepsString += "R"
+            break;
+        case .RN:
+            stepsString += "RN"
+            break;
+        case .L:
+            stepsString += "L"
+            break;
+        case .LN:
+            stepsString += "LN"
+            break;
+        case .F:
+            stepsString += "F"
+            break;
+        case .FN:
+            stepsString += "FN"
+            break;
+        case .B:
+            stepsString += "B"
+            break;
+        case .BN:
+            stepsString += "BN"
+            break;
+        case .M:
+            stepsString += "M"
+            break;
+        case .MN:
+            stepsString += "MN"
+            break;
+        case .S:
+            stepsString += "S"
+            break;
+        case .SN:
+            stepsString += "SN"
+            break;
+        case .E:
+            stepsString += "E"
+            break;
+        case .EN:
+            stepsString += "EN"
+            break;
+        case .U2:
+            stepsString += "U2"
+            break;
+        case .D2:
+            stepsString += "D2"
+            break;
+        case .F2:
+            stepsString += "F2"
+            break;
+        case .B2:
+            stepsString += "B2"
+            break;
+        case .L2:
+            stepsString += "L2"
+            break;
+        case .R2:
+            stepsString += "R2"
+            break;
+        case .M2:
+            stepsString += "M2"
+            break;
+        case .E2:
+            stepsString += "E2"
+            break;
+        case .S2:
+            stepsString += "S2"
+            break;
+        case .X:
+            stepsString += "X"
+            break;
+        case .XN:
+            stepsString += "XN"
+            break;
+        case .X2:
+            stepsString += "X2"
+            break;
+        case .Y:
+            stepsString += "Y"
+            break;
+        case .YN:
+            stepsString += "YN"
+            break;
+        case .Y2:
+            stepsString += "Y2"
+            break;
+        case .Z:
+            stepsString += "Z"
+            break;
+        case .ZN:
+            stepsString += "ZN"
+            break;
+        case .Z2:
+            stepsString += "Z2"
+            break;
+        }
+        stepsString += ","
+    }
+    return stepsString
+}

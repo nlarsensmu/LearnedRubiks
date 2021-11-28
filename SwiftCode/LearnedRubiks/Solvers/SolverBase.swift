@@ -11,7 +11,9 @@ import SceneKit
 protocol SolverBase {
     var cube:RubiksCube { get }
     var hashColorDict:Dictionary<CubletColor, Int> { get }
-    func solve() -> [SCNAction]
+    func getNextStep() -> SolvingStep
+    func nameOfStep() -> String
+    func hasNextStep() -> Bool
 }
 
 extension SolverBase {
@@ -45,4 +47,14 @@ extension SolverBase {
     }
     
     
+}
+class SolvingStep{
+    var description:String
+    var actions:[SCNAction]
+    var steps:[Turn]
+    init(description:String, actions:[SCNAction], steps:[Turn]){
+        self.description = description
+        self.actions = actions
+        self.steps = steps
+    }
 }

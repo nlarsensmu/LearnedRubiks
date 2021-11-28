@@ -10,7 +10,7 @@ import SceneKit
 
 class SolverMiddle: SolverBase {
     var cube: RubiksCube
-    
+    var step = 0
     let leftHanded = [Turn.UN, Turn.LN, Turn.U, Turn.L, Turn.U, Turn.F, Turn.UN, Turn.FN]
     let rightHanded = [Turn.U, Turn.R, Turn.UN, Turn.RN, Turn.UN, Turn.FN, Turn.U, Turn.F]
     
@@ -22,7 +22,23 @@ class SolverMiddle: SolverBase {
         self.cube = cube
     }
     
-    func solve() -> [SCNAction]{
+    func nameOfStep() -> String {
+        return "Solve Middle"
+    }
+    
+    func getNextStep() -> SolvingStep {
+        step += 1
+        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
+    }
+    
+    func hasNextStep() -> Bool{
+        if step >= 1{
+            return false
+        }
+        return true
+    }
+    
+    func solve() -> [SCNAction] {
         var actions:[SCNAction] = []
         
         actions.append(contentsOf: cube.getTurnActions(turns: [.X2]))

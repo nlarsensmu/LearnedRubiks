@@ -10,9 +10,8 @@ import SceneKit
 import CoreMotion
 
 class SolverLLWedgePossitions: SolverBase {
-    
     var cube: RubiksCube
-    
+    var step = 0
     /*
      There are three cases.
      1) The edges are correct
@@ -30,7 +29,23 @@ class SolverLLWedgePossitions: SolverBase {
         self.cube = cube
     }
     
-    func solve() -> [SCNAction]{
+    func nameOfStep() -> String {
+        return "Solve Wedges"
+    }
+    
+    func getNextStep() -> SolvingStep {
+        step += 1
+        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
+    }
+    
+    func hasNextStep() -> Bool{
+        if step >= 1{
+            return false
+        }
+        return true
+    }
+    
+    func solve() -> [SCNAction] {
         var actions:[SCNAction] = []
         
         var wedgeCase = determineCase()
