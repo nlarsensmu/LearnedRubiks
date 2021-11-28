@@ -12,7 +12,6 @@ protocol SolverBase {
     var cube:RubiksCube { get }
     var hashColorDict:Dictionary<CubletColor, Int> { get }
     func getNextStep() -> SolvingStep
-    func solve() -> [SCNAction]
     func nameOfStep() -> String
     func hasNextStep() -> Bool
 }
@@ -51,9 +50,11 @@ extension SolverBase {
 }
 class SolvingStep{
     var description:String
-    var steps:[SCNAction]
-    init(description:String, steps:[SCNAction]){
+    var actions:[SCNAction]
+    var steps:[Turn]
+    init(description:String, actions:[SCNAction], steps:[Turn]){
         self.description = description
+        self.actions = actions
         self.steps = steps
     }
 }

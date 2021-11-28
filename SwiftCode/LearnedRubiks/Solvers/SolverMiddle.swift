@@ -28,7 +28,7 @@ class SolverMiddle: SolverBase {
     
     func getNextStep() -> SolvingStep {
         step += 1
-        return SolvingStep(description: nameOfStep(), steps: solve())
+        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
     }
     
     func hasNextStep() -> Bool{

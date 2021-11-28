@@ -9,6 +9,8 @@ import Foundation
 import SceneKit
 
 class SolverLastCrossBB: SolverBase {
+    var stepString: String
+    
     
     var cube: RubiksCube
     var step = 0
@@ -20,6 +22,7 @@ class SolverLastCrossBB: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
+        self.stepString = ""
     }
     
     func nameOfStep() -> String {
@@ -28,7 +31,7 @@ class SolverLastCrossBB: SolverBase {
     
     func getNextStep() -> SolvingStep {
         step += 1
-        return SolvingStep(description: nameOfStep(), steps: solve())
+        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
     }
     
     func hasNextStep() -> Bool{
@@ -40,10 +43,7 @@ class SolverLastCrossBB: SolverBase {
     
     func solve() -> [SCNAction] {
         var actions:[SCNAction] = []
-        
         actions.append(contentsOf: solveCross())
-        
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
         return actions
     }
     

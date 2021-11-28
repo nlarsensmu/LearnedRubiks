@@ -9,8 +9,6 @@ import Foundation
 import SceneKit
 
 class SolverFirstCorners: SolverBase {
-
-    
     var cube: RubiksCube
     var steps:Int = 0
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
@@ -29,7 +27,7 @@ class SolverFirstCorners: SolverBase {
     
     func getNextStep() -> SolvingStep {
         steps += 1
-        return SolvingStep(description: nameOfStep(), steps: solve())
+        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
     }
     
     func hasNextStep() -> Bool{

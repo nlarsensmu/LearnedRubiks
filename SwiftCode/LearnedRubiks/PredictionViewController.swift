@@ -118,34 +118,27 @@ class PredictionViewController: UIViewController {
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
-<<<<<<< HEAD
                 self.solverIndex = 0
                 self.solver = SolverCross(c: cube)
+                self.nextStep = self.solver!.getNextStep()
+                self.displayStep = stepsToString(steps: self.nextStep.steps)
                 self.step = "Solve Cross"
                 DispatchQueue.main.async {
-                    self.solveButtonOutlet.titleLabel?.text = "beggining"
+                    self.nextStepOutlet.setTitle("White On Top", for: .normal)  
                 }
-=======
                 self.Cube?.printCube()
-            }
-            step = 0
-            DispatchQueue.main.async {
-                self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
->>>>>>> master
             }
         }
         
     }
     
-    @IBOutlet weak var solveButtonOutlet: UIButton!
-    @IBAction func solveButton(_ sender: Any) {
+    var nextStep:SolvingStep = SolvingStep(description: "", actions: [], steps: [])
+    @IBOutlet weak var nextSteps: UILabel!
+    @IBOutlet weak var nextStepOutlet: UIButton!
+    @IBAction func nextStepButton(_ sender: Any) {
         if let s = solver{
-            let actions = s.getNextStep().steps
+            let actions = self.nextStep.actions
             sceneView.scene?.rootNode.runAction(SCNAction.sequence(actions))
-            DispatchQueue.main.async {
-                print(s.nameOfStep())
-                self.solveButtonOutlet.titleLabel?.text = s.nameOfStep()
-            }
             if !s.hasNextStep(){
                 if s is SolverCross {
                     solver = SolverFirstCorners(cube: Cube!)
@@ -167,19 +160,18 @@ class PredictionViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    func runSolver(solver:SolverBase) {
-        let step = solver.getNextStep()
-        self.animationRunning = true
-        scene.rootNode.runAction(SCNAction.sequence(step.steps)) {
-            self.animationRunning = false
+        if let s = solver{
+            self.nextStep = s.getNextStep()
+            self.displayStep = stepsToString(steps: self.nextStep.steps)
+            DispatchQueue.main.async {
+                self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+            }
         }
     }
     func disableEnableButtons() {
         DispatchQueue.main.async {
             self.scrambleButton.isEnabled = !self.scrambleButton.isEnabled
-            self.solveButtonOutlet.isEnabled = !self.solveButtonOutlet.isEnabled
+            self.nextStepOutlet.isEnabled = !self.nextStepOutlet.isEnabled
         }
     }
     
@@ -199,20 +191,17 @@ class PredictionViewController: UIViewController {
     var isWaitingForMotionData = false
     var model:Model? = nil
     var currentSteps:[SolvingStep] = []
-    var currentStepIndex = 0 {
-        didSet{
-            //TODO: update the insturction label
-            if currentStepIndex == currentSteps.count{
-                currentStepIndex = 0
-                //TODO: update the self.currentSteps
-                //TODO: update the Step label
-            }
-        }
-    }
     var step = "Solved"{
         didSet{
             DispatchQueue.main.async {
                 self.stepText.text = self.step
+            }
+        }
+    }
+    var displayStep = "" {
+        didSet{
+            DispatchQueue.main.async {
+                self.nextSteps.text = self.displayStep
             }
         }
     }
@@ -363,3 +352,120 @@ fileprivate func convertToCATransitionType(_ input: String) -> CATransitionType 
 }
 
 
+func stepsToString(steps:[Turn]) -> String {
+    var stepsString = ""
+    for step in steps {
+        switch step {
+        case .U:
+            stepsString += "U"
+            break;
+        case .UN:
+            stepsString += "UN"
+            break;
+        case .D:
+            stepsString += "D"
+            break;
+        case .DN:
+            stepsString += "DN"
+            break;
+        case .R:
+            stepsString += "R"
+            break;
+        case .RN:
+            stepsString += "RN"
+            break;
+        case .L:
+            stepsString += "L"
+            break;
+        case .LN:
+            stepsString += "LN"
+            break;
+        case .F:
+            stepsString += "F"
+            break;
+        case .FN:
+            stepsString += "FN"
+            break;
+        case .B:
+            stepsString += "B"
+            break;
+        case .BN:
+            stepsString += "BN"
+            break;
+        case .M:
+            stepsString += "M"
+            break;
+        case .MN:
+            stepsString += "MN"
+            break;
+        case .S:
+            stepsString += "S"
+            break;
+        case .SN:
+            stepsString += "SN"
+            break;
+        case .E:
+            stepsString += "E"
+            break;
+        case .EN:
+            stepsString += "EN"
+            break;
+        case .U2:
+            stepsString += "U2"
+            break;
+        case .D2:
+            stepsString += "D2"
+            break;
+        case .F2:
+            stepsString += "F2"
+            break;
+        case .B2:
+            stepsString += "B2"
+            break;
+        case .L2:
+            stepsString += "L2"
+            break;
+        case .R2:
+            stepsString += "R2"
+            break;
+        case .M2:
+            stepsString += "M2"
+            break;
+        case .E2:
+            stepsString += "E2"
+            break;
+        case .S2:
+            stepsString += "S2"
+            break;
+        case .X:
+            stepsString += "X"
+            break;
+        case .XN:
+            stepsString += "XN"
+            break;
+        case .X2:
+            stepsString += "X2"
+            break;
+        case .Y:
+            stepsString += "Y"
+            break;
+        case .YN:
+            stepsString += "YN"
+            break;
+        case .Y2:
+            stepsString += "Y2"
+            break;
+        case .Z:
+            stepsString += "Z"
+            break;
+        case .ZN:
+            stepsString += "ZN"
+            break;
+        case .Z2:
+            stepsString += "Z2"
+            break;
+        }
+        stepsString += ","
+    }
+    return stepsString
+}

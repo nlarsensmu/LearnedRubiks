@@ -10,7 +10,6 @@ import SceneKit
 import CoreMotion
 
 class SolverLLWedgePossitions: SolverBase {
-    
     var cube: RubiksCube
     var step = 0
     /*
@@ -36,7 +35,7 @@ class SolverLLWedgePossitions: SolverBase {
     
     func getNextStep() -> SolvingStep {
         step += 1
-        return SolvingStep(description: nameOfStep(), steps: solve())
+        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
     }
     
     func hasNextStep() -> Bool{
