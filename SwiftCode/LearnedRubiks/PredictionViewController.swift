@@ -58,6 +58,7 @@ class PredictionViewController: UIViewController {
     @IBAction func downTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.downTurn(direction: 1))
+            cube.printCube()
         }
     }
     @IBAction func downTurnNeg(_ sender: Any) {
@@ -97,7 +98,10 @@ class PredictionViewController: UIViewController {
     }
     @IBAction func frontTurn(_ sender: Any) {
         if let cube = Cube {
-            scene.rootNode.runAction(cube.frontTurn(direction: 1))
+            self.animationRunning = true
+            scene.rootNode.runAction(cube.frontTurn(direction: 1)) {
+                self.animationRunning = false
+            }
         }
     }
     @IBAction func frontTurnNeg(_ sender: Any) {
@@ -114,14 +118,23 @@ class PredictionViewController: UIViewController {
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
+<<<<<<< HEAD
                 self.solverIndex = 0
                 self.solver = SolverCross(c: cube)
                 self.step = "Solve Cross"
                 DispatchQueue.main.async {
                     self.solveButtonOutlet.titleLabel?.text = "beggining"
                 }
+=======
+                self.Cube?.printCube()
+            }
+            step = 0
+            DispatchQueue.main.async {
+                self.solveButtonOutlet.titleLabel?.text = self.steps[self.step]
+>>>>>>> master
             }
         }
+        
     }
     
     @IBOutlet weak var solveButtonOutlet: UIButton!
@@ -246,7 +259,11 @@ class PredictionViewController: UIViewController {
         guard let sceneView = sceneView else {
             return
         }
-        self.Cube = RubiksCube()
+        
+        if Cube == nil {
+            self.Cube = RubiksCube()
+        }
+        
         scene = Cube?.getScene()
         sceneView.scene = scene
     }
