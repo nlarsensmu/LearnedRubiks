@@ -16,7 +16,13 @@
 
 @property (nonatomic) NSInteger processType;
 
+// reset send squares functons
+-(void) resetCublets;
 
+-(NSMutableArray*) getCublets;
+
+-(void) setProcessedColors:(NSArray*)colors;
+-(void) setCapture:(bool) c;
 // set the image for processing later
 -(void) setImage:(CIImage*)ciFrameImage
       withBounds:(CGRect)rect

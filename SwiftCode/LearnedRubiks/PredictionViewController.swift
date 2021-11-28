@@ -244,15 +244,10 @@ class PredictionViewController: UIViewController {
             return
         }
         
-        let right:[CubletColor] = [.blue,.yellow,.white,.green,.red,.red,.yellow,.red,.green]
-        let left:[CubletColor] =  [.green,.white,.blue,.white,.orange,.blue,.orange,.white,.white]
-        let front:[CubletColor] = [.red,.yellow,.red,.orange,.yellow,.orange,.orange,.blue,.blue]
-        let back:[CubletColor] =  [.blue,.red,.orange,.blue,.white,.yellow,.red,.yellow,.green]
-        let up:[CubletColor] =    [.green,.white,.white,.orange,.green,.red,.yellow,.blue,.orange]
-        let down:[CubletColor] =  [.yellow,.green,.red,.orange,.blue,.green,.yellow,.green,.white]
-        self.Cube = RubiksCube(front: front, left: left, right: right, up: up, down:down, back: back)
-        self.Cube?.printCube()
-        //				self.Cube = RubiksCube()
+        if Cube == nil {
+            self.Cube = RubiksCube()
+        }
+        
         scene = Cube?.getScene()
         sceneView.scene = scene
     }

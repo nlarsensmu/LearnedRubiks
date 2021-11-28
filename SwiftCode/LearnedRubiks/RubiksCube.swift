@@ -661,3 +661,22 @@ private func colorToString(color:CubletColor) -> String{
         return "X"
     }
 }
+public func stringToColor(color:String) -> CubletColor{
+    
+    switch color.lowercased() {
+    case "yellow":
+        return .yellow
+    case "white":
+        return .white
+    case "red":
+        return .red
+    case "orange":
+        return .orange
+    case "blue":
+        return .blue
+    case "green":
+        return .green
+    default:
+        return .noColor
+    }
+}
