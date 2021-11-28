@@ -118,7 +118,6 @@ class PredictionViewController: UIViewController {
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
-                self.solverIndex = 0
                 self.solver = SolverCross(c: cube)
                 self.nextStep = self.solver!.getNextStep()
                 self.displayStep = stepsToString(steps: self.nextStep.steps)
@@ -138,7 +137,10 @@ class PredictionViewController: UIViewController {
     @IBAction func nextStepButton(_ sender: Any) {
         if let s = solver{
             let actions = self.nextStep.actions
-            sceneView.scene?.rootNode.runAction(SCNAction.sequence(actions))
+            self.animationRunning = true
+            sceneView.scene?.rootNode.runAction(SCNAction.sequence(actions)){
+                self.animationRunning = false
+            }
             if !s.hasNextStep(){
                 if s is SolverCross {
                     solver = SolverFirstCorners(cube: Cube!)
@@ -161,10 +163,10 @@ class PredictionViewController: UIViewController {
             }
         }
         if let s = solver{
-            self.nextStep = s.getNextStep()
-            self.displayStep = stepsToString(steps: self.nextStep.steps)
             DispatchQueue.main.async {
                 self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+                self.nextStep = s.getNextStep()
+                self.displayStep = stepsToString(steps: self.nextStep.steps)
             }
         }
     }
@@ -190,7 +192,6 @@ class PredictionViewController: UIViewController {
     var ringBuffer = RingBuffer()
     var isWaitingForMotionData = false
     var model:Model? = nil
-    var currentSteps:[SolvingStep] = []
     var step = "Solved"{
         didSet{
             DispatchQueue.main.async {
@@ -206,13 +207,8 @@ class PredictionViewController: UIViewController {
         }
     }
     // While we are running an animation prevent more
-    var _animationRunning:Bool = false
-    var animationRunning:Bool {
-        get {
-            return _animationRunning
-        }
-        set {
-            _animationRunning = newValue
+    var animationRunning = false {
+        didSet {
             disableEnableButtons()
         }
     }
@@ -237,12 +233,7 @@ class PredictionViewController: UIViewController {
         sceneView.backgroundColor = .black
         addCubes()
     }
-    //Force the app to be portait
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        get {
-            return .portrait
-        }
-    }
+    
     //To be called on init.  This will populate self.cubes which will contain all the inforatiom about the cube, and cubelets for the graphic
     func addCubes(){
         guard let sceneView = sceneView else {
@@ -354,7 +345,8 @@ fileprivate func convertToCATransitionType(_ input: String) -> CATransitionType 
 
 func stepsToString(steps:[Turn]) -> String {
     var stepsString = ""
-    for step in steps {
+    for i in 0..<steps.count {
+        let step = steps[i]
         switch step {
         case .U:
             stepsString += "U"
@@ -465,7 +457,9 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "Z2"
             break;
         }
-        stepsString += ","
+        if i != steps.count-1 {
+            stepsString += ","
+        }
     }
     return stepsString
 }
