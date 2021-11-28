@@ -8,6 +8,7 @@
 
 import Foundation
 import SceneKit
+import CoreMotion
 
 class SolverCross : SolverBase {
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
@@ -17,10 +18,47 @@ class SolverCross : SolverBase {
     
     var cube:RubiksCube
     var protectedFaces:[Turn] = []
+    var steps:Int = 0
     public init(c:RubiksCube) {
         cube = c
     }
     
+    func nameOfStep() -> String {
+        if steps == 0 {
+            return "White on Top"
+        }
+        else if steps == 1 {
+            return "Fix Position of Wedges"
+        }
+        else if steps == 2 {
+            return "Fix Orientation of Wedges"
+        }
+        else{
+            return "Solve Corners"
+        }
+    }
+    
+    func getNextStep() -> SolvingStep {
+        var actions:[SCNAction] = []
+        if steps == 0{
+            actions = whiteOnTop()
+        }
+        else if steps == 1{
+            actions = solveWedgePositions()
+        }
+        else if steps == 2{
+            actions = fixOrientation()
+        }
+        steps += 1
+        return SolvingStep(description: nameOfStep(), steps: actions)
+    }
+    
+    func hasNextStep() -> Bool{
+        if steps >= 3 {
+            return false
+        }
+        return true
+    }
     func solve() -> [SCNAction] {
         var actions:[SCNAction] = []
         
@@ -28,7 +66,6 @@ class SolverCross : SolverBase {
         actions.append(contentsOf: solveWedgePositions())
         actions.append(contentsOf: fixOrientation())
         
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
         return actions
     }
     
@@ -48,14 +85,15 @@ class SolverCross : SolverBase {
         else if (cube.cublet(at: 5).upDown == CubletColor.white) {
             actions.append(contentsOf: cube.getTurnActions(turns: [.X, .X]))
         }
+        //actions.append(cube.empasize(poses: [23], asGroup: false))
         return actions
     }
     
     func solveWedgePositions() -> [SCNAction]{
         
+        var actions:[SCNAction] = []
         // White Green wedge
         var pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.green, c3:CubletColor.noColor)
-        var actions:[SCNAction] = []
         var result = turnWedgeToBottom(pos:pos)
         pos = result.0
         actions.append(contentsOf: result.1)
@@ -203,6 +241,7 @@ class SolverCross : SolverBase {
         
         // For each wedge on the top
         for _ in 0..<4 {
+            //actions.append(cube.empasize(poses: [22], asGroup: false))
             if cube.cublet(at: 22).upDown != CubletColor.white {
                 actions.append(contentsOf: cube.getTurnActions(turns:[.F, .UN, .R, .U]))
             }

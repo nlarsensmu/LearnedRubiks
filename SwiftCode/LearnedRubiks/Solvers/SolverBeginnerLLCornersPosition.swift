@@ -11,6 +11,7 @@ import SceneKit
 class SolverBeginnerLLCornersPosition: SolverBase {    
     
     var cube: RubiksCube
+    var step = 0
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
         return getHashColor()
     }()
@@ -20,6 +21,22 @@ class SolverBeginnerLLCornersPosition: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
+    }
+    
+    func nameOfStep() -> String {
+        return "Solve Corner Posistions"
+    }
+    
+    func getNextStep() -> SolvingStep {
+        step += 1
+        return SolvingStep(description: nameOfStep(), steps: solve())
+    }
+    
+    func hasNextStep() -> Bool{
+        if step >= 1{
+            return false
+        }
+        return true
     }
     
     func solve() -> [SCNAction] {

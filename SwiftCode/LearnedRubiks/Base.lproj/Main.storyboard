@@ -325,14 +325,21 @@
                                     <action selector="scrambleCube:" destination="Iie-K7-svU" eventType="touchUpInside" id="Ke5-wF-7cs"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gw1-mh-G1Y">
-                                <rect key="frame" x="235.5" y="815" width="150" height="31"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Solved" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="01o-Dj-mjr">
+                                <rect key="frame" x="47" y="744.5" width="320" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gw1-mh-G1Y">
+                                <rect key="frame" x="162" y="806" width="234" height="49"/>
                                 <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="1M5-A3-Ul6"/>
+                                    <constraint firstAttribute="width" constant="234" id="1M5-A3-Ul6"/>
+                                    <constraint firstAttribute="height" constant="49" id="g2V-iP-IDG"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Solve Cross"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Solved"/>
                                 <connections>
                                     <action selector="solveButton:" destination="Iie-K7-svU" eventType="touchUpInside" id="5Co-We-G2p"/>
                                 </connections>
@@ -352,6 +359,7 @@
                             <constraint firstItem="xt1-kb-vKe" firstAttribute="centerY" secondItem="GhN-E5-TV6" secondAttribute="centerY" id="81b-xZ-p1j"/>
                             <constraint firstItem="y3d-MU-uCO" firstAttribute="top" secondItem="hpn-Tv-rif" secondAttribute="bottom" constant="8" symbolic="YES" id="9jj-9T-cFC"/>
                             <constraint firstItem="GmG-ub-37p" firstAttribute="leading" secondItem="sHl-nD-8cl" secondAttribute="trailing" constant="7" id="BqQ-66-mJ7"/>
+                            <constraint firstItem="Qbf-h8-C0j" firstAttribute="top" secondItem="01o-Dj-mjr" secondAttribute="bottom" constant="39" id="DEK-Xe-bYH"/>
                             <constraint firstItem="OtT-ex-IbF" firstAttribute="leading" secondItem="M8a-Cw-ad5" secondAttribute="trailing" constant="10" id="E5Q-46-01f"/>
                             <constraint firstItem="hwW-kI-y6k" firstAttribute="centerY" secondItem="1UD-kN-5e2" secondAttribute="centerY" id="EuW-Ui-nXM"/>
                             <constraint firstItem="258-0O-0Iq" firstAttribute="centerY" secondItem="6ns-gm-zVa" secondAttribute="centerY" id="I9M-9b-7AN"/>
@@ -360,6 +368,7 @@
                             <constraint firstItem="1UD-kN-5e2" firstAttribute="leading" secondItem="GmG-ub-37p" secondAttribute="trailing" constant="8" symbolic="YES" id="STQ-SV-6RO"/>
                             <constraint firstItem="sHl-nD-8cl" firstAttribute="centerY" secondItem="hpn-Tv-rif" secondAttribute="centerY" id="T37-zG-NeB"/>
                             <constraint firstItem="h2k-Zi-wor" firstAttribute="centerY" secondItem="y3d-MU-uCO" secondAttribute="centerY" id="T3i-32-OhD"/>
+                            <constraint firstItem="01o-Dj-mjr" firstAttribute="width" secondItem="I3n-uY-ff4" secondAttribute="width" multiplier="0.772947" id="XEQ-7M-1fc"/>
                             <constraint firstItem="7VS-nw-Kti" firstAttribute="leading" secondItem="hwW-kI-y6k" secondAttribute="trailing" constant="8" symbolic="YES" id="Xjf-Tn-JI0"/>
                             <constraint firstItem="6ns-gm-zVa" firstAttribute="leading" secondItem="Hev-8n-TrB" secondAttribute="trailing" constant="8" symbolic="YES" id="aPw-i2-cf2"/>
                             <constraint firstItem="y3d-MU-uCO" firstAttribute="centerX" secondItem="hpn-Tv-rif" secondAttribute="centerX" id="ahJ-MP-Kfb"/>
@@ -370,7 +379,8 @@
                             <constraint firstItem="xt1-kb-vKe" firstAttribute="leading" secondItem="GhN-E5-TV6" secondAttribute="trailing" constant="9" id="fjy-PR-HFW"/>
                             <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerY" secondItem="Qbf-h8-C0j" secondAttribute="centerY" id="gXB-Zl-QOS"/>
                             <constraint firstItem="6ns-gm-zVa" firstAttribute="centerY" secondItem="Hev-8n-TrB" secondAttribute="centerY" id="hFt-Vs-a9r"/>
-                            <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" multiplier="1.5" id="hoD-rW-brD"/>
+                            <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" multiplier="1.5" constant="-31.5" id="hoD-rW-brD"/>
+                            <constraint firstItem="01o-Dj-mjr" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" id="k9w-9c-9ja"/>
                             <constraint firstItem="M8a-Cw-ad5" firstAttribute="centerY" secondItem="xt1-kb-vKe" secondAttribute="centerY" id="lcI-Mu-3Qj"/>
                             <constraint firstItem="Qbf-h8-C0j" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" multiplier="0.5" id="lyh-7R-Awh"/>
                             <constraint firstItem="hpn-Tv-rif" firstAttribute="centerX" secondItem="Hev-8n-TrB" secondAttribute="centerX" id="m9I-cx-9ds"/>
@@ -388,6 +398,7 @@
                         <outlet property="sceneView" destination="Bin-Bk-2fe" id="iIS-Fj-Ly9"/>
                         <outlet property="scrambleButton" destination="Qbf-h8-C0j" id="L7V-o1-UbV"/>
                         <outlet property="solveButtonOutlet" destination="Gw1-mh-G1Y" id="usQ-GX-HRp"/>
+                        <outlet property="stepText" destination="01o-Dj-mjr" id="XPH-2Q-DRI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhG-C5-Khe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

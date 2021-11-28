@@ -9,8 +9,10 @@ import Foundation
 import SceneKit
 
 class SolverFirstCorners: SolverBase {
-    var cube: RubiksCube
+
     
+    var cube: RubiksCube
+    var steps:Int = 0
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
         return getHashColor()
     }()
@@ -21,6 +23,21 @@ class SolverFirstCorners: SolverBase {
         self.cube = cube
     }
     
+    func nameOfStep() -> String {
+        return "Solve First Corners"
+    }
+    
+    func getNextStep() -> SolvingStep {
+        steps += 1
+        return SolvingStep(description: nameOfStep(), steps: solve())
+    }
+    
+    func hasNextStep() -> Bool{
+        if steps >= 1{
+            return false
+        }
+        return true
+    }
     func solve() -> [SCNAction]{
         var actions:[SCNAction] = []
         
@@ -40,8 +57,6 @@ class SolverFirstCorners: SolverBase {
         actions.append(contentsOf: positionConerOnBottom(c1: .orange, c2: .blue))
         actions.append(contentsOf: reapeatCornerAlg())
         
-        
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
         return actions
     }
     
