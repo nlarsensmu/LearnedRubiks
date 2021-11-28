@@ -69,17 +69,6 @@ class SolverCross : SolverBase {
         }
         return true
     }
-    func solve() -> [SCNAction] {
-        var actions:[SCNAction] = []
-        let whiteOnTop = whiteOnTop()
-        actions.append(contentsOf: whiteOnTop.0)
-        let solveWedgePositions = solveWedgePositions()
-        actions.append(contentsOf: solveWedgePositions.0)
-        let fixOrientation = fixOrientation()
-        actions.append(contentsOf: fixOrientation.0)
-        
-        return actions
-    }
     
     func whiteOnTop() -> ([SCNAction], [Turn]){
         var actions:[SCNAction] = []

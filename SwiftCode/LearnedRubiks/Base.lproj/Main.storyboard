@@ -353,6 +353,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHG-5G-FCG">
                                 <rect key="frame" x="167" y="815" width="240" height="31"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="31" id="Rep-1L-AOp"/>
                                     <constraint firstAttribute="width" constant="240" id="Ueh-Ls-E3p"/>
@@ -363,7 +364,7 @@
                                     <action selector="nextStepButton:" destination="Iie-K7-svU" eventType="touchUpInside" id="kjh-V8-J8r"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECN-Ri-etU">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECN-Ri-etU">
                                 <rect key="frame" x="11" y="668" width="396" height="49"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="396" id="Qbd-Ht-QQW"/>
