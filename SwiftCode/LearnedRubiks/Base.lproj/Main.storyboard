@@ -80,6 +80,26 @@
                                             <segue destination="ulJ-bb-9ko" kind="show" id="agN-1k-qlZ"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="pfd-Fp-d8Q" style="IBUITableViewCellStyleDefault" id="VNy-Ee-cjZ">
+                                        <rect key="frame" x="0.0" y="175" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VNy-Ee-cjZ" id="yKr-gv-39s">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Camera Load Cube" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pfd-Fp-d8Q">
+                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="ifQ-3e-a7H" kind="show" id="Df8-W6-J3b"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -92,7 +112,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T20-Ls-Tt2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-726" y="67"/>
+            <point key="canvasLocation" x="-722" y="67"/>
         </scene>
         <!--Model Selection View Controller-->
         <scene sceneID="McT-Yl-HAs">
@@ -693,7 +713,91 @@
             </objects>
             <point key="canvasLocation" x="1482.608695652174" y="1237.5"/>
         </scene>
+        <!--Read Cube View Controller-->
+        <scene sceneID="avl-y4-VFP">
+            <objects>
+                <viewController id="ifQ-3e-a7H" customClass="ReadCubeViewController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OH7-GA-ftT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WyA-aW-Wu3">
+                                <rect key="frame" x="167" y="781" width="80" height="41"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dhe-0g-b7p">
+                                <rect key="frame" x="49.5" y="718" width="108" height="55"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Reset">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="34"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="resetFace:" destination="ifQ-3e-a7H" eventType="touchUpInside" id="Fty-He-Eyx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KPr-C2-6Qu">
+                                <rect key="frame" x="262.5" y="718" width="96" height="55"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Save">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="34"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="save:" destination="ifQ-3e-a7H" eventType="touchUpInside" id="3Jh-ZW-1EW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIR-1g-WKC">
+                                <rect key="frame" x="251" y="668" width="119" height="55"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Check">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="34"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="checkSquares:" destination="ifQ-3e-a7H" eventType="touchUpInside" id="bkl-hV-mjy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5U-5D-zAz">
+                                <rect key="frame" x="240" y="623" width="141" height="55"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Capture">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="34"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="captureSquares:" destination="ifQ-3e-a7H" eventType="touchUpInside" id="uHF-3C-R7Q"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="KPj-mf-xtg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iIR-1g-WKC" firstAttribute="centerX" secondItem="KPr-C2-6Qu" secondAttribute="centerX" id="3nQ-No-aaT"/>
+                            <constraint firstItem="dhe-0g-b7p" firstAttribute="centerX" secondItem="KPj-mf-xtg" secondAttribute="centerX" multiplier="0.5" id="E6a-ZH-pkO"/>
+                            <constraint firstItem="c5U-5D-zAz" firstAttribute="centerX" secondItem="iIR-1g-WKC" secondAttribute="centerX" id="H3h-Fx-s49"/>
+                            <constraint firstItem="KPr-C2-6Qu" firstAttribute="centerX" secondItem="KPj-mf-xtg" secondAttribute="centerX" multiplier="1.5" id="NO4-bt-iTx"/>
+                            <constraint firstItem="WyA-aW-Wu3" firstAttribute="centerX" secondItem="KPj-mf-xtg" secondAttribute="centerX" id="VrB-7d-Uxg"/>
+                            <constraint firstItem="WyA-aW-Wu3" firstAttribute="top" secondItem="dhe-0g-b7p" secondAttribute="bottom" constant="8" symbolic="YES" id="ZdZ-LH-qiY"/>
+                            <constraint firstItem="KPj-mf-xtg" firstAttribute="bottom" secondItem="WyA-aW-Wu3" secondAttribute="bottom" constant="40" id="gN1-Q0-aFe"/>
+                            <constraint firstItem="KPr-C2-6Qu" firstAttribute="centerY" secondItem="dhe-0g-b7p" secondAttribute="centerY" id="jmE-FE-VBT"/>
+                            <constraint firstItem="iIR-1g-WKC" firstAttribute="top" secondItem="c5U-5D-zAz" secondAttribute="bottom" constant="-10" id="u5J-Wa-hhK"/>
+                            <constraint firstItem="KPr-C2-6Qu" firstAttribute="top" secondItem="iIR-1g-WKC" secondAttribute="bottom" constant="-5" id="x6H-dZ-3W2"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="TsC-7u-PS8"/>
+                    <connections>
+                        <outlet property="instructionLabel" destination="WyA-aW-Wu3" id="tIE-QX-tK8"/>
+                        <segue destination="Iie-K7-svU" kind="show" identifier="inputToPredictionViewController" id="RDR-9H-Z1S"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="13E-dF-fFM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-607" y="1041"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="RDR-9H-Z1S"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
