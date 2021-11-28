@@ -357,6 +357,19 @@
                                     <action selector="solveButton:" destination="Iie-K7-svU" eventType="touchUpInside" id="5Co-We-G2p"/>
                                 </connections>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="nfp-Vk-SaO">
+                                <rect key="frame" x="42.5" y="776" width="329" height="31"/>
+                                <connections>
+                                    <action selector="sliderChanged:" destination="Iie-K7-svU" eventType="valueChanged" id="bDx-Jc-2IR"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ubb-bF-D2v">
+                                <rect key="frame" x="186" y="747" width="42" height="21"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Nwe-jl-IVX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -374,6 +387,7 @@
                             <constraint firstItem="GmG-ub-37p" firstAttribute="leading" secondItem="sHl-nD-8cl" secondAttribute="trailing" constant="7" id="BqQ-66-mJ7"/>
                             <constraint firstItem="OtT-ex-IbF" firstAttribute="leading" secondItem="M8a-Cw-ad5" secondAttribute="trailing" constant="10" id="E5Q-46-01f"/>
                             <constraint firstItem="hwW-kI-y6k" firstAttribute="centerY" secondItem="1UD-kN-5e2" secondAttribute="centerY" id="EuW-Ui-nXM"/>
+                            <constraint firstItem="nfp-Vk-SaO" firstAttribute="width" secondItem="I3n-uY-ff4" secondAttribute="width" multiplier="0.785024" id="H57-ro-Klu"/>
                             <constraint firstItem="258-0O-0Iq" firstAttribute="centerY" secondItem="6ns-gm-zVa" secondAttribute="centerY" id="I9M-9b-7AN"/>
                             <constraint firstItem="i60-5N-fRO" firstAttribute="centerY" secondItem="258-0O-0Iq" secondAttribute="centerY" id="NQ9-AY-eVr"/>
                             <constraint firstItem="OtT-ex-IbF" firstAttribute="centerY" secondItem="M8a-Cw-ad5" secondAttribute="centerY" id="QyB-QZ-xrU"/>
@@ -383,14 +397,17 @@
                             <constraint firstItem="7VS-nw-Kti" firstAttribute="leading" secondItem="hwW-kI-y6k" secondAttribute="trailing" constant="8" symbolic="YES" id="Xjf-Tn-JI0"/>
                             <constraint firstItem="6ns-gm-zVa" firstAttribute="leading" secondItem="Hev-8n-TrB" secondAttribute="trailing" constant="8" symbolic="YES" id="aPw-i2-cf2"/>
                             <constraint firstItem="y3d-MU-uCO" firstAttribute="centerX" secondItem="hpn-Tv-rif" secondAttribute="centerX" id="ahJ-MP-Kfb"/>
+                            <constraint firstItem="Gw1-mh-G1Y" firstAttribute="top" secondItem="nfp-Vk-SaO" secondAttribute="bottom" constant="9" id="cLU-tj-eZL"/>
                             <constraint firstItem="GhN-E5-TV6" firstAttribute="leading" secondItem="h2k-Zi-wor" secondAttribute="trailing" constant="9" id="e3M-Qc-Ouc"/>
                             <constraint firstItem="i60-5N-fRO" firstAttribute="leading" secondItem="258-0O-0Iq" secondAttribute="trailing" constant="10" id="ec3-pM-IV0"/>
                             <constraint firstItem="myk-nH-CqK" firstAttribute="leading" secondItem="7gK-a1-kLo" secondAttribute="trailing" constant="8" symbolic="YES" id="exa-AU-pin"/>
                             <constraint firstItem="7VS-nw-Kti" firstAttribute="centerY" secondItem="hwW-kI-y6k" secondAttribute="centerY" id="fWe-sh-y7T"/>
                             <constraint firstItem="xt1-kb-vKe" firstAttribute="leading" secondItem="GhN-E5-TV6" secondAttribute="trailing" constant="9" id="fjy-PR-HFW"/>
                             <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerY" secondItem="Qbf-h8-C0j" secondAttribute="centerY" id="gXB-Zl-QOS"/>
+                            <constraint firstItem="nfp-Vk-SaO" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" id="h7N-z1-Dyu"/>
                             <constraint firstItem="6ns-gm-zVa" firstAttribute="centerY" secondItem="Hev-8n-TrB" secondAttribute="centerY" id="hFt-Vs-a9r"/>
                             <constraint firstItem="Gw1-mh-G1Y" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" multiplier="1.5" id="hoD-rW-brD"/>
+                            <constraint firstItem="Ubb-bF-D2v" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" id="jcY-cU-D7R"/>
                             <constraint firstItem="M8a-Cw-ad5" firstAttribute="centerY" secondItem="xt1-kb-vKe" secondAttribute="centerY" id="lcI-Mu-3Qj"/>
                             <constraint firstItem="Qbf-h8-C0j" firstAttribute="centerX" secondItem="Nwe-jl-IVX" secondAttribute="centerX" multiplier="0.5" id="lyh-7R-Awh"/>
                             <constraint firstItem="hpn-Tv-rif" firstAttribute="centerX" secondItem="Hev-8n-TrB" secondAttribute="centerX" id="m9I-cx-9ds"/>
@@ -398,6 +415,7 @@
                             <constraint firstItem="258-0O-0Iq" firstAttribute="leading" secondItem="6ns-gm-zVa" secondAttribute="trailing" constant="8" symbolic="YES" id="pFH-G0-kng"/>
                             <constraint firstItem="myk-nH-CqK" firstAttribute="centerY" secondItem="7gK-a1-kLo" secondAttribute="centerY" id="rnS-rA-dFK"/>
                             <constraint firstItem="h2k-Zi-wor" firstAttribute="leading" secondItem="y3d-MU-uCO" secondAttribute="trailing" constant="13.5" id="rpG-Gz-TDH"/>
+                            <constraint firstItem="nfp-Vk-SaO" firstAttribute="top" secondItem="Ubb-bF-D2v" secondAttribute="bottom" constant="8" symbolic="YES" id="sGQ-4D-mm9"/>
                             <constraint firstItem="Hev-8n-TrB" firstAttribute="top" secondItem="Nwe-jl-IVX" secondAttribute="top" constant="21" id="tME-Xb-7Kf"/>
                             <constraint firstItem="M8a-Cw-ad5" firstAttribute="leading" secondItem="xt1-kb-vKe" secondAttribute="trailing" constant="7" id="uxd-yz-acP"/>
                             <constraint firstItem="hwW-kI-y6k" firstAttribute="leading" secondItem="1UD-kN-5e2" secondAttribute="trailing" constant="8" symbolic="YES" id="xzI-2F-3yw"/>
@@ -405,6 +423,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="7qi-PG-SV0"/>
                     <connections>
+                        <outlet property="durationLabel" destination="Ubb-bF-D2v" id="kjt-BR-r77"/>
+                        <outlet property="durationSlider" destination="nfp-Vk-SaO" id="qUe-Zd-cFc"/>
                         <outlet property="sceneView" destination="Bin-Bk-2fe" id="iIS-Fj-Ly9"/>
                         <outlet property="scrambleButton" destination="Qbf-h8-C0j" id="L7V-o1-UbV"/>
                         <outlet property="solveButtonOutlet" destination="Gw1-mh-G1Y" id="usQ-GX-HRp"/>
@@ -796,7 +816,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RDR-9H-Z1S"/>
+        <segue reference="jHZ-Pq-MLe"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="opaqueSeparatorColor">

@@ -168,6 +168,15 @@ class PredictionViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var durationSlider: UISlider!
+    @IBAction func sliderChanged(_ sender: UISlider) {
+        self.Cube?.duration = Double(sender.value)
+        DispatchQueue.main.async {
+            self.durationLabel.text = String(format: "%.2f seconds per turn", sender.value)
+        }
+    }
+    
     func runSolver(solver:SolverBase) {
         let actions = solver.solve()
         self.animationRunning = true
@@ -226,6 +235,11 @@ class PredictionViewController: UIViewController {
         //Start Listening to motion updates
         self.startMotionUpdates()
         self.isWaitingForMotionData = true
+        self.Cube?.printCube()
+        self.durationSlider.minimumValue = 0.1
+        self.durationSlider.maximumValue = 2.0
+        self.durationSlider.setValue(0.5, animated: false)
+        self.durationLabel.text = String(format: "%.2f seconds per turn", 0.5)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
