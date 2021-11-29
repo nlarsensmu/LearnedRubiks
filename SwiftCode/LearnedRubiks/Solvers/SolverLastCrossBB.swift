@@ -9,10 +9,11 @@ import Foundation
 import SceneKit
 
 class SolverLastCrossBB: SolverBase {
+    var stepString: String
     
     
     var cube: RubiksCube
-    
+    var steps = 0
     let crossTurns = [Turn.F, Turn.R, Turn.U, Turn.RN, Turn.UN, Turn.FN]
     
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
@@ -21,14 +22,28 @@ class SolverLastCrossBB: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
+        self.stepString = ""
+    }
+    
+    func nameOfStep() -> String {
+        return "Solve Last Cross"
+    }
+    
+    func getNextStep() -> SolvingStep {
+        steps += 1
+        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
+    }
+    
+    func hasNextStep() -> Bool{
+        if steps >= 1{
+            return false
+        }
+        return true
     }
     
     func solve() -> [SCNAction] {
         var actions:[SCNAction] = []
-        
         actions.append(contentsOf: solveCross())
-        
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
         return actions
     }
     

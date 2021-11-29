@@ -153,8 +153,8 @@
 		FDA540CB2748355900E11DAE /* Solvers */ = {
 			isa = PBXGroup;
 			children = (
-				FDA540C92746F58100E11DAE /* SovlerFirstCorners.swift */,
 				FD9E0B49274606D300F4CB6E /* SolverBase.swift */,
+				FDA540C92746F58100E11DAE /* SovlerFirstCorners.swift */,
 				FD9E0B47274601B600F4CB6E /* SolverCross.swift */,
 				FDA540CC2748357D00E11DAE /* SolverMiddle.swift */,
 				FDA540D02748563200E11DAE /* SolverLastCrossBB.swift */,
