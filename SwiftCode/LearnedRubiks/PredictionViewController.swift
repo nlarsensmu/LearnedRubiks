@@ -114,9 +114,7 @@ class PredictionViewController: UIViewController {
     @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
         if let cube = Cube {
-            cube.printCube()
             cube.undoTurns(steps: self.nextStep.steps)
-            cube.printCube()
             let actions = cube.scramble(turnsCount: 30)
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
