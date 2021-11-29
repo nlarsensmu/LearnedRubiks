@@ -114,18 +114,22 @@ class PredictionViewController: UIViewController {
     @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
         if let cube = Cube {
+            cube.printCube()
+            cube.undoTurns(steps: self.nextStep.steps)
+            cube.printCube()
             let actions = cube.scramble(turnsCount: 30)
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
                 self.solver = SolverCross(c: cube)
+                cube.printCube()
                 self.nextStep = self.solver!.getNextStep()
+                cube.printCube()
                 self.displayStep = stepsToString(steps: self.nextStep.steps)
                 self.step = "Solve Cross"
                 DispatchQueue.main.async {
                     self.nextStepOutlet.setTitle("White On Top", for: .normal)  
                 }
-                self.Cube?.printCube()
             }
         }
         
@@ -170,6 +174,20 @@ class PredictionViewController: UIViewController {
             }
         }
     }
+    
+    @IBOutlet weak var durationLabel: UILabel!
+    
+    @IBAction func durationChanged(_ sender: UISlider) {
+        DispatchQueue.main.async {
+            self.durationLabel.text = String(format: "%.2f", sender.value)
+        }
+        self.Cube?.duration = Double(sender.value)
+        if var s = solver {
+            self.Cube?.undoTurns(steps: self.nextStep.steps)
+            self.nextStep = s.reloadSteps()
+        }
+    }
+    
     func disableEnableButtons() {
         DispatchQueue.main.async {
             self.scrambleButton.isEnabled = !self.scrambleButton.isEnabled
@@ -227,11 +245,21 @@ class PredictionViewController: UIViewController {
         //Start Listening to motion updates
         self.startMotionUpdates()
         self.isWaitingForMotionData = true
+        
+        self.durationLabel.text = String(format: "%.2f", 1.0)
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sceneView.backgroundColor = .black
         addCubes()
+        self.Cube?.duration = 1.0
+        
+        if let c = Cube {
+            let turns:[Turn] = [.R, .L, .U2]
+            var actions = c.getTurnActions(turns: turns)
+            c.undoTurns(steps: turns)
+        }
     }
     
     //To be called on init.  This will populate self.cubes which will contain all the inforatiom about the cube, and cubelets for the graphic

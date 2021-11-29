@@ -217,6 +217,18 @@ public class RubiksCube{
         scene.rootNode.runAction(SCNAction.sequence(getTurnActions(turns: turns)))
     }
     
+    public func undoTurns(steps:[Turn]) -> [SCNAction]{
+        var turns:[Turn] = []
+        for turn in steps.reversed() {
+            for _ in 0..<3 {
+                turns.append(turn)
+            }
+        }
+        let actions = getTurnActions(turns: turns)
+        self.printCube()
+        return actions
+    }
+    
     public func getTurnActions(turns:[Turn]) -> [SCNAction] {
         var actions:[SCNAction] = []
         
@@ -395,33 +407,39 @@ public class RubiksCube{
                     cube.lastElapsedTime = 0.0
                 }
             }
-            
+
             // Turn the physical cube
             actions.append(rotationAction)
             
-            //update the position
-            if direction > 0{
-                cube.pos = self.XRotationPositive[cube.pos]
-            }
-            else{
-                cube.pos = self.XRotationNegative[cube.pos]
-            }
+            rotateXAxisVirtual(cube: cube, direction: direction)
             
-            switch cube.type{
-            case .corner:
-                cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-                break
-            case .wedge:
-                cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-                break
-            case.middlePiece:
-                break
-            case.center:
-                cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-                break
-            }
         }
         return SCNAction.group(actions)
+    }
+    
+    private func rotateXAxisVirtual(cube:Cublet, direction:Int) {
+
+        //update the position
+        if direction > 0{
+            cube.pos = self.XRotationPositive[cube.pos]
+        }
+        else{
+            cube.pos = self.XRotationNegative[cube.pos]
+        }
+        
+        switch cube.type{
+        case .corner:
+            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+            break
+        case .wedge:
+            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+            break
+        case.middlePiece:
+            break
+        case.center:
+            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+            break
+        }
     }
     
     // Turn U, E, D
@@ -457,30 +475,34 @@ public class RubiksCube{
             actions.append(rotationAction)
             
             //Logic Code
-            if direction > 0{
-                cube.pos = self.YRotationPositive[cube.pos]
-            }
-            else{
-                cube.pos = self.YRotationNegative[cube.pos]
-            }
-            
-            switch cube.type{
-            case .corner:
-                cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-                break
-            case .wedge:
-                cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-                break
-            case.middlePiece:
-                break
-            case.center:
-                cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-                break
-            }
-            
+            rotateYAxisVirtual(cube: cube, direction: direction)
         }
         
         return SCNAction.group(actions)
+    }
+    
+    private func rotateYAxisVirtual(cube:Cublet, direction:Int) {
+        
+        if direction > 0{
+            cube.pos = self.YRotationPositive[cube.pos]
+        }
+        else{
+            cube.pos = self.YRotationNegative[cube.pos]
+        }
+        
+        switch cube.type{
+        case .corner:
+            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+            break
+        case .wedge:
+            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+            break
+        case.middlePiece:
+            break
+        case.center:
+            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+            break
+        }
     }
     
     // F, S, B turns
@@ -516,28 +538,33 @@ public class RubiksCube{
             actions.append(rotationAction)
             
             //Logic Code
-            if direction > 0{
-                cube.pos = self.ZRotationPositive[cube.pos]
-            }
-            else{
-                cube.pos = self.ZRotationNegative[cube.pos]
-            }
-            
-            switch cube.type{
-            case .corner:
-                cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-                break
-            case .wedge:
-                cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-                break
-            case.middlePiece:
-                break
-            case.center:
-                cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-                break
-            }
+            rotateZAxisVirtual(cube: cube, direction: direction)
         }
         return SCNAction.group(actions)
+    }
+    
+    private func rotateZAxisVirtual(cube:Cublet, direction:Int) {
+        
+        if direction > 0{
+            cube.pos = self.ZRotationPositive[cube.pos]
+        }
+        else{
+            cube.pos = self.ZRotationNegative[cube.pos]
+        }
+        
+        switch cube.type{
+        case .corner:
+            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+            break
+        case .wedge:
+            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+            break
+        case.middlePiece:
+            break
+        case.center:
+            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+            break
+        }
     }
     
     private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor){

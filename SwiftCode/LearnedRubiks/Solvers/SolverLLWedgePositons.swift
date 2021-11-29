@@ -11,7 +11,7 @@ import CoreMotion
 
 class SolverLLWedgePossitions: SolverBase {
     var cube: RubiksCube
-    var step = 0
+    var steps = 0
     /*
      There are three cases.
      1) The edges are correct
@@ -34,12 +34,12 @@ class SolverLLWedgePossitions: SolverBase {
     }
     
     func getNextStep() -> SolvingStep {
-        step += 1
+        steps += 1
         return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
     }
     
     func hasNextStep() -> Bool{
-        if step >= 1{
+        if steps >= 1{
             return false
         }
         return true

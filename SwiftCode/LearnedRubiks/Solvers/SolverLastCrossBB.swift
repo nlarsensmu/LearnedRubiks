@@ -13,7 +13,7 @@ class SolverLastCrossBB: SolverBase {
     
     
     var cube: RubiksCube
-    var step = 0
+    var steps = 0
     let crossTurns = [Turn.F, Turn.R, Turn.U, Turn.RN, Turn.UN, Turn.FN]
     
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
@@ -30,12 +30,12 @@ class SolverLastCrossBB: SolverBase {
     }
     
     func getNextStep() -> SolvingStep {
-        step += 1
+        steps += 1
         return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
     }
     
     func hasNextStep() -> Bool{
-        if step >= 1{
+        if steps >= 1{
             return false
         }
         return true

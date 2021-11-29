@@ -108,7 +108,11 @@ class ReadCubeViewController: UIViewController {
                     if i != 4{
                         print("\(items[i*3]),\(items[i*3 + 1]),\(items[i*3 + 2]),\(color)")
                     }
-                    colors.append(stringToColor(color: color))
+                    if i == 4 {
+                        colors.append(instructionFaces[instruction])
+                    } else {
+                        colors.append(stringToColor(color: color))
+                    }
                 } catch _{
                     print("Failed Predicting")
                 }
@@ -118,7 +122,7 @@ class ReadCubeViewController: UIViewController {
         faces[instruction] = getFaceOrientation(colors: colors)
         
         if instruction == 5 {
-            self.cube = RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
+            self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
             self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
         }
         
@@ -203,7 +207,11 @@ class ReadCubeViewController: UIViewController {
         self.bridge.processType = 9
         self.instruction = 0
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let _ = self.videoManager.turnOnFlashwithLevel(0.001)
+        self.videoManager.start()
+    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.videoManager.turnOffFlash()

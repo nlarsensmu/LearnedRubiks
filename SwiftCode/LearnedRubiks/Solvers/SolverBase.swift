@@ -10,6 +10,7 @@ import SceneKit
 
 protocol SolverBase {
     var cube:RubiksCube { get }
+    var steps:Int { get set }
     var hashColorDict:Dictionary<CubletColor, Int> { get }
     func getNextStep() -> SolvingStep
     func nameOfStep() -> String
@@ -46,6 +47,10 @@ extension SolverBase {
         return hashColorDict[cublet.upDown]! | hashColorDict[cublet.leftRight]! | hashColorDict[cublet.frontBack]!
     }
     
+    mutating func reloadSteps() -> SolvingStep {
+        self.steps -= 1
+        return getNextStep()
+    }
     
 }
 class SolvingStep{
