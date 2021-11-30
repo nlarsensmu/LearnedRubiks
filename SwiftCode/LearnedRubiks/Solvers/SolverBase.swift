@@ -12,6 +12,7 @@ protocol SolverBase {
     var cube:RubiksCube { get }
     var steps:Int { get set }
     var hashColorDict:Dictionary<CubletColor, Int> { get }
+    var stepString:String { get }
     func getNextStep() -> SolvingStep
     func nameOfStep() -> String
     func hasNextStep() -> Bool

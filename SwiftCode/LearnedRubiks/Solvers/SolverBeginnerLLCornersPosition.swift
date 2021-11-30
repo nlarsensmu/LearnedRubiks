@@ -9,6 +9,8 @@ import Foundation
 import SceneKit
 
 class SolverBeginnerLLCornersPosition: SolverBase {
+    var stepString: String = "Solve Last Layer Corner Positions"
+    
     var cube: RubiksCube
     var steps = 0
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {

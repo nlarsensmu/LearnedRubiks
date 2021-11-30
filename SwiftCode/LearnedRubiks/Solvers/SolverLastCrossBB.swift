@@ -9,7 +9,7 @@ import Foundation
 import SceneKit
 
 class SolverLastCrossBB: SolverBase {
-    var stepString: String
+    var stepString: String = "Solver Last Layer Cross"
     
     
     var cube: RubiksCube
@@ -22,7 +22,6 @@ class SolverLastCrossBB: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
-        self.stepString = ""
     }
     
     func nameOfStep() -> String {

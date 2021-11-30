@@ -9,6 +9,8 @@ import Foundation
 import SceneKit
 
 class SolverMiddle: SolverBase {
+    var stepString: String = "Solve Middle Layer"
+    
     var cube: RubiksCube
     var steps = 0
     let leftHanded = [Turn.UN, Turn.LN, Turn.U, Turn.L, Turn.U, Turn.F, Turn.UN, Turn.FN]

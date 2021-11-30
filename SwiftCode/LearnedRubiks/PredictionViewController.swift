@@ -58,7 +58,6 @@ class PredictionViewController: UIViewController {
     @IBAction func downTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.downTurn(direction: 1))
-            cube.printCube()
         }
     }
     @IBAction func downTurnNeg(_ sender: Any) {
@@ -120,9 +119,7 @@ class PredictionViewController: UIViewController {
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
                 self.solver = SolverCross(c: cube)
-                cube.printCube()
                 self.nextStep = self.solver!.getNextStep()
-                cube.printCube()
                 self.displayStep = stepsToString(steps: self.nextStep.steps)
                 self.step = "Solve Cross"
                 DispatchQueue.main.async {
@@ -169,6 +166,7 @@ class PredictionViewController: UIViewController {
                 self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
                 self.nextStep = s.getNextStep()
                 self.displayStep = stepsToString(steps: self.nextStep.steps)
+                self.stepText.text = s.stepString
             }
         }
     }
