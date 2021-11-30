@@ -359,7 +359,6 @@ public class RubiksCube{
             cube.node.scale.x = cube.node.scale.x + percentage * growthVector.x
             cube.node.scale.y = cube.node.scale.y + percentage * growthVector.y
             cube.node.scale.z = cube.node.scale.z + percentage * growthVector.z
-            print("\(pos) \(percentage) \(cube.node.scale.x) \(cube.node.scale.y) \(cube.node.scale.z)")
             if elapsedTime >= self.emphaziseDuration {
                 cube.lastElapsedTime = 0.0
             }

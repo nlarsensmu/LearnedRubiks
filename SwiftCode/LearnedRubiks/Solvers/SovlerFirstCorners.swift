@@ -36,24 +36,22 @@ class SolverFirstCorners: SolverBase {
         }
         return true
     }
+    
+    func solveCorner(c1:CubletColor, c2:CubletColor) -> [SCNAction] {
+        var actions:[SCNAction] = []
+        actions.append(contentsOf: getCornerDown(c1: c1, c2: c2, c3: CubletColor.white))
+        actions.append(contentsOf: positionConerOnBottom(c1: c1, c2: c2))
+        actions.append(contentsOf: reapeatCornerAlg())
+        return actions
+    }
+    
     func solve() -> [SCNAction]{
         var actions:[SCNAction] = []
         
-        actions.append(contentsOf: getCornerDown(c1: CubletColor.red, c2: CubletColor.green, c3: CubletColor.white))
-        actions.append(contentsOf: positionConerOnBottom(c1: .red, c2: .green))
-        actions.append(contentsOf: reapeatCornerAlg())
-
-        actions.append(contentsOf: getCornerDown(c1: CubletColor.red, c2: CubletColor.blue, c3: CubletColor.white))
-        actions.append(contentsOf: positionConerOnBottom(c1: .red, c2: .blue))
-        actions.append(contentsOf: reapeatCornerAlg())
-
-        actions.append(contentsOf: getCornerDown(c1: CubletColor.orange, c2: CubletColor.green, c3: CubletColor.white))
-        actions.append(contentsOf: positionConerOnBottom(c1: .orange, c2: .green))
-        actions.append(contentsOf: reapeatCornerAlg())
-
-        actions.append(contentsOf: getCornerDown(c1: CubletColor.orange, c2: CubletColor.blue, c3: CubletColor.white))
-        actions.append(contentsOf: positionConerOnBottom(c1: .orange, c2: .blue))
-        actions.append(contentsOf: reapeatCornerAlg())
+        actions.append(contentsOf: solveCorner(c1: .red, c2: .green))
+        actions.append(contentsOf: solveCorner(c1: .red, c2: .blue))
+        actions.append(contentsOf: solveCorner(c1: .orange, c2: .green))
+        actions.append(contentsOf: solveCorner(c1: .orange, c2: .blue))
         
         return actions
     }

@@ -34,16 +34,16 @@ class SolverCross : SolverBase {
             return "Fix Position of Green White Wedge"
         }
         else if steps == 2 {
-            return "Fix Position of \nRed White Wedge"
+            return "Fix Position of Red White Wedge"
         }
         else if steps == 3 {
-            return "Fix Position of \nBlue White Wedge"
+            return "Fix Position of Blue White Wedge"
         }
         else if steps == 4 {
-            return "Fix Position of \nOrange White Wedge"
+            return "Fix Position of Orange White Wedge"
         }
         else if steps == 5 {
-            return "Fix Orientation \nof Wedges"
+            return "Fix Orientation of Wedges"
         }
         else{
             return "Solve Corners"
