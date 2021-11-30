@@ -20,54 +20,66 @@ class SolverMiddle: SolverBase {
         return getHashColor()
     }()
     
+    let wedgeOrder:[(CubletColor, CubletColor)] =
+        [(.red, .green), (.red, .blue), (.orange, .green), (.orange, .blue)]
+    
     init(cube:RubiksCube) {
         self.cube = cube
     }
     
     func nameOfStep() -> String {
-        return "Solve Middle"
+        if steps == 0 { return "Solve the Red Green Wedge" }
+        else if steps == 1 { return "Solve the Red Blue Wedge" }
+        else if steps == 2 { return "Solve the Orange Green Wedge" }
+        else if steps == 3 { return "Solve the Orange Blue Wedge" }
+        return ""
     }
     
     func getNextStep() -> SolvingStep {
+        var actions:[SCNAction] = []
+        var turns:[Turn] = []
+        
+        if steps == 0 {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.X2]))
+            turns.append(contentsOf: [.X2])
+        }
+        
+        if steps < 4 {
+            let actionsTurns = solveWedge(c1: wedgeOrder[steps].0, c2: wedgeOrder[steps].1)
+            actions.append(contentsOf: actionsTurns.0)
+            turns.append(contentsOf: actionsTurns.1)
+        }
+        
         steps += 1
-        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
+        return SolvingStep(description: nameOfStep(), actions: actions, steps:turns)
     }
     
     func hasNextStep() -> Bool{
-        if steps >= 1{
+        if steps >= 4 {
             return false
         }
         return true
     }
     
-    func solve() -> [SCNAction] {
+    func solveWedge(c1:CubletColor, c2:CubletColor) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
-        actions.append(contentsOf: cube.getTurnActions(turns: [.X2]))
+        let wedgeToTop = getWedgeToTopFront(c1: c1, c2: c2)
+        actions.append(contentsOf: wedgeToTop.0)
+        turns.append(contentsOf: wedgeToTop.1)
         
-        if !checkWedgeCorrect(c1: .red, c2: .green) {
-            actions.append(contentsOf: getWedgeToTopFront(c1: .red, c2: .green))
-            actions.append(contentsOf: getWedgeToCorrectFace())
-            actions.append(contentsOf: positionWedge())
-        }
-        if !checkWedgeCorrect(c1: .red, c2: .blue) {
-            actions.append(contentsOf: getWedgeToTopFront(c1: .red, c2: .blue))
-            actions.append(contentsOf: getWedgeToCorrectFace())
-            actions.append(contentsOf: positionWedge())
-        }
-        if !checkWedgeCorrect(c1: .orange, c2: .green) {
-            actions.append(contentsOf: getWedgeToTopFront(c1: .orange, c2: .green))
-            actions.append(contentsOf: getWedgeToCorrectFace())
-            actions.append(contentsOf: positionWedge())
-        }
-        if !checkWedgeCorrect(c1: .orange, c2: .blue) {
-            actions.append(contentsOf: getWedgeToTopFront(c1: .orange, c2: .blue))
-            actions.append(contentsOf: getWedgeToCorrectFace())
-            actions.append(contentsOf: positionWedge())
-        }
+        let wedgeToCorectFace = getWedgeToCorrectFace()
+        actions.append(contentsOf: wedgeToCorectFace.0)
+        turns.append(contentsOf: wedgeToCorectFace.1)
         
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
-        return actions
+        actions.append(cube.empasize(poses: [13, 22], asGroup: true))
+        
+        let positionWedge = positionWedge()
+        actions.append(contentsOf: positionWedge.0)
+        turns.append(contentsOf: positionWedge.1)
+        
+        return (actions, turns)
     }
     
     func checkWedgeCorrect(c1:CubletColor, c2:CubletColor) -> Bool {
@@ -112,58 +124,93 @@ class SolverMiddle: SolverBase {
     }
     
     // Look for the wedge in the middle, if it is pull it to the top
-    func getWedgeToTopFront(c1:CubletColor, c2:CubletColor) -> [SCNAction] {
+    func getWedgeToTopFront(c1:CubletColor, c2:CubletColor) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
-        let pos = getCubletPosition(c1: c1, c2: c2, c3: .noColor)
+        var pos = getCubletPosition(c1: c1, c2: c2, c3: .noColor)
+        
+        // We cannot see this wedge
+        if pos == 18 {
+            actions.append(contentsOf: cube.getTurnActions(turns:[.Y]))
+            turns.append(.Y)
+            pos = 12
+        }
+        
+        actions.append(cube.empasize(poses: [pos], asGroup: true))
         
         if pos == 10 {
             actions.append(contentsOf: cube.getTurnActions(turns: rightHanded))
+            turns.append(contentsOf: rightHanded)
+            
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+            turns.append(.Y2)
         } else if pos == 12 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
+            turns.append(.Y)
+            
             actions.append(contentsOf: cube.getTurnActions(turns: rightHanded))
+            turns.append(contentsOf: rightHanded)
+            
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+            turns.append(.Y2)
+            
         } else if pos == 16 {
             actions.append(contentsOf: cube.getTurnActions(turns: leftHanded))
+            turns.append(contentsOf: leftHanded)
+            
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+            turns.append(.Y2)
         } else if pos == 18 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+            turns.append(.Y2)
+            
             actions.append(contentsOf: cube.getTurnActions(turns: rightHanded))
+            turns.append(contentsOf: rightHanded)
+            
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+            turns.append(.Y2)
         } else if pos == 20 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
+            turns.append(.Y)
         } else if pos == 24 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+            turns.append(.Y2)
         } else if pos == 26 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
+            turns.append(.YN)
         }
         
-        return actions
+        return (actions, turns)
     }
     
     // Assume the wedge is at 22, get it to the correct front face.
-    func getWedgeToCorrectFace() -> [SCNAction]{
+    func getWedgeToCorrectFace() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
         let frontColor = cube.cublet(at: 22).frontBack
         let pos = getCubletPosition(c1: frontColor, c2: .noColor, c3: .noColor)
         
         if pos == 11 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.UN, .Y]))
+            turns.append(contentsOf: [.UN, .Y])
         } else if pos == 17 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.U, .YN]))
+            turns.append(contentsOf: [.U, .YN])
         } else if pos == 15 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.U2, .Y2]))
+            turns.append(contentsOf: [.U2, .Y2])
         }
         // we don't need to do anything for 13
         
-        return actions
+        return (actions, turns)
     }
     
     // Assume the wedge is correctly in position 22, and belongs to the right or left positon 10 or 16
-    func positionWedge() -> [SCNAction] {
+    func positionWedge() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
         let upColor = cube.cublet(at: 22).upDown
         
@@ -171,10 +218,12 @@ class SolverMiddle: SolverBase {
         
         if pos == 11 {
             actions.append(contentsOf: cube.getTurnActions(turns: rightHanded))
+            turns.append(contentsOf: rightHanded)
         } else if pos == 17 {
             actions.append(contentsOf: cube.getTurnActions(turns: leftHanded))
+            turns.append(contentsOf: leftHanded)
         }
         
-        return actions
+        return (actions, turns)
     }
 }
