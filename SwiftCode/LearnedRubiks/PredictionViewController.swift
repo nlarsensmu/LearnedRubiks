@@ -246,6 +246,8 @@ class PredictionViewController: UIViewController {
         
         self.durationLabel.text = String(format: "%.2f", 1.0)
         self.Cube?.duration = 1.0
+        
+        self.nextStepOutlet.titleLabel?.numberOfLines = 2
     }
     
     override func viewDidAppear(_ animated: Bool) {
