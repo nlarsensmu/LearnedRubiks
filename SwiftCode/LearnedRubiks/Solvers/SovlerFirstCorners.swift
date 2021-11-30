@@ -59,6 +59,9 @@ class SolverFirstCorners: SolverBase {
         let resultOnBottom = positionConerOnBottom(c1: c1, c2: c2)
         actions.append(contentsOf: resultOnBottom.0)
         turns.append(contentsOf: resultOnBottom.1)
+        
+        actions.append(cube.empasize(poses: [1, 11, 13], asGroup: true))
+        
         let resultRepeatCorner = reapeatCornerAlg()
         actions.append(contentsOf: resultRepeatCorner.0)
         turns.append(contentsOf: resultRepeatCorner.1)
@@ -92,21 +95,25 @@ class SolverFirstCorners: SolverBase {
         let pos = getCubletPosition(c1: c1, c2: c2, c3: c3)
         
         if pos == 21 {
+            actions.append(cube.empasize(poses: [21], asGroup: true))
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(.Y)
             turns.append(contentsOf: cornerAlg)
         } else if pos == 27 {
+            actions.append(cube.empasize(poses: [27], asGroup: true))
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(.Y2)
             turns.append(contentsOf: cornerAlg)
         } else if pos == 25 {
+            actions.append(cube.empasize(poses: [25], asGroup: true))
             actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(.YN)
             turns.append(contentsOf: cornerAlg)
         } else if pos == 19 {
+            actions.append(cube.empasize(poses: [19], asGroup: true))
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(contentsOf: cornerAlg)
         } else if pos == 3 {
