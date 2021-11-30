@@ -114,9 +114,7 @@ class PredictionViewController: UIViewController {
     @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
         if let cube = Cube {
-            cube.printCube()
             cube.undoTurns(steps: self.nextStep.steps)
-            cube.printCube()
             let actions = cube.scramble(turnsCount: 30)
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
@@ -247,6 +245,9 @@ class PredictionViewController: UIViewController {
         self.isWaitingForMotionData = true
         
         self.durationLabel.text = String(format: "%.2f", 1.0)
+        self.Cube?.duration = 1.0
+        
+        self.nextStepOutlet.titleLabel?.numberOfLines = 2
     }
     
     override func viewDidAppear(_ animated: Bool) {

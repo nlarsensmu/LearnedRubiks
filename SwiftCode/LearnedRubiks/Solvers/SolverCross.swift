@@ -31,10 +31,19 @@ class SolverCross : SolverBase {
             return "White on Top"
         }
         else if steps == 1 {
-            return "Fix Position of Wedges"
+            return "Fix Position of Green White Wedge"
         }
         else if steps == 2 {
-            return "Fix Orientation of Wedges"
+            return "Fix Position of \nRed White Wedge"
+        }
+        else if steps == 3 {
+            return "Fix Position of \nBlue White Wedge"
+        }
+        else if steps == 4 {
+            return "Fix Position of \nOrange White Wedge"
+        }
+        else if steps == 5 {
+            return "Fix Orientation \nof Wedges"
         }
         else{
             return "Solve Corners"
@@ -50,11 +59,26 @@ class SolverCross : SolverBase {
             turns = whiteOnTop.1
         }
         else if steps == 1{
-            let solveWedgePositions = solveWedgePositions()
+            let solveWedgePositions = solveWedgePosition(c1: CubletColor.green)
             actions = solveWedgePositions.0
             turns = solveWedgePositions.1
         }
-        else if steps == 2{
+        else if steps == 2 {
+            let solveWedgePositions = solveWedgePosition(c1: CubletColor.red)
+            actions = solveWedgePositions.0
+            turns = solveWedgePositions.1
+        }
+        else if steps == 3 {
+            let solveWedgePositions = solveWedgePosition(c1: CubletColor.blue)
+            actions = solveWedgePositions.0
+            turns = solveWedgePositions.1
+        }
+        else if steps == 4 {
+            let solveWedgePositions = solveWedgePosition(c1: CubletColor.orange)
+            actions = solveWedgePositions.0
+            turns = solveWedgePositions.1
+        }
+        else if steps == 5 {
             let fixOrientation = fixOrientation()
             actions = fixOrientation.0
             turns = fixOrientation.1
@@ -64,7 +88,7 @@ class SolverCross : SolverBase {
     }
     
     func hasNextStep() -> Bool{
-        if steps >= 3 {
+        if steps >= 6 {
             return false
         }
         return true
@@ -96,57 +120,97 @@ class SolverCross : SolverBase {
         return (actions, turns)
     }
     
+    func solveWedgePosition(c1:CubletColor) -> ([SCNAction], [Turn]) {
+        
+        var actions:[SCNAction] = []
+        var turns:[Turn] = []
+        // White Green wedge
+        var pos = getCubletPosition(c1: CubletColor.white, c2: c1, c3:CubletColor.noColor)
+        let result = turnWedgeToBottom(pos:pos)
+        actions.append(contentsOf: result.0)
+        turns.append(contentsOf: result.1)
+        
+        // Turn correct center to forground
+        var centerPos = getCubletPosition(c1: c1, c2: CubletColor.noColor, c3: CubletColor.noColor)
+        let foreground = turnCenterToForeground(centerPos: centerPos)
+        actions.append(contentsOf: foreground.0)
+        turns.append(contentsOf: foreground.1)
+        centerPos = getCubletPosition(c1: c1, c2: CubletColor.noColor, c3: CubletColor.noColor)
+        actions.append(cube.empasize(poses: [centerPos], asGroup: true))
+        
+        // Turn to the top layer
+        pos = getCubletPosition(c1: CubletColor.white, c2: c1, c3: CubletColor.noColor)
+        let foregroundWedge = turnWedgeToForeground(pos: pos)
+        actions.append(contentsOf: foregroundWedge.0)
+        turns.append(contentsOf: foregroundWedge.1)
+        
+        pos = getCubletPosition(c1: CubletColor.white, c2: c1, c3: CubletColor.noColor)
+        actions.append(cube.empasize(poses: [pos], asGroup: true))
+        centerPos = getCubletPosition(c1: c1, c2: CubletColor.noColor, c3: CubletColor.noColor)
+        let turnWedgeUp = turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos)
+        actions.append(contentsOf: turnWedgeUp.0)
+        turns.append(contentsOf: turnWedgeUp.1)
+        addPosToProtected(pos: centerPos)
+        
+        return (actions, turns)
+    }
+    
+    func turnCenterToForeground(centerPos:Int) -> ([SCNAction], [Turn]) {
+        if centerPos == 15 { // Back face
+            let actions = cube.getTurnActions(turns: [.Y])
+            return (actions, [.Y])
+        } else if centerPos == 17 {
+            let actions = cube.getTurnActions(turns: [.YN])
+            return (actions, [.YN])
+        }
+        let actions:[SCNAction] = []
+        let turns:[Turn] = []
+        return (actions, turns)
+    }
+    
+    func turnWedgeToForeground(pos:Int) -> ([SCNAction], [Turn]) {
+        var actions:[SCNAction] = []
+        var turns:[Turn] = []
+        
+        if pos == 6 {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
+            turns.append(.Y)
+        } else if pos == 8 {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
+            turns.append(.YN)
+        }
+        return (actions, turns)
+    }
+    
     func solveWedgePositions() -> ([SCNAction], [Turn]){
         
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         // White Green wedge
-        var pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.green, c3:CubletColor.noColor)
-        var result = turnWedgeToBottom(pos:pos)
-        pos = result.0
-        actions.append(contentsOf: result.1)
-        var centerPos = getCubletPosition(c1: CubletColor.green, c2: CubletColor.noColor, c3: CubletColor.noColor)
-        var turnWedgeUp = turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos)
-        actions.append(contentsOf: turnWedgeUp.0)
-        turns.append(contentsOf: turnWedgeUp.1)
-        addPosToProtected(pos: centerPos)
+        var actionsTurns = solveWedgePosition(c1: CubletColor.green)
+        actions.append(contentsOf: actionsTurns.0)
+        turns.append(contentsOf: actionsTurns.1)
         
         // White Red Wedge
-        pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.red, c3: CubletColor.noColor)
-        result = turnWedgeToBottom(pos: pos)
-        pos = result.0
-        actions.append(contentsOf: result.1)
-        centerPos = getCubletPosition(c1: CubletColor.red, c2: CubletColor.noColor, c3: CubletColor.noColor)
-        turnWedgeUp = turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos)
-        actions.append(contentsOf: turnWedgeUp.0)
-        turns.append(contentsOf: turnWedgeUp.1)
-        addPosToProtected(pos: centerPos)
+        actionsTurns = solveWedgePosition(c1: CubletColor.red)
+        actions.append(contentsOf: actionsTurns.0)
+        turns.append(contentsOf: actionsTurns.1)
+        
         
         // White Blue Wedge
-        pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.blue, c3: CubletColor.noColor)
-        result = turnWedgeToBottom(pos: pos)
-        pos = result.0
-        actions.append(contentsOf: result.1)
-        centerPos = getCubletPosition(c1: CubletColor.blue, c2: CubletColor.noColor, c3: CubletColor.noColor)
-        turnWedgeUp = turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos)
-        actions.append(contentsOf: turnWedgeUp.0)
-        turns.append(contentsOf: turnWedgeUp.1)
-        addPosToProtected(pos: centerPos)
+        actionsTurns = solveWedgePosition(c1: CubletColor.blue)
+        actions.append(contentsOf: actionsTurns.0)
+        turns.append(contentsOf: actionsTurns.1)
         
         // White Orange Wedge
-        pos = getCubletPosition(c1: CubletColor.white, c2: CubletColor.orange, c3: CubletColor.noColor)
-        result = turnWedgeToBottom(pos: pos)
-        pos = result.0
-        actions.append(contentsOf: result.1)
-        centerPos = getCubletPosition(c1: CubletColor.orange, c2: CubletColor.noColor, c3: CubletColor.noColor)
-        turnWedgeUp = turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos)
-        actions.append(contentsOf: turnWedgeUp.0)
-        turns.append(contentsOf: turnWedgeUp.1)
+        actionsTurns = solveWedgePosition(c1: CubletColor.orange)
+        actions.append(contentsOf: actionsTurns.0)
+        turns.append(contentsOf: actionsTurns.1)
         
         return (actions,turns)
     }
     
-    func turnWedgeToBottom(pos:Int) -> (Int, [SCNAction], [Turn]) {
+    func turnWedgeToBottom(pos:Int) -> ([SCNAction], [Turn]) {
         // Wedge in the middle.
         var actions:[SCNAction] = []
         var turns:[Turn] = []
@@ -159,7 +223,7 @@ class SolverCross : SolverBase {
                 actions.append(contentsOf: cube.getTurnActions(turns: [.D, .R]))
                 turns.append(contentsOf:[.D, .R])
             }
-            return (newPos, actions, turns)
+            return (actions, turns)
         } else if pos == 12 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.R]))
             turns.append(.R)
@@ -169,7 +233,7 @@ class SolverCross : SolverBase {
                 actions.append(contentsOf: cube.getTurnActions(turns: [.D, .RN]))
                 turns.append(contentsOf: [.D,.RN])
             }
-            return (newPos, actions, turns)
+            return (actions, turns)
         } else if pos == 16 {
             var newPos = 8
             actions.append(contentsOf: cube.getTurnActions(turns: [.L]))
@@ -179,7 +243,7 @@ class SolverCross : SolverBase {
                 turns.append(contentsOf: [.D,.LN])
                 newPos = 4
             }
-            return (newPos, actions, turns)
+            return (actions, turns)
         } else if pos == 18 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.LN]))
             turns.append(contentsOf: [.LN])
@@ -189,29 +253,29 @@ class SolverCross : SolverBase {
                 turns.append(contentsOf: [.D,.L])
                 newPos = 4
             }
-            return (newPos, actions, turns)
+            return (actions, turns)
         }
         
         // Wedge on the top, these can't be protected
         else if pos == 20 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.R2]))
             turns.append(.R2)
-            return (2, actions, turns)
+            return (actions, turns)
         } else if pos == 22 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.F2]))
             turns.append(.F2)
-            return (4, actions, turns)
+            return (actions, turns)
         } else if pos == 24 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.B2]))
             turns.append(.B2)
-            return (6, actions, turns)
+            return (actions, turns)
         } else if pos == 26 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.L2]))
             turns.append(.L2)
-            return (8, actions, turns)
+            return (actions, turns)
         }
         
-        return (pos, actions, turns)
+        return (actions, turns)
     }
     
     func turnWedgeOnBottomUp(wedgePos:Int, centerPos:Int) -> ([SCNAction],[Turn]) {
@@ -288,6 +352,7 @@ class SolverCross : SolverBase {
         for _ in 0..<4 {
             //actions.append(cube.empasize(poses: [22], asGroup: false))
             if cube.cublet(at: 22).upDown != CubletColor.white {
+                actions.append(cube.empasize(poses: [22], asGroup: true))
                 actions.append(contentsOf: cube.getTurnActions(turns:[.F, .UN, .R, .U]))
                 turns.append(contentsOf: [.F,.UN,.R,.U])
             }

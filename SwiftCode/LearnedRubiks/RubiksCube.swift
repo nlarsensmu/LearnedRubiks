@@ -34,7 +34,7 @@ public class RubiksCube{
     private let XRotationNegative = [0, 3,12,21, 6,15,24, 9,18,27, 2,11,20, 5,14,23, 8,17,26, 1,10,19, 4,13,22, 7,16,25]
     //posisitions visible to the user
     private let visiblePoses = [1,2,3,4,7,10,11,12,13,16,19,20,21,22,23,24,25,26,27]
-    var duration: Double = 0.1
+    var duration: Double = 1.0
     var emphaziseDuration: Double = 1
     //MARK: Setup functions
     public init(){
@@ -356,10 +356,11 @@ public class RubiksCube{
             
             let percentage:Float = Float((elapsedTime - cube.lastElapsedTime))/Float(self.emphaziseDuration)
             cube.lastElapsedTime = elapsedTime
-            cube.node.scale.x = originalScale.x + percentage * growthVector.x
-            cube.node.scale.y = originalScale.y + percentage * growthVector.y
-            cube.node.scale.z = originalScale.z + percentage * growthVector.z
-            if elapsedTime >= self.duration {
+            cube.node.scale.x = cube.node.scale.x + percentage * growthVector.x
+            cube.node.scale.y = cube.node.scale.y + percentage * growthVector.y
+            cube.node.scale.z = cube.node.scale.z + percentage * growthVector.z
+            print("\(pos) \(percentage) \(cube.node.scale.x) \(cube.node.scale.y) \(cube.node.scale.z)")
+            if elapsedTime >= self.emphaziseDuration {
                 cube.lastElapsedTime = 0.0
             }
         }
