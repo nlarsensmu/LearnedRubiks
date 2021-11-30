@@ -255,12 +255,6 @@ class PredictionViewController: UIViewController {
         sceneView.backgroundColor = .black
         addCubes()
         self.Cube?.duration = 1.0
-        
-        if let c = Cube {
-            let turns:[Turn] = [.R, .L, .U2]
-            var actions = c.getTurnActions(turns: turns)
-            c.undoTurns(steps: turns)
-        }
     }
     
     //To be called on init.  This will populate self.cubes which will contain all the inforatiom about the cube, and cubelets for the graphic
