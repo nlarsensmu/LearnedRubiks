@@ -135,9 +135,18 @@ class SolverCross : SolverBase {
         let foreground = turnCenterToForeground(centerPos: centerPos)
         actions.append(contentsOf: foreground.0)
         turns.append(contentsOf: foreground.1)
-        
         centerPos = getCubletPosition(c1: c1, c2: CubletColor.noColor, c3: CubletColor.noColor)
+        actions.append(cube.empasize(poses: [centerPos], asGroup: true))
+        
+        // Turn to the top layer
         pos = getCubletPosition(c1: CubletColor.white, c2: c1, c3: CubletColor.noColor)
+        let foregroundWedge = turnWedgeToForeground(pos: pos)
+        actions.append(contentsOf: foregroundWedge.0)
+        turns.append(contentsOf: foregroundWedge.1)
+        
+        pos = getCubletPosition(c1: CubletColor.white, c2: c1, c3: CubletColor.noColor)
+        actions.append(cube.empasize(poses: [pos], asGroup: true))
+        centerPos = getCubletPosition(c1: c1, c2: CubletColor.noColor, c3: CubletColor.noColor)
         let turnWedgeUp = turnWedgeOnBottomUp(wedgePos: pos, centerPos: centerPos)
         actions.append(contentsOf: turnWedgeUp.0)
         turns.append(contentsOf: turnWedgeUp.1)
@@ -156,6 +165,20 @@ class SolverCross : SolverBase {
         }
         let actions:[SCNAction] = []
         let turns:[Turn] = []
+        return (actions, turns)
+    }
+    
+    func turnWedgeToForeground(pos:Int) -> ([SCNAction], [Turn]) {
+        var actions:[SCNAction] = []
+        var turns:[Turn] = []
+        
+        if pos == 6 {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
+            turns.append(.Y)
+        } else if pos == 8 {
+            actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
+            turns.append(.YN)
+        }
         return (actions, turns)
     }
     
@@ -329,6 +352,7 @@ class SolverCross : SolverBase {
         for _ in 0..<4 {
             //actions.append(cube.empasize(poses: [22], asGroup: false))
             if cube.cublet(at: 22).upDown != CubletColor.white {
+                actions.append(cube.empasize(poses: [22], asGroup: true))
                 actions.append(contentsOf: cube.getTurnActions(turns:[.F, .UN, .R, .U]))
                 turns.append(contentsOf: [.F,.UN,.R,.U])
             }

@@ -285,6 +285,9 @@ class ReadCubeViewController: UIViewController {
         if(segue.identifier == "inputToPredictionViewController"){
                 let displayVC = segue.destination as! PredictionViewController
             displayVC.Cube = self.cube
+            displayVC.solver = SolverCross(c: displayVC.Cube!)
+            displayVC.nextStep = displayVC.solver!.getNextStep()
+            displayVC.displayStep = stepsToString(steps: displayVC.nextStep.steps)
         }
     }
     var cube:RubiksCube? = nil
