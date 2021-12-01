@@ -10,6 +10,8 @@ import SceneKit
 import CoreMotion
 
 class SolverLLWedgePossitions: SolverBase {
+    var stepString: String = "Solve Last Layer Wedge Postions"
+    
     var cube: RubiksCube
     var steps = 0
     /*

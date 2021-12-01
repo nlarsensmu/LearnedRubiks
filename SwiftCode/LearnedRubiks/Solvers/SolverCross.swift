@@ -9,9 +9,11 @@
 import Foundation
 import SceneKit
 import CoreMotion
+import AVFoundation
+import CoreML
 
 class SolverCross : SolverBase {
-    var stepString: String
+    var stepString: String = "Solve Cross"
     
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
         return getHashColor()
@@ -23,7 +25,6 @@ class SolverCross : SolverBase {
     var steps:Int = 0
     public init(c:RubiksCube) {
         cube = c
-        self.stepString = ""
     }
     
     func nameOfStep() -> String {
@@ -34,16 +35,16 @@ class SolverCross : SolverBase {
             return "Fix Position of Green White Wedge"
         }
         else if steps == 2 {
-            return "Fix Position of \nRed White Wedge"
+            return "Fix Position of Red White Wedge"
         }
         else if steps == 3 {
-            return "Fix Position of \nBlue White Wedge"
+            return "Fix Position of Blue White Wedge"
         }
         else if steps == 4 {
-            return "Fix Position of \nOrange White Wedge"
+            return "Fix Position of Orange White Wedge"
         }
         else if steps == 5 {
-            return "Fix Orientation \nof Wedges"
+            return "Fix Orientation of Wedges"
         }
         else{
             return "Solve Corners"
@@ -158,9 +159,11 @@ class SolverCross : SolverBase {
     func turnCenterToForeground(centerPos:Int) -> ([SCNAction], [Turn]) {
         if centerPos == 15 { // Back face
             let actions = cube.getTurnActions(turns: [.Y])
+            updateProtectedTurns(turn: .Y)
             return (actions, [.Y])
         } else if centerPos == 17 {
             let actions = cube.getTurnActions(turns: [.YN])
+            updateProtectedTurns(turn: .YN)
             return (actions, [.YN])
         }
         let actions:[SCNAction] = []
@@ -175,9 +178,11 @@ class SolverCross : SolverBase {
         if pos == 6 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
             turns.append(.Y)
+            updateProtectedTurns(turn: .Y)
         } else if pos == 8 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
             turns.append(.YN)
+            updateProtectedTurns(turn: .YN)
         }
         return (actions, turns)
     }
@@ -374,6 +379,45 @@ class SolverCross : SolverBase {
             protectedFaces.append(.F)
         } else if pos == 15 {
             protectedFaces.append(.B)
+        }
+    }
+    
+    func updateProtectedTurns(turn:Turn) {
+        
+        for i in 0..<protectedFaces.count {
+            if protectedFaces[i] == .R {
+                if turn == .Y {
+                    protectedFaces[i] = .F
+                } else if turn == .Y2 {
+                    protectedFaces[i] = .L
+                } else if turn == .YN {
+                    protectedFaces[i] = .B
+                }
+            } else if protectedFaces[i] == .L {
+                if turn == .Y {
+                    protectedFaces[i] = .B
+                } else if turn == .Y2 {
+                    protectedFaces[i] = .L
+                } else if turn == .YN {
+                    protectedFaces[i] = .F
+                }
+            } else if protectedFaces[i] == .F {
+                if turn == .Y {
+                    protectedFaces[i] = .L
+                } else if turn == .Y2 {
+                    protectedFaces[i] = .B
+                } else if turn == .YN {
+                    protectedFaces[i] = .R
+                }
+            } else if protectedFaces[i] == .B {
+                if turn == .Y {
+                    protectedFaces[i] = .R
+                } else if turn == .Y2 {
+                    protectedFaces[i] = .B
+                } else if turn == .YN {
+                    protectedFaces[i] = .L
+                }
+            }
         }
     }
 }
