@@ -25,40 +25,67 @@ class SolverLLWedgePossitions: SolverBase {
         return getHashColor()
     }()
     
-    let turns = [Turn.R, Turn.U, Turn.RN, Turn.U, Turn.R, Turn.U2, Turn.RN]
+    let wedgeRotateAlg = [Turn.R, Turn.U, Turn.RN, Turn.U, Turn.R, Turn.U2, Turn.RN]
     
     init(cube:RubiksCube) {
         self.cube = cube
+        steps = determineCase()
     }
     
     func nameOfStep() -> String {
-        return "Solve Wedges"
+        if steps == 3 {
+            return "Two correct Wedges opposite each other"
+        } else if steps == 2 {
+            return "Two correct Wedges next to each other"
+        } else {
+            return "Completed Cross"
+        }
     }
     
     func getNextStep() -> SolvingStep {
-        steps += 1
-        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
+        
+        var actions:[SCNAction] = []
+        var turns:[Turn] = []
+        
+        if (steps == 3) {
+            let case3 = solveCase3()
+            actions.append(contentsOf: case3.0)
+            turns.append(contentsOf: case3.1)
+            steps = 2
+        } else if (steps == 2) {
+            let case2 = solveCase2()
+            actions.append(contentsOf: case2.0)
+            turns.append(contentsOf: case2.1)
+        }
+        
+        
+        return SolvingStep(description: nameOfStep(), actions: actions, steps:turns)
     }
     
     func hasNextStep() -> Bool{
-        if steps >= 1{
+        if steps != 1{
             return false
         }
         return true
     }
     
-    func solve() -> [SCNAction] {
+    func solve() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
         var wedgeCase = determineCase()
         
         if (wedgeCase == 3) {
-            actions.append(contentsOf: solveCase3())
+            let case3 = solveCase3()
+            actions.append(contentsOf: case3.0)
+            turns.append(contentsOf: case3.1)
             wedgeCase = 2
         }
         
         if wedgeCase == 2 {
-            actions.append(contentsOf: solveCase2())
+            let case2 = solveCase2()
+            actions.append(contentsOf: case2.0)
+            turns.append(contentsOf: case2.1)
         }
         
         // Turn U or UN or U2 to make finsih out
@@ -69,14 +96,17 @@ class SolverLLWedgePossitions: SolverBase {
         
         if frontUp.frontBack == leftCenter.leftRight {
             actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+            turns.append(.U)
         } else if frontUp.frontBack == backCetner.frontBack {
             actions.append(contentsOf: cube.getTurnActions(turns: [.U2]))
+            turns.append(.U2)
         } else if frontUp.frontBack == rightCenter.leftRight {
             actions.append(contentsOf: cube.getTurnActions(turns: [.UN]))
+            turns.append(.UN)
         }
         
 //        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
-        return actions
+        return (actions, turns)
     }
     
     // This function will perform turns, but undo them. The actions will not be run
@@ -90,17 +120,17 @@ class SolverLLWedgePossitions: SolverBase {
                 let _ = cube.upTurn(direction: 1)
                 count += 1
             } else if sum == 46 { // case 3
-                for _ in 0..<count {
+                for _ in 0..<count { // 2 opposite each other
                     let _ = cube.upTurn(direction: -1)
                 }
                 return 3
-            } else if sum == 92 {
+            } else if sum == 92 { // cross
                 for _ in 0..<count {
                     let _ = cube.upTurn(direction: -1)
                 }
                 return 1
             } else { // 42, 44, 48, 50 // case 2
-                for _ in 0..<count {
+                for _ in 0..<count { // two next to each other
                     let _ = cube.upTurn(direction: -1)
                 }
                 return 2
@@ -128,51 +158,64 @@ class SolverLLWedgePossitions: SolverBase {
     }
     
     // To solve this we will perform the alg at any position and it will get us to case 2
-    func solveCase3() -> [SCNAction]{
+    func solveCase3() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
         // Position the two wedges in the front and back
         
         var sum = sumCorrectWedges()
         
         while sum != 46 {
-            actions.append(cube.upTurn(direction: 1))
+            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+            turns.append(.U)
             sum = sumCorrectWedges()
         }
         
         // if the right or left wedge is correct we need to rotate the cube
         if cube.cublet(at: 20).leftRight == cube.cublet(at: 11).leftRight {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
+            turns.append(.Y)
         }
         
-        actions.append(contentsOf: cube.getTurnActions(turns: turns))
+        actions.append(cube.empasize(poses: [25,20], asGroup: true))
+        actions.append(contentsOf: cube.getTurnActions(turns: wedgeRotateAlg))
+        turns.append(contentsOf: turns)
         
         actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
+        turns.append(.YN)
         
-        return actions
+        return (actions, turns)
     }
     
-    func solveCase2() -> [SCNAction] {
+    func solveCase2() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
         var sum = sumCorrectWedges()
         
         while ![42, 44, 48, 50].contains(sum) {
             actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+            turns.append(.U)
             sum = sumCorrectWedges()
         }
         
         if sum == 50 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
+            turns.append(.Y)
         } else if sum == 48 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+            turns.append(.Y2)
         } else if sum == 42 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
+            turns.append(.YN)
         }
         
-        actions.append(contentsOf: cube.getTurnActions(turns: turns))
+        actions.append(cube.empasize(poses: [24,20], asGroup: true))
+        actions.append(contentsOf: cube.getTurnActions(turns: wedgeRotateAlg))
+        turns.append(contentsOf: turns)
         actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
         
-        return actions
+        return (actions, turns)
     }
 }
