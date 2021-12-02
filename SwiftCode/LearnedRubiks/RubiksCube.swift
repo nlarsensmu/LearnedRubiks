@@ -449,6 +449,41 @@ public class RubiksCube{
         }
         return actions
     }
+    public func isValid() -> Bool {
+        var red = 0
+        var blue = 0
+        var green = 0
+        var yellow = 0
+        var white = 0
+        var orange = 0
+        for cubelet in cubelets {
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.red){
+                red += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.blue){
+                blue += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.green){
+                green += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.yellow){
+                yellow += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.white){
+                white += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.orange){
+                orange += 1
+            }
+        }
+        if red != 9{  return false }
+        if blue != 9{  return false }
+        if green != 9{  return false }
+        if yellow != 9{  return false }
+        if white != 9{  return false }
+        if orange != 9{  return false }
+        return true
+    }
     public func isSovled() -> Bool{
         if !checkFaces(poses: self.downPosition, side: .D) { return false }
         if !checkFaces(poses: self.upPositions, side: .U) { return false }
