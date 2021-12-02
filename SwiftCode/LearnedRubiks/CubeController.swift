@@ -138,7 +138,6 @@ class CubeController: UIViewController {
                 }
             }
         }
-        
     }
     
     var nextStep:SolvingStep = SolvingStep(description: "", actions: [], steps: [])

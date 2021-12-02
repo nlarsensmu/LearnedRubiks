@@ -181,48 +181,48 @@ public class RubiksCube{
     public func runTurn(direction:Int, operation: (Int) -> SCNAction) {
         scene.rootNode.runAction(operation(direction))
     }
-    public func rightTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction {
-        return rotateXAxis(positions: rightPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func rightTurn(direction:Int) -> SCNAction {
+        return rotateXAxis(positions: rightPositions, direction: direction)
     }
-    public func leftTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
+    public func leftTurn(direction:Int) -> SCNAction  {
         // The left face turns are the opposite of cube rotations about the X.
         let oppositeDirection = direction * -1
-        return rotateXAxis(positions: leftPositions, direction: oppositeDirection, onlyVirtual: onlyVirtual)
+        return rotateXAxis(positions: leftPositions, direction: oppositeDirection)
     }
-    public func mTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
-        return rotateXAxis(positions: mPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func mTurn(direction:Int) -> SCNAction  {
+        return rotateXAxis(positions: mPositions, direction: direction)
     }
     
-    public func upTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
-        return rotateYAxis(positions: upPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func upTurn(direction:Int) -> SCNAction  {
+        return rotateYAxis(positions: upPositions, direction: direction)
     }
-    public func downTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
+    public func downTurn(direction:Int) -> SCNAction  {
         let oppositeDirection = direction * -1
-        return rotateYAxis(positions: downPosition, direction: oppositeDirection, onlyVirtual: onlyVirtual)
+        return rotateYAxis(positions: downPosition, direction: oppositeDirection)
     }
-    public func eTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
-        return rotateYAxis(positions: ePositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func eTurn(direction:Int) -> SCNAction  {
+        return rotateYAxis(positions: ePositions, direction: direction)
     }
-    public func frontTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
-        return rotateZAxis(positions: frontPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func frontTurn(direction:Int) -> SCNAction  {
+        return rotateZAxis(positions: frontPositions, direction: direction)
     }
-    public func backTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
+    public func backTurn(direction:Int) -> SCNAction  {
         let oppositeDirection = direction * -1
-        return rotateZAxis(positions: backPositions, direction: oppositeDirection, onlyVirtual: onlyVirtual)
+        return rotateZAxis(positions: backPositions, direction: oppositeDirection)
     }
-    public func sTurn(direction:Int, onlyVirtual:Bool=false) -> SCNAction  {
-        return rotateZAxis(positions: sPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func sTurn(direction:Int) -> SCNAction  {
+        return rotateZAxis(positions: sPositions, direction: direction)
     }
-    public func rotateAllX(direction:Int, onlyVirtual:Bool=false) -> SCNAction {
-        return rotateXAxis(positions: allPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func rotateAllX(direction:Int) -> SCNAction {
+        return rotateXAxis(positions: allPositions, direction: direction)
     }
     //Roate the cube angle amount in the Y direction
-    public func rotateAllY(direction:Int, onlyVirtual:Bool=false) -> SCNAction {
-        return rotateYAxis(positions: allPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func rotateAllY(direction:Int) -> SCNAction {
+        return rotateYAxis(positions: allPositions, direction: direction)
     }
     //Roate the cube angle amount in the Y direction
-    public func rotateAllZ(direction:Int, onlyVirtual:Bool=false) -> SCNAction {
-        return rotateZAxis(positions: allPositions, direction: direction, onlyVirtual: onlyVirtual)
+    public func rotateAllZ(direction:Int) -> SCNAction {
+        return rotateZAxis(positions: allPositions, direction: direction)
     }
     //MARK: Private cube rotations... We only need 3
     private func emphasizeAt(pos:Int) -> SCNAction {
@@ -271,7 +271,7 @@ public class RubiksCube{
     }
     
     // Turn R, M, L
-    private func rotateXAxis(positions:[Int], direction:Int, onlyVirtual:Bool=false) -> SCNAction {
+    private func rotateXAxis(positions:[Int], direction:Int) -> SCNAction {
         
         var actions:[SCNAction] = []
         let angle:Float = .pi/2
@@ -282,24 +282,22 @@ public class RubiksCube{
             if !(positions.contains(cube.pos)) {
                 continue
             }
-            if onlyVirtual == false {
-                //Graphics Code
-                let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+            //Graphics Code
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
 
-                    let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
-                    cube.lastElapsedTime = elapsedTime
-                    
-                    let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
-                    let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
-                    cube.node.transform = rot2
-                    
-                    if elapsedTime >= self.duration {
-                        cube.lastElapsedTime = 0.0
-                    }
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+                
+                let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+                
+                if elapsedTime >= self.duration {
+                    cube.lastElapsedTime = 0.0
                 }
-                // Turn the physical cube
-                actions.append(rotationAction)
             }
+            // Turn the physical cube
+            actions.append(rotationAction)
             
             rotateXAxisVirtual(cube: cube, direction: direction)
             
@@ -331,7 +329,7 @@ public class RubiksCube{
         }
     }
     // Turn U, E, D
-    private func rotateYAxis(positions:[Int], direction:Int, onlyVirtual:Bool=false) -> SCNAction{
+    private func rotateYAxis(positions:[Int], direction:Int) -> SCNAction{
         
         var actions:[SCNAction] = []
         let angle:Float = .pi/2
@@ -341,23 +339,22 @@ public class RubiksCube{
             if !(positions.contains(cube.pos)) {
                 continue
             }
-            if onlyVirtual == false {
-                let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
 
-                    let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
-                    cube.lastElapsedTime = elapsedTime
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
 
-                    let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
-                    let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
-                    cube.node.transform = rot2
-                    
-                    if elapsedTime >= self.duration {
-                        cube.lastElapsedTime = 0.0
-                    }
+                let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+                
+                if elapsedTime >= self.duration {
+                    cube.lastElapsedTime = 0.0
                 }
-                // Physical cube
-                actions.append(rotationAction)
             }
+            // Physical cube
+            actions.append(rotationAction)
+            
             //Logic Code
             rotateYAxisVirtual(cube: cube, direction: direction)
         }
@@ -388,7 +385,7 @@ public class RubiksCube{
     }
     
     // F, S, B turns
-    private func rotateZAxis(positions:[Int], direction:Int, onlyVirtual:Bool=false) -> SCNAction {
+    private func rotateZAxis(positions:[Int], direction:Int) -> SCNAction {
         
         var actions:[SCNAction] = []
         let angle:Float = .pi/2
@@ -399,24 +396,23 @@ public class RubiksCube{
             if !(positions.contains(cube.pos)) {
                 continue
             }
-            if onlyVirtual == false {
             //Graphics Code
-                let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
 
-                    let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
-                    cube.lastElapsedTime = elapsedTime
-                    
-                    let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
-                    let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
-                    cube.node.transform = rot2
-                    
-                    if elapsedTime >= self.duration {
-                        cube.lastElapsedTime = 0.0
-                    }
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+                
+                let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+                
+                if elapsedTime >= self.duration {
+                    cube.lastElapsedTime = 0.0
                 }
-                // Physical Cube
-                actions.append(rotationAction)
             }
+                // Physical Cube
+            actions.append(rotationAction)
+            
             //Logic Code
             rotateZAxisVirtual(cube: cube, direction: direction)
         }
@@ -448,7 +444,6 @@ public class RubiksCube{
     //MARK: Cube helper functions
     public func getTurnActions(turns:[Turn]) -> [SCNAction] {
         var actions:[SCNAction] = []
-        
         for t in turns {
             actions.append(turnFromEnum(turn: t))
         }
@@ -488,13 +483,52 @@ public class RubiksCube{
         return true
     }
     public func isParady() -> Bool{
-        
-        //TODO: for this to work here are the steps required.
-        //1. alter all the sovlers to be able to affect the virural cube.
-        //2. subsequtially call all of the solvers till they finish
-        //    (hopefully paradoy does not cause a infinte loop
-        //3. check if the cube is solved
+        let cube = self.deepCopyCube()
+        var solver:SolverBase = SolverCross(c:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverFirstCorners(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverMiddle(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverLLWedgePossitions(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverLastCrossBB(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverBeginnerLLCornersPosition(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverBeginnerLLCornersOrientation(cube:cube)
+        var i = 0
+        while(solver.hasNextStep() || i > 4){
+            _ = solver.getNextStep()
+            i += 1
+        }
+        if cube.isSovled(){
+            return true
+        }
         return false
+    }
+    public 	 func deepCopyCube() -> RubiksCube{
+        let cube = RubiksCube()
+        for i in 0..<cubelets.count{
+            cube.cubelets[i] = Cublet(node: SCNNode(),
+                                      pos: self.cubelets[i].pos,
+                                      upDown: self.cubelets[i].upDown,
+                                      leftRight: self.cubelets[i].leftRight,
+                                      frontBack: self.cubelets[i].frontBack)
+        }
+        return cube
     }
     public func scramble(turnsCount:Int = 30) -> [SCNAction] {
         let turns = [Turn.D, Turn.DN, Turn.F, Turn.FN, Turn.R, Turn.RN,
