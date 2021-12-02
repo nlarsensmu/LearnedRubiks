@@ -291,4 +291,13 @@ class ReadCubeViewController: UIViewController {
         }
     }
     var cube:RubiksCube? = nil
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        guard let c = cube else {
+            return false
+        }
+        if c.isValid() && c.isParady() {
+            return true
+        }
+        return false
+    }
 }

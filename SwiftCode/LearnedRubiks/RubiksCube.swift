@@ -550,9 +550,9 @@ public class RubiksCube{
             i += 1
         }
         if cube.isSovled(){
-            return true
+            return false
         }
-        return false
+        return true
     }
     public 	 func deepCopyCube() -> RubiksCube{
         let cube = RubiksCube()
