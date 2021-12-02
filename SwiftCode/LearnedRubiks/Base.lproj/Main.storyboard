@@ -57,7 +57,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="sit-EI-wtb" kind="show" id="4si-6E-XsH"/>
+                                            <segue destination="Iie-K7-svU" kind="show" id="Zyb-m4-Gne"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="VQR-Pg-7H2" style="IBUITableViewCellStyleDefault" id="hSf-cT-ht6">
@@ -146,9 +146,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="Iie-K7-svU" kind="show" id="jHZ-Pq-MLe"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -160,7 +157,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ald-m6-GdF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="774" y="360"/>
+            <point key="canvasLocation" x="2646" y="360"/>
         </scene>
         <!--Prediction View Controller-->
         <scene sceneID="Zgx-cf-fUG">
@@ -453,7 +450,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhG-C5-Khe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828.985507246377" y="359.59821428571428"/>
+            <point key="canvasLocation" x="778" y="360"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VzP-eT-Dyz">
@@ -837,7 +834,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RDR-9H-Z1S"/>
+        <segue reference="Zyb-m4-Gne"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="opaqueSeparatorColor">
