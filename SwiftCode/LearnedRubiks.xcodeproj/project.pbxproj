@@ -11,6 +11,8 @@
 		B78647CA2739FA85004BB50B /* Room.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647C92739FA85004BB50B /* Room.scn */; };
 		B78647D0273F20C3004BB50B /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647CF273F20C3004BB50B /* Cube.scn */; };
 		B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78647D1273F28DA004BB50B /* RubiksCube.swift */; };
+		B786EC23275856180081A1E0 /* RootCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786EC22275856180081A1E0 /* RootCollectionViewController.swift */; };
+		B786EC26275856310081A1E0 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B786EC25275856310081A1E0 /* ImageModel.m */; };
 		FD287A8A274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD287A89274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift */; };
 		FD287A91274C6E54004A6D3B /* OpenCVBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD287A8D274C6E54004A6D3B /* OpenCVBridge.mm */; };
 		FD287A92274C6E54004A6D3B /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD287A8E274C6E54004A6D3B /* opencv2.framework */; };
@@ -45,6 +47,9 @@
 		B78647C92739FA85004BB50B /* Room.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Room.scn; sourceTree = "<group>"; };
 		B78647CF273F20C3004BB50B /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
 		B78647D1273F28DA004BB50B /* RubiksCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RubiksCube.swift; sourceTree = "<group>"; };
+		B786EC22275856180081A1E0 /* RootCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCollectionViewController.swift; sourceTree = "<group>"; };
+		B786EC24275856310081A1E0 /* ImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModel.h; sourceTree = "<group>"; };
+		B786EC25275856310081A1E0 /* ImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageModel.m; sourceTree = "<group>"; };
 		FD287A89274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBeginnerLLCornersOrientation.swift; sourceTree = "<group>"; };
 		FD287A8C274C6E54004A6D3B /* OpenCVBridge.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenCVBridge.hh; sourceTree = "<group>"; };
 		FD287A8D274C6E54004A6D3B /* OpenCVBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVBridge.mm; sourceTree = "<group>"; };
@@ -126,6 +131,8 @@
 		FD31FBAE27385830006DE220 /* LearnedRubiks */ = {
 			isa = PBXGroup;
 			children = (
+				B786EC24275856310081A1E0 /* ImageModel.h */,
+				B786EC25275856310081A1E0 /* ImageModel.m */,
 				FDA540CB2748355900E11DAE /* Solvers */,
 				FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */,
 				FD31FBB327385830006DE220 /* LearningViewController.swift */,
@@ -146,6 +153,7 @@
 				B78647D1273F28DA004BB50B /* RubiksCube.swift */,
 				B77C72892740A9B400597316 /* ModelSelectionViewController.swift */,
 				FD287A9A274C740A004A6D3B /* PrefixHeader.pch */,
+				B786EC22275856180081A1E0 /* RootCollectionViewController.swift */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -249,6 +257,7 @@
 				FDA540CD2748357D00E11DAE /* SolverMiddle.swift in Sources */,
 				FD287A91274C6E54004A6D3B /* OpenCVBridge.mm in Sources */,
 				FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */,
+				B786EC26275856310081A1E0 /* ImageModel.m in Sources */,
 				FDFA660E27407A8800A866F8 /* ModelDsId4.mlmodel in Sources */,
 				FD287A8A274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift in Sources */,
 				FDA540CA2746F58100E11DAE /* SovlerFirstCorners.swift in Sources */,
@@ -266,6 +275,7 @@
 				FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */,
 				B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */,
 				FD287A93274C6E54004A6D3B /* VideoAnalgesic.swift in Sources */,
+				B786EC23275856180081A1E0 /* RootCollectionViewController.swift in Sources */,
 				FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */,
 				FDA540D3274861E600E11DAE /* SolverLLWedgePositons.swift in Sources */,
 				FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */,
