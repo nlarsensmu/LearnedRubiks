@@ -33,8 +33,5 @@ class RootViewController: UIViewController {
         self.learning.image = UIImage(named: "learning")
         self.camera.image = UIImage(named: "camera")
     }
-    lazy var imageModel = {
-        return ImageModel.sharedInstance()
-    }()
 }
 

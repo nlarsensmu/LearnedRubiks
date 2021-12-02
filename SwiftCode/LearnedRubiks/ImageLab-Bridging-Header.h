@@ -3,4 +3,3 @@
 //
 
 #import "OpenCVBridge.hh"
-#import "ImageModel.h"
