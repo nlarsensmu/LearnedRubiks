@@ -10,7 +10,7 @@ import SceneKit
 import CoreMotion
 import CoreML
 
-class PredictionViewController: UIViewController {
+class CubeController: UIViewController {
     
     lazy var loadedModel:ModelDsId4 = {
         do{

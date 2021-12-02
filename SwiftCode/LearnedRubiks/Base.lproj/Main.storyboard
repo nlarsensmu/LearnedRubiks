@@ -159,10 +159,10 @@
             </objects>
             <point key="canvasLocation" x="2646" y="360"/>
         </scene>
-        <!--Prediction View Controller-->
+        <!--Cube Controller-->
         <scene sceneID="Zgx-cf-fUG">
             <objects>
-                <viewController id="Iie-K7-svU" customClass="PredictionViewController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Iie-K7-svU" customClass="CubeController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="I3n-uY-ff4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
