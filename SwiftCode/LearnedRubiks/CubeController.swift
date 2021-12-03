@@ -170,14 +170,15 @@ class CubeController: UIViewController {
                         self.solver = SolverBeginnerLLCornersOrientation(cube: self.Cube!)
                     }
                 }
-            }
-            if let s = solver{
-                DispatchQueue.main.async {
-                    self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
-                    self.nextStep = s.getNextStep()
-                    self.displayStep = stepsToString(steps: self.nextStep.steps)
-                    self.stepText.text = s.stepString
+                if let s = self.solver{
+                    DispatchQueue.main.async {
+                        self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+                        self.nextStep = s.getNextStep()
+                        self.displayStep = stepsToString(steps: self.nextStep.steps)
+                        self.stepText.text = s.stepString
+                    }
                 }
+                
             }
         }
     }

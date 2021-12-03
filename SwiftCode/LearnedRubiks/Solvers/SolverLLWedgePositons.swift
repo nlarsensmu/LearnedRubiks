@@ -53,7 +53,6 @@ class SolverLLWedgePossitions: SolverBase {
             let case3 = solveCase3()
             actions.append(contentsOf: case3.0)
             turns.append(contentsOf: case3.1)
-            steps = 2
         } else if (steps == 2) {
             let case2 = solveCase2()
             actions.append(contentsOf: case2.0)
@@ -69,7 +68,7 @@ class SolverLLWedgePossitions: SolverBase {
     }
     
     func hasNextStep() -> Bool{
-        if steps != 1{
+        if steps == 1{
             return false
         }
         return true
@@ -225,13 +224,14 @@ class SolverLLWedgePossitions: SolverBase {
             turns.append(.Y)
         }
         
-        actions.append(cube.empasize(poses: [25,20], asGroup: true))
+        actions.append(cube.empasize(poses: [22,24], asGroup: true))
         actions.append(contentsOf: cube.getTurnActions(turns: wedgeRotateAlg))
-        turns.append(contentsOf: turns)
+        turns.append(contentsOf: wedgeRotateAlg)
         
         actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
         turns.append(.YN)
         
+        steps = 2
         return (actions, turns)
     }
     
@@ -262,7 +262,9 @@ class SolverLLWedgePossitions: SolverBase {
         actions.append(contentsOf: cube.getTurnActions(turns: wedgeRotateAlg))
         turns.append(contentsOf: wedgeRotateAlg)
         actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+        turns.append(.U)
         
+        steps = 1
         return (actions, turns)
     }
 }
