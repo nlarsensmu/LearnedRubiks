@@ -30,7 +30,8 @@ class SolverBeginnerLLCornersPosition: SolverBase {
     
     func getNextStep() -> SolvingStep {
         steps += 1
-        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
+        let result = solve()
+        return SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1)
     }
     
     func hasNextStep() -> Bool{
@@ -40,13 +41,15 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return true
     }
     
-    func solve() -> [SCNAction] {
+    func solve() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
-        actions.append(contentsOf: positionCorner())
+        let result = positionCorner()
+        actions.append(contentsOf: result.0)
+        turns.append(contentsOf: result.1)
         
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
-        return actions
+        return (actions, turns)
     }
     
     // MARK: position the conrners
@@ -77,14 +80,17 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return count
     }
     
-    func positionCorner() -> [SCNAction] {
+    func positionCorner() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
+        var turns:[Turn] = []
         
         var count = countCorectCorners()
         
         // if count is 0, we need to do rotation once to get one that is right.
         if count == 0 {
+            actions.append(cube.empasize(poses: [19,21,25,27], asGroup: true))
             actions.append(contentsOf: cube.getTurnActions(turns: rotate3CornersAlg))
+            turns.append(contentsOf: rotate3CornersAlg)
             count = 1
         }
         
@@ -109,6 +115,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
             
             // Turn it to pos 19
             if backRightCornerCorrect {
+                turns.append(.Y)
                 actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
             }
             
@@ -120,6 +127,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
             
             // Turn it to pos 19
             if backLeftCornerCorrect {
+                turns.append(.Y2)
                 actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
             }
             
@@ -131,45 +139,19 @@ class SolverBeginnerLLCornersPosition: SolverBase {
             
             // Turn it to pos 19
             if frontLeftCornerCorrect {
+                turns.append(.YN)
                 actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
             }
+            
+            
+            actions.append(cube.empasize(poses: [19], asGroup: true))
             // Perform
             while countCorectCorners() != 4 {
+                turns.append(contentsOf: rotate3CornersAlg)
                 actions.append(contentsOf: cube.getTurnActions(turns: rotate3CornersAlg))
             }
         }
         
-        return actions
-    }
-    
-    // MARK: Oreintate the corners
-    
-    // This checks if the corner has the right color UP
-    func checkFrontRightUpCornerOrientation() -> Bool {
-        let frontRightUp = cube.cublet(at: 19)
-        
-        let upCenter = cube.cublet(at: 23)
-        
-        let frontRightCornerCorrect = frontRightUp.upDown == upCenter.upDown
-        
-        return frontRightCornerCorrect
-    }
-    
-    func orientateCorners() -> [SCNAction] {
-        var actions:[SCNAction] = []
-        for _ in 0..<4 { // For each corner
-            
-            
-            var frontRightCornerCorrect = checkFrontRightUpCornerOrientation()
-            
-            while !frontRightCornerCorrect {
-                actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
-                frontRightCornerCorrect = checkFrontRightUpCornerOrientation()
-            }
-            
-            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
-        }
-        
-        return actions
+        return (actions, turns)
     }
 }

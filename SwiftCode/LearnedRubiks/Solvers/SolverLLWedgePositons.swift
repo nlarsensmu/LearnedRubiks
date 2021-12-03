@@ -29,7 +29,9 @@ class SolverLLWedgePossitions: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
+        cube.printCube()
         steps = determineCase()
+        cube.printCube()
     }
     
     func nameOfStep() -> String {
@@ -56,6 +58,10 @@ class SolverLLWedgePossitions: SolverBase {
             let case2 = solveCase2()
             actions.append(contentsOf: case2.0)
             turns.append(contentsOf: case2.1)
+        } else if (steps == 1) { // They are solved in some way
+            let case1 = solveCase1()
+            actions.append(contentsOf: case1.0)
+            turns.append(contentsOf: case1.1)
         }
         
         
@@ -67,6 +73,48 @@ class SolverLLWedgePossitions: SolverBase {
             return false
         }
         return true
+    }
+    
+    func solveCase1() -> ([SCNAction], [Turn]) {
+        var actions:[SCNAction] = []
+        var turns:[Turn] = []
+        
+        var sum = sumCorrectWedges()
+        
+        if sum == 92 {
+            // solved
+            return (actions, turns)
+        }
+        
+        // Try one up turn.
+        let _ = cube.getTurnActions(turns: [.U])
+        sum = sumCorrectWedges()
+        if sum == 92 {
+            let _ = cube.getTurnActions(turns: [.UN])
+            turns.append(.U)
+            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+            return (actions, turns)
+        }
+        
+        // Try another up turn.
+        let _ = cube.getTurnActions(turns: [.U])
+        if sum == 92 {
+            let _ = cube.getTurnActions(turns: [.U2])
+            turns.append(.U2)
+            actions.append(contentsOf: cube.getTurnActions(turns: [.U2]))
+            return (actions, turns)
+        }
+        
+        // Try another up turn.
+        let _ = cube.getTurnActions(turns: [.U])
+        if sum == 92 {
+            let _ = cube.getTurnActions(turns: [.U])
+            turns.append(.U)
+            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+            return (actions, turns)
+        }
+        
+        return (actions, turns)
     }
     
     func solve() -> ([SCNAction], [Turn]) {
@@ -105,7 +153,6 @@ class SolverLLWedgePossitions: SolverBase {
             turns.append(.UN)
         }
         
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
         return (actions, turns)
     }
     
@@ -213,7 +260,7 @@ class SolverLLWedgePossitions: SolverBase {
         
         actions.append(cube.empasize(poses: [24,20], asGroup: true))
         actions.append(contentsOf: cube.getTurnActions(turns: wedgeRotateAlg))
-        turns.append(contentsOf: turns)
+        turns.append(contentsOf: wedgeRotateAlg)
         actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
         
         return (actions, turns)
