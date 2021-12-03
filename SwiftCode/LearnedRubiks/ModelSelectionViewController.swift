@@ -79,7 +79,7 @@ class ModelSelectionViewController: UITableViewController {
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
          // Get the new view controller using segue.destination.
          // Pass the selected object to the new view controller.
-         if let vc = segue.destination as? PredictionViewController,
+         if let vc = segue.destination as? CubeController,
             let cell = sender as? UITableViewCell,
             let indexPath = self.tableView.indexPath(for: cell)
          {

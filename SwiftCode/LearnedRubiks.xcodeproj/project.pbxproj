@@ -11,6 +11,7 @@
 		B78647CA2739FA85004BB50B /* Room.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647C92739FA85004BB50B /* Room.scn */; };
 		B78647D0273F20C3004BB50B /* Cube.scn in Resources */ = {isa = PBXBuildFile; fileRef = B78647CF273F20C3004BB50B /* Cube.scn */; };
 		B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78647D1273F28DA004BB50B /* RubiksCube.swift */; };
+		B786EC23275856180081A1E0 /* RootCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786EC22275856180081A1E0 /* RootCollectionViewController.swift */; };
 		FD287A8A274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD287A89274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift */; };
 		FD287A91274C6E54004A6D3B /* OpenCVBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = FD287A8D274C6E54004A6D3B /* OpenCVBridge.mm */; };
 		FD287A92274C6E54004A6D3B /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD287A8E274C6E54004A6D3B /* opencv2.framework */; };
@@ -31,7 +32,7 @@
 		FDA540D12748563200E11DAE /* SolverLastCrossBB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540D02748563200E11DAE /* SolverLastCrossBB.swift */; };
 		FDA540D3274861E600E11DAE /* SolverLLWedgePositons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540D2274861E600E11DAE /* SolverLLWedgePositons.swift */; };
 		FDA540D527486ED700E11DAE /* SolverBeginnerLLCornersPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540D427486ED700E11DAE /* SolverBeginnerLLCornersPosition.swift */; };
-		FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */; };
+		FDF76D2F27386ED800A26E19 /* CubeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D2E27386ED800A26E19 /* CubeController.swift */; };
 		FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */; };
 		FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D3227388BE100A26E19 /* ServerModel.swift */; };
 		FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */; };
@@ -45,6 +46,7 @@
 		B78647C92739FA85004BB50B /* Room.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Room.scn; sourceTree = "<group>"; };
 		B78647CF273F20C3004BB50B /* Cube.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Cube.scn; sourceTree = "<group>"; };
 		B78647D1273F28DA004BB50B /* RubiksCube.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RubiksCube.swift; sourceTree = "<group>"; };
+		B786EC22275856180081A1E0 /* RootCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootCollectionViewController.swift; sourceTree = "<group>"; };
 		FD287A89274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBeginnerLLCornersOrientation.swift; sourceTree = "<group>"; };
 		FD287A8C274C6E54004A6D3B /* OpenCVBridge.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OpenCVBridge.hh; sourceTree = "<group>"; };
 		FD287A8D274C6E54004A6D3B /* OpenCVBridge.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVBridge.mm; sourceTree = "<group>"; };
@@ -70,7 +72,7 @@
 		FDA540D02748563200E11DAE /* SolverLastCrossBB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverLastCrossBB.swift; sourceTree = "<group>"; };
 		FDA540D2274861E600E11DAE /* SolverLLWedgePositons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverLLWedgePositons.swift; sourceTree = "<group>"; };
 		FDA540D427486ED700E11DAE /* SolverBeginnerLLCornersPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBeginnerLLCornersPosition.swift; sourceTree = "<group>"; };
-		FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionViewController.swift; sourceTree = "<group>"; };
+		FDF76D2E27386ED800A26E19 /* CubeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeController.swift; sourceTree = "<group>"; };
 		FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetsTableView.swift; sourceTree = "<group>"; };
 		FDF76D3227388BE100A26E19 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDatasetViewController.swift; sourceTree = "<group>"; };
@@ -132,7 +134,7 @@
 				FD287A9B274C758A004A6D3B /* ReadCubeViewController.swift */,
 				FD31FBAF27385830006DE220 /* AppDelegate.swift */,
 				FD31FBB127385830006DE220 /* SceneDelegate.swift */,
-				FDF76D2E27386ED800A26E19 /* PredictionViewController.swift */,
+				FDF76D2E27386ED800A26E19 /* CubeController.swift */,
 				FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */,
 				FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */,
 				FDF76D3227388BE100A26E19 /* ServerModel.swift */,
@@ -146,6 +148,7 @@
 				B78647D1273F28DA004BB50B /* RubiksCube.swift */,
 				B77C72892740A9B400597316 /* ModelSelectionViewController.swift */,
 				FD287A9A274C740A004A6D3B /* PrefixHeader.pch */,
+				B786EC22275856180081A1E0 /* RootCollectionViewController.swift */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -254,7 +257,7 @@
 				FDA540CA2746F58100E11DAE /* SovlerFirstCorners.swift in Sources */,
 				FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */,
 				FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */,
-				FDF76D2F27386ED800A26E19 /* PredictionViewController.swift in Sources */,
+				FDF76D2F27386ED800A26E19 /* CubeController.swift in Sources */,
 				FD287A9C274C758A004A6D3B /* ReadCubeViewController.swift in Sources */,
 				FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */,
 				FD31FBC427385A39006DE220 /* RingBuffer.swift in Sources */,
@@ -266,6 +269,7 @@
 				FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */,
 				B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */,
 				FD287A93274C6E54004A6D3B /* VideoAnalgesic.swift in Sources */,
+				B786EC23275856180081A1E0 /* RootCollectionViewController.swift in Sources */,
 				FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */,
 				FDA540D3274861E600E11DAE /* SolverLLWedgePositons.swift in Sources */,
 				FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */,
@@ -419,7 +423,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XGS97V26UJ;
+				DEVELOPMENT_TEAM = 2U52JNW2M5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -427,6 +431,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearnedRubiks/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The Camera will only be used to take photos of the cube.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -439,7 +444,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = RubiksCubeNick;
+				PRODUCT_BUNDLE_IDENTIFIER = RubiksCubeNickSteven;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "LearnedRubiks/ImageLab-Bridging-Header.h";
@@ -453,9 +458,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XGS97V26UJ;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -463,6 +468,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LearnedRubiks/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "The Camera will only be used to take photos of the cube.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -477,6 +483,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = SMU.Lab5.LearnedRubiks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "LearnedRubiks/ImageLab-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
