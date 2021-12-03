@@ -22,20 +22,26 @@ class SolverBeginnerLLCornersPosition: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
+        steps = countCorectCorners()
     }
     
     func nameOfStep() -> String {
-        return "Solve Corner Posistions"
+        if steps == 0 {
+            return "No Corners are correct"
+        } else if steps == 1 {
+            return "One Corner is correct"
+        } else {
+            return "All coners are corret"
+        }
     }
     
     func getNextStep() -> SolvingStep {
-        steps += 1
         let result = solve()
         return SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1)
     }
     
     func hasNextStep() -> Bool{
-        if steps >= 1{
+        if steps == 4 { // steps is the number of correct corners
             return false
         }
         return true
@@ -45,9 +51,17 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
-        let result = positionCorner()
-        actions.append(contentsOf: result.0)
-        turns.append(contentsOf: result.1)
+        if steps == 0 {
+            let oneCorner = getOneCornerRight()
+            actions.append(contentsOf: oneCorner.0)
+            turns.append(contentsOf: oneCorner.1)
+            steps = countCorectCorners()
+        } else if steps == 1 {
+            let allCorners = positionCorner()
+            actions.append(contentsOf: allCorners.0)
+            turns.append(contentsOf: allCorners.1)
+            steps = countCorectCorners()
+        }
         
         return (actions, turns)
     }
@@ -80,9 +94,10 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return count
     }
     
-    func positionCorner() -> ([SCNAction], [Turn]) {
+    func getOneCornerRight() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
+        
         
         var count = countCorectCorners()
         
@@ -94,62 +109,66 @@ class SolverBeginnerLLCornersPosition: SolverBase {
             count = 1
         }
         
-        if count == 1 {
-            
-            // Check if we are already correct
-            let frontRightCorner = hashColorDict[cube.cublet(at: 23).upDown]!
-                | hashColorDict[cube.cublet(at: 11).leftRight]!
-                | hashColorDict[cube.cublet(at: 13).frontBack]!
-            
-            let frontRightCornerCorrect = frontRightCorner == hashColor(cublet: cube.cublet(at: 19))
-            
-            // we are done.
-            if frontRightCornerCorrect {
-            }
-            
-            // Check the RightBack
-            let rightBackCorner = hashColorDict[cube.cublet(at: 23).upDown]!
-                | hashColorDict[cube.cublet(at: 11).leftRight]!
-                | hashColorDict[cube.cublet(at: 15).frontBack]!
-            let backRightCornerCorrect = rightBackCorner == hashColor(cublet: cube.cublet(at: 21))
-            
-            // Turn it to pos 19
-            if backRightCornerCorrect {
-                turns.append(.Y)
-                actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
-            }
-            
-            // Check the LeftBack
-            let leftBackCorner = hashColorDict[cube.cublet(at: 23).upDown]!
-                | hashColorDict[cube.cublet(at: 17).leftRight]!
-                | hashColorDict[cube.cublet(at: 15).frontBack]!
-            let backLeftCornerCorrect = leftBackCorner == hashColor(cublet: cube.cublet(at: 27))
-            
-            // Turn it to pos 19
-            if backLeftCornerCorrect {
-                turns.append(.Y2)
-                actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
-            }
-            
-            // Check the leftFront
-            let leftFrontCorner = hashColorDict[cube.cublet(at: 23).upDown]!
-                | hashColorDict[cube.cublet(at: 17).leftRight]!
-                | hashColorDict[cube.cublet(at: 13).frontBack]!
-            let frontLeftCornerCorrect = leftFrontCorner == hashColor(cublet: cube.cublet(at: 25))
-            
-            // Turn it to pos 19
-            if frontLeftCornerCorrect {
-                turns.append(.YN)
-                actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
-            }
-            
-            
-            actions.append(cube.empasize(poses: [19], asGroup: true))
-            // Perform
-            while countCorectCorners() != 4 {
-                turns.append(contentsOf: rotate3CornersAlg)
-                actions.append(contentsOf: cube.getTurnActions(turns: rotate3CornersAlg))
-            }
+        return (actions, turns)
+    }
+    
+    func positionCorner() -> ([SCNAction], [Turn]) {
+        var actions:[SCNAction] = []
+        var turns:[Turn] = []
+        
+        // Check if we are already correct
+        let frontRightCorner = hashColorDict[cube.cublet(at: 23).upDown]!
+            | hashColorDict[cube.cublet(at: 11).leftRight]!
+            | hashColorDict[cube.cublet(at: 13).frontBack]!
+        
+        let frontRightCornerCorrect = frontRightCorner == hashColor(cublet: cube.cublet(at: 19))
+        
+        // we are done.
+        if frontRightCornerCorrect {
+        }
+        
+        // Check the RightBack
+        let rightBackCorner = hashColorDict[cube.cublet(at: 23).upDown]!
+            | hashColorDict[cube.cublet(at: 11).leftRight]!
+            | hashColorDict[cube.cublet(at: 15).frontBack]!
+        let backRightCornerCorrect = rightBackCorner == hashColor(cublet: cube.cublet(at: 21))
+        
+        // Turn it to pos 19
+        if backRightCornerCorrect {
+            turns.append(.Y)
+            actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
+        }
+        
+        // Check the LeftBack
+        let leftBackCorner = hashColorDict[cube.cublet(at: 23).upDown]!
+            | hashColorDict[cube.cublet(at: 17).leftRight]!
+            | hashColorDict[cube.cublet(at: 15).frontBack]!
+        let backLeftCornerCorrect = leftBackCorner == hashColor(cublet: cube.cublet(at: 27))
+        
+        // Turn it to pos 19
+        if backLeftCornerCorrect {
+            turns.append(.Y2)
+            actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
+        }
+        
+        // Check the leftFront
+        let leftFrontCorner = hashColorDict[cube.cublet(at: 23).upDown]!
+            | hashColorDict[cube.cublet(at: 17).leftRight]!
+            | hashColorDict[cube.cublet(at: 13).frontBack]!
+        let frontLeftCornerCorrect = leftFrontCorner == hashColor(cublet: cube.cublet(at: 25))
+        
+        // Turn it to pos 19
+        if frontLeftCornerCorrect {
+            turns.append(.YN)
+            actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
+        }
+        
+        
+        actions.append(cube.empasize(poses: [19], asGroup: true))
+        // Perform
+        while countCorectCorners() != 4 {
+            turns.append(contentsOf: rotate3CornersAlg)
+            actions.append(contentsOf: cube.getTurnActions(turns: rotate3CornersAlg))
         }
         
         return (actions, turns)

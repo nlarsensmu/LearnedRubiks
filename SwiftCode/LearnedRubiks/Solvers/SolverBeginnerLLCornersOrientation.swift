@@ -7,12 +7,13 @@
 
 import Foundation
 import SceneKit
+import AVFAudio
 
 class SolverBeginnerLLCornersOrientation: SolverBase {
     var stepString: String = "Solve Last Layer Corner Orientation"
     
     var cube: RubiksCube
-    var steps = 0
+    var steps = 1
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
         return getHashColor()
     }()
@@ -30,23 +31,18 @@ class SolverBeginnerLLCornersOrientation: SolverBase {
     
     func getNextStep() -> SolvingStep {
         steps += 1
-        return SolvingStep(description: nameOfStep(), actions: solve(), steps:[])
+        
+        var result = orientateCorner19()
+        result.0.append(contentsOf: cube.getTurnActions(turns: [.U]))
+        result.1.append(.U)
+        return SolvingStep(description: nameOfStep(), actions: result.0, steps: result.1)
     }
     
     func hasNextStep() -> Bool{
-        if steps >= 1{
+        if steps >= 4{
             return false
         }
         return true
-    }
-    
-    func solve() -> [SCNAction]{
-        var actions:[SCNAction] = []
-        
-        actions.append(contentsOf: orientateCorners())
-        
-//        cube.scene.rootNode.runAction(SCNAction.sequence(actions))
-        return actions
     }
     
     // MARK: position the conrners
@@ -90,22 +86,25 @@ class SolverBeginnerLLCornersOrientation: SolverBase {
         return frontRightCornerCorrect
     }
     
-    func orientateCorners() -> [SCNAction] {
+    func orientateCorner19() -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
-        for _ in 0..<4 { // For each corner
-            
-            
-            var frontRightCornerCorrect = checkFrontRightUpCornerOrientation()
-            
-            while !frontRightCornerCorrect {
-                actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
-                frontRightCornerCorrect = checkFrontRightUpCornerOrientation()
-            }
-            
-            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+        var turns:[Turn] = []
+        
+        var frontRightCornerCorrect = checkFrontRightUpCornerOrientation()
+        actions.append(cube.empasize(poses: [19], asGroup: true))
+        
+        var ranAtLeastOnce:Bool = false
+        while !frontRightCornerCorrect {
+            ranAtLeastOnce = true
+            actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
+            turns.append(contentsOf: cornerAlg)
+            frontRightCornerCorrect = checkFrontRightUpCornerOrientation()
+        }
+        if ranAtLeastOnce {
+            actions.append(cube.empasize(poses: [19], asGroup: true))
         }
         
-        return actions
+        return (actions, turns)
     }
 }
 
