@@ -336,6 +336,7 @@
                     <navigationItem key="navigationItem" id="7qi-PG-SV0"/>
                     <connections>
                         <outlet property="durationLabel" destination="mTB-ox-573" id="xci-5Z-L9g"/>
+                        <outlet property="durationSlider" destination="VsD-WL-gzs" id="b2G-w5-XjO"/>
                         <outlet property="nextStepOutlet" destination="oHG-5G-FCG" id="HFf-KD-liE"/>
                         <outlet property="nextSteps" destination="ECN-Ri-etU" id="ely-o6-ryX"/>
                         <outlet property="sceneView" destination="Bin-Bk-2fe" id="iIS-Fj-Ly9"/>
