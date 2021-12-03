@@ -171,7 +171,7 @@ class CubeController: UIViewController {
                     }
                 }
             }
-            if let s = solver{
+            if let s = self.solver{
                 DispatchQueue.main.async {
                     self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
                     self.nextStep = s.getNextStep()
