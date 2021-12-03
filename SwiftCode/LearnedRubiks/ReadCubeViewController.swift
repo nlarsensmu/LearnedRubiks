@@ -283,7 +283,7 @@ class ReadCubeViewController: UIViewController {
     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "inputToPredictionViewController"){
-                let displayVC = segue.destination as! PredictionViewController
+                let displayVC = segue.destination as! CubeController
             displayVC.Cube = self.cube
             displayVC.solver = SolverCross(c: displayVC.Cube!)
             displayVC.nextStep = displayVC.solver!.getNextStep()
@@ -291,4 +291,13 @@ class ReadCubeViewController: UIViewController {
         }
     }
     var cube:RubiksCube? = nil
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        guard let c = cube else {
+            return false
+        }
+        if c.isValid() && c.isParady() {
+            return true
+        }
+        return false
+    }
 }

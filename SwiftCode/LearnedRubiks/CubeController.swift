@@ -8,8 +8,19 @@
 import UIKit
 import SceneKit
 import CoreMotion
+import CoreML
 
-class PredictionViewController: UIViewController {
+class CubeController: UIViewController {
+    
+    lazy var loadedModel:ModelDsId4 = {
+        do{
+            let config = MLModelConfiguration()
+            return try ModelDsId4(configuration: config)
+        }catch{
+            print(error)
+            fatalError("Could not load ModelDsId4")
+        }
+    }()
     // MARK: Outlets
     @IBOutlet weak var sceneView: SCNView!
     
@@ -127,7 +138,6 @@ class PredictionViewController: UIViewController {
                 }
             }
         }
-        
     }
     
     var nextStep:SolvingStep = SolvingStep(description: "", actions: [], steps: [])
@@ -139,40 +149,42 @@ class PredictionViewController: UIViewController {
             self.animationRunning = true
             sceneView.scene?.rootNode.runAction(SCNAction.sequence(actions)){
                 self.animationRunning = false
+            
+                if !s.hasNextStep(){
+                    if s is SolverCross {
+                        self.solver = SolverFirstCorners(cube: self.Cube!)
+                    }
+                    else if s is SolverFirstCorners{
+                        self.solver = SolverMiddle(cube: self.Cube!)
+                    }
+                    else if s is SolverMiddle{
+                        self.solver = SolverLastCrossBB(cube: self.Cube!)
+                    }
+                    else if s is SolverLastCrossBB{
+                        self.solver = SolverLLWedgePossitions(cube: self.Cube!)
+                    }
+                    else if s is SolverLLWedgePossitions{
+                        self.solver = SolverBeginnerLLCornersPosition(cube: self.Cube!)
+                    }
+                    else if s is SolverBeginnerLLCornersPosition{
+                        self.solver = SolverBeginnerLLCornersOrientation(cube: self.Cube!)
+                    }
+                }
             }
-            if !s.hasNextStep(){
-                if s is SolverCross {
-                    solver = SolverFirstCorners(cube: Cube!)
+            if let s = solver{
+                DispatchQueue.main.async {
+                    self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+                    self.nextStep = s.getNextStep()
+                    self.displayStep = stepsToString(steps: self.nextStep.steps)
+                    self.stepText.text = s.stepString
                 }
-                else if s is SolverFirstCorners{
-                    solver = SolverMiddle(cube: Cube!)
-                }
-                else if s is SolverMiddle{
-                    solver = SolverLastCrossBB(cube: Cube!)
-                }
-                else if s is SolverLastCrossBB{
-                    solver = SolverLLWedgePossitions(cube: Cube!)
-                }
-                else if s is SolverLLWedgePossitions{
-                    solver = SolverBeginnerLLCornersPosition(cube: Cube!)
-                }
-                else if s is SolverBeginnerLLCornersPosition{
-                    solver = SolverBeginnerLLCornersOrientation(cube: Cube!)
-                }
-            }
-        }
-        if let s = solver{
-            DispatchQueue.main.async {
-                self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
-                self.nextStep = s.getNextStep()
-                self.displayStep = stepsToString(steps: self.nextStep.steps)
-                self.stepText.text = s.stepString
             }
         }
     }
     
     @IBOutlet weak var durationLabel: UILabel!
     
+    @IBOutlet weak var durationSlider: UISlider!
     @IBAction func durationChanged(_ sender: UISlider) {
         DispatchQueue.main.async {
             self.durationLabel.text = String(format: "%.2f", sender.value)
@@ -184,10 +196,11 @@ class PredictionViewController: UIViewController {
         }
     }
     
-    func disableEnableButtons() {
+    func disableAnimationDependentUI() {
         DispatchQueue.main.async {
             self.scrambleButton.isEnabled = !self.scrambleButton.isEnabled
             self.nextStepOutlet.isEnabled = !self.nextStepOutlet.isEnabled
+            self.durationSlider.isEnabled = !self.durationSlider.isEnabled
         }
     }
     
@@ -223,11 +236,9 @@ class PredictionViewController: UIViewController {
     // While we are running an animation prevent more
     var animationRunning = false {
         didSet {
-            disableEnableButtons()
+            disableAnimationDependentUI()
         }
     }
-    //server
-    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
     var solverIndex = 0
     var solver:SolverBase? = nil
@@ -305,39 +316,40 @@ class PredictionViewController: UIViewController {
             //predict a label
             // TODO: Hard coded model, needs to be changed.
             if let cube = Cube{
-                var modelString:String = ""
-                var dsid:Int = 0
-                if let m = self.model{
-                    modelString = m.model
-                    dsid = m.dsid
-                }
-                serverModel?.getPrediction(self.ringBuffer.getDataAsVector(), dsid:dsid, model: modelString){
-                    resp in
-                        if resp == "x90" {
+                do {
+                    let array = try MLMultiArray(self.ringBuffer.getDataAsVector())
+                    let input = ModelDsId4Input(sequence: array)
+                    let ret = try loadedModel.prediction(input: input).target
+                    DispatchQueue.main.async {
+                        if ret == "x90" {
                             self.scene.rootNode.runAction(cube.rotateAllX(direction: 1))
-                        }else if resp == "xNeg90" {
+                        }else if ret == "xNeg90" {
                             self.scene.rootNode.runAction(cube.rotateAllX(direction: -1))
-                        }else if resp == "y90" {
+                        }else if ret == "y90" {
                             self.scene.rootNode.runAction(cube.rotateAllY(direction: 1))
-                        }else if resp == "yNeg90" {
+                        }else if ret == "yNeg90" {
                             self.scene.rootNode.runAction(cube.rotateAllY(direction: -1))
-                        }else if resp == "z90" {
+                        }else if ret == "z90" {
                             self.scene.rootNode.runAction(cube.rotateAllZ(direction: 1))
-                        }else if resp == "zNeg90" {
+                        }else if ret == "zNeg90" {
                             self.scene.rootNode.runAction(cube.rotateAllZ(direction: -1))
-                        }else if resp == "x180" {
+                        }else if ret == "x180" {
                             self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllX(direction: 1), cube.rotateAllX(direction: 1)]))
-                        }else if resp == "xNeg180" {
+                        }else if ret == "xNeg180" {
                             self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllX(direction: -1), cube.rotateAllX(direction: -1)]))
-                        }else if resp == "y180" {
+                        }else if ret == "y180" {
                             self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllY(direction: 1), cube.rotateAllY(direction: 1)]))
-                        }else if resp == "yNeg180" {
+                        }else if ret == "yNeg180" {
                             self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllY(direction: -1), cube.rotateAllY(direction: -1)]))
-                        }else if resp == "z180" {
+                        }else if ret == "z180" {
                             self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllZ(direction: 1), cube.rotateAllZ(direction: 1)]))
-                        }else if resp == "zNeg180" {
+                        }else if ret == "zNeg180" {
                             self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllZ(direction: -1), cube.rotateAllZ(direction: -1)]))
                         }
+                    }
+                }
+                catch _{
+                   print("failed to classify")
                 }
             }
             // dont predict again for a bit
