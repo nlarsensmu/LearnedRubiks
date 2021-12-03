@@ -39,7 +39,6 @@ public class RubiksCube{
     //MARK: Setup functions
     public init(){
         self.addSolvedCube()
-        // Setup camera position from existing scene
         cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
         scene.rootNode.addChildNode(cameraNode)
     }
@@ -76,7 +75,59 @@ public class RubiksCube{
         cameraNode = cubes.rootNode.childNode(withName: "camera1", recursively: true)!
         scene.rootNode.addChildNode(cameraNode)
     }
-    
+    //default cube creation
+    public func addSolvedCube(){
+        self.addCublet(pos:1,upDown:   .blue, leftRight:    .red    ,frontBack:     .yellow)
+        self.addCublet(pos:2,upDown:   .blue, leftRight:    .red, frontBack:        .noColor)
+        self.addCublet(pos:3,upDown:   .blue, leftRight:    .red, frontBack:        .white)
+        self.addCublet(pos:4,upDown:   .blue, leftRight:    .noColor, frontBack:    .yellow)
+        self.addCublet(pos:5,upDown:   .blue, leftRight:    .noColor, frontBack:    .noColor)
+        self.addCublet(pos:6,upDown:   .blue, leftRight:    .noColor, frontBack:    .white)
+        self.addCublet(pos:7,upDown:   .blue, leftRight:    .orange, frontBack:     .yellow)
+        self.addCublet(pos:8,upDown:   .blue, leftRight:    .orange, frontBack:     .noColor)
+        self.addCublet(pos:9,upDown:   .blue, leftRight:    .orange, frontBack:     .white)
+        self.addCublet(pos:10,upDown:  .noColor, leftRight: .red, frontBack:        .yellow)
+        self.addCublet(pos:11,upDown:  .noColor, leftRight: .red, frontBack:        .noColor)
+        self.addCublet(pos:12,upDown:  .noColor, leftRight: .red, frontBack:        .white)
+        self.addCublet(pos:13,upDown:  .noColor, leftRight: .noColor, frontBack:    .yellow)
+        self.addCublet(pos:14,upDown:  .noColor, leftRight: .noColor, frontBack:    .noColor)
+        self.addCublet(pos:15,upDown:  .noColor, leftRight: .noColor, frontBack:    .white)
+        self.addCublet(pos:16,upDown:  .noColor, leftRight: .orange, frontBack:     .yellow)
+        self.addCublet(pos:17,upDown:  .noColor, leftRight: .orange, frontBack:     .noColor)
+        self.addCublet(pos:18,upDown:  .noColor, leftRight: .orange, frontBack:     .white)
+        self.addCublet(pos:19,upDown:  .green, leftRight:   .red, frontBack:        .yellow)
+        self.addCublet(pos:20,upDown:  .green, leftRight:   .red, frontBack:        .noColor)
+        self.addCublet(pos:21,upDown:  .green, leftRight:   .red, frontBack:        .white)
+        self.addCublet(pos:22,upDown:  .green, leftRight:   .noColor, frontBack:    .yellow)
+        self.addCublet(pos:23,upDown:  .green, leftRight:   .noColor, frontBack:    .noColor)
+        self.addCublet(pos:24,upDown:  .green, leftRight:   .noColor, frontBack:    .white)
+        self.addCublet(pos:25,upDown:  .green, leftRight:   .orange, frontBack:     .yellow)
+        self.addCublet(pos:26,upDown:  .green, leftRight:   .orange, frontBack:     .noColor)
+        self.addCublet(pos:27,upDown:  .green, leftRight:   .orange, frontBack:     .white)
+    }
+    private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor){
+        let node = cubes.rootNode.childNode(withName: "cube\(pos)", recursively: true)!
+        scene.rootNode.addChildNode(node)
+        cubelets.append(Cublet(node:node, pos:pos,upDown: upDown,leftRight: leftRight, frontBack: frontBack))
+    }
+    private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor, colors: [CubletColor]){
+        let node = cubes.rootNode.childNode(withName: "cube\(pos)", recursively: true)!
+        let materials =  toMaterials(from: colors.map { mat -> UIColor in
+            return cubletColor(from: mat)
+        })
+        node.geometry?.materials = materials
+        scene.rootNode.addChildNode(node)
+        cubelets.append(Cublet(node:node, pos:pos,upDown: upDown,leftRight: leftRight, frontBack: frontBack))
+    }
+    private func toMaterials(from colors:[UIColor]) -> [SCNMaterial]{
+        return colors.map { color -> SCNMaterial in
+            let material = SCNMaterial()
+            material.diffuse.contents = color
+            material.locksAmbientWithDiffuse = true
+            return material
+        }
+    }
+    //MARK: Accessing methods
     public func cublet(at position:Int) -> Cublet {
         for c in cubelets {
             if c.pos == position {
@@ -88,7 +139,6 @@ public class RubiksCube{
     public func isCubletVisible(pos:Int) -> Bool {
         return self.visiblePoses.contains(pos)
     }
-    
     public func printCube(){
         print("        ")
         var s = cublet(at: 9).getColor(t: .B) + cublet(at: 6).getColor(t: .B) + cublet(at: 3).getColor(t: .B)
@@ -124,46 +174,13 @@ public class RubiksCube{
         s = cublet(at: 9).getColor(t: .D) + cublet(at: 6).getColor(t: .D) + cublet(at: 3).getColor(t: .D)
         print("    " + s + " ")
     }
-    
-    public func addSolvedCube(){
-        self.addCublet(pos:1,upDown:   .blue, leftRight:    .red    ,frontBack:     .yellow)
-        self.addCublet(pos:2,upDown:   .blue, leftRight:    .red, frontBack:        .noColor)
-        self.addCublet(pos:3,upDown:   .blue, leftRight:    .red, frontBack:        .white)
-        self.addCublet(pos:4,upDown:   .blue, leftRight:    .noColor, frontBack:    .yellow)
-        self.addCublet(pos:5,upDown:   .blue, leftRight:    .noColor, frontBack:    .noColor)
-        self.addCublet(pos:6,upDown:   .blue, leftRight:    .noColor, frontBack:    .white)
-        self.addCublet(pos:7,upDown:   .blue, leftRight:    .orange, frontBack:     .yellow)
-        self.addCublet(pos:8,upDown:   .blue, leftRight:    .orange, frontBack:     .noColor)
-        self.addCublet(pos:9,upDown:   .blue, leftRight:    .orange, frontBack:     .white)
-        self.addCublet(pos:10,upDown:  .noColor, leftRight: .red, frontBack:        .yellow)
-        self.addCublet(pos:11,upDown:  .noColor, leftRight: .red, frontBack:        .noColor)
-        self.addCublet(pos:12,upDown:  .noColor, leftRight: .red, frontBack:        .white)
-        self.addCublet(pos:13,upDown:  .noColor, leftRight: .noColor, frontBack:    .yellow)
-        self.addCublet(pos:14,upDown:  .noColor, leftRight: .noColor, frontBack:    .noColor)
-        self.addCublet(pos:15,upDown:  .noColor, leftRight: .noColor, frontBack:    .white)
-        self.addCublet(pos:16,upDown:  .noColor, leftRight: .orange, frontBack:     .yellow)
-        self.addCublet(pos:17,upDown:  .noColor, leftRight: .orange, frontBack:     .noColor)
-        self.addCublet(pos:18,upDown:  .noColor, leftRight: .orange, frontBack:     .white)
-        self.addCublet(pos:19,upDown:  .green, leftRight:   .red, frontBack:        .yellow)
-        self.addCublet(pos:20,upDown:  .green, leftRight:   .red, frontBack:        .noColor)
-        self.addCublet(pos:21,upDown:  .green, leftRight:   .red, frontBack:        .white)
-        self.addCublet(pos:22,upDown:  .green, leftRight:   .noColor, frontBack:    .yellow)
-        self.addCublet(pos:23,upDown:  .green, leftRight:   .noColor, frontBack:    .noColor)
-        self.addCublet(pos:24,upDown:  .green, leftRight:   .noColor, frontBack:    .white)
-        self.addCublet(pos:25,upDown:  .green, leftRight:   .orange, frontBack:     .yellow)
-        self.addCublet(pos:26,upDown:  .green, leftRight:   .orange, frontBack:     .noColor)
-        self.addCublet(pos:27,upDown:  .green, leftRight:   .orange, frontBack:     .white)
-    }
-    
     public func getScene() -> SCNScene{
         return scene
     }
-    
     // MARK: public Cube Manipulation Functions
     public func runTurn(direction:Int, operation: (Int) -> SCNAction) {
         scene.rootNode.runAction(operation(direction))
     }
-    
     public func rightTurn(direction:Int) -> SCNAction {
         return rotateXAxis(positions: rightPositions, direction: direction)
     }
@@ -196,63 +213,49 @@ public class RubiksCube{
     public func sTurn(direction:Int) -> SCNAction  {
         return rotateZAxis(positions: sPositions, direction: direction)
     }
-    
-    public func scramble(turnsCount:Int = 30) -> [SCNAction] {
-        let turns = [Turn.D, Turn.DN, Turn.F, Turn.FN, Turn.R, Turn.RN,
-                     Turn.L, Turn.LN, Turn.U, Turn.UN, Turn.B, Turn.BN,
-                     Turn.L2, Turn.R2, Turn.B2, Turn.F2, Turn.U2, Turn.D2]
-        
-        var actions:[SCNAction] = []
-        for _ in 0..<turnsCount {
-            let turn = turns.randomElement()
-            if let t = turn {
-                actions.append(turnFromEnum(turn: t))
-            }
-        }
-        return actions
-        // Try to perform two turns in succession.
-    }
-    
-    public func runTurns(turns:[Turn]) {
-        scene.rootNode.runAction(SCNAction.sequence(getTurnActions(turns: turns)))
-    }
-    
-    public func undoTurns(steps:[Turn]) -> [SCNAction]{
-        var turns:[Turn] = []
-        for turn in steps.reversed() {
-            for _ in 0..<3 {
-                turns.append(turn)
-            }
-        }
-        let actions = getTurnActions(turns: turns)
-        self.printCube()
-        return actions
-    }
-    
-    public func getTurnActions(turns:[Turn]) -> [SCNAction] {
-        var actions:[SCNAction] = []
-        
-        for t in turns {
-            actions.append(turnFromEnum(turn: t))
-        }
-        return actions
-    }
-    
-    //Whole cube rotations
-    
-    //Roate the cube angle amount in the X direction
     public func rotateAllX(direction:Int) -> SCNAction {
         return rotateXAxis(positions: allPositions, direction: direction)
     }
-    
     //Roate the cube angle amount in the Y direction
     public func rotateAllY(direction:Int) -> SCNAction {
         return rotateYAxis(positions: allPositions, direction: direction)
     }
-    
     //Roate the cube angle amount in the Y direction
     public func rotateAllZ(direction:Int) -> SCNAction {
         return rotateZAxis(positions: allPositions, direction: direction)
+    }
+    //MARK: Private cube rotations... We only need 3
+    private func emphasizeAt(pos:Int) -> SCNAction {
+        let cube = cublet(at: pos)
+        let originalScale = cube.node.scale
+        let grownScale = SCNVector3(originalScale.x * 2.0, originalScale.y * 2.0, originalScale.z * 2.0)
+        let growthVector = SCNVector3(grownScale.x - originalScale.x,grownScale.y - originalScale.y,grownScale.z - originalScale.z)
+        let growAction = SCNAction.customAction(duration: emphaziseDuration) { (node, elapsedTime) -> () in
+            
+            let percentage:Float = Float((elapsedTime - cube.lastElapsedTime))/Float(self.emphaziseDuration)
+            cube.lastElapsedTime = elapsedTime
+            cube.node.scale.x = cube.node.scale.x + percentage * growthVector.x
+            cube.node.scale.y = cube.node.scale.y + percentage * growthVector.y
+            cube.node.scale.z = cube.node.scale.z + percentage * growthVector.z
+            if elapsedTime >= self.emphaziseDuration {
+                cube.lastElapsedTime = 0.0
+            }
+        }
+        let shrinkAction = SCNAction.customAction(duration: emphaziseDuration) { (node, elapsedTime) -> () in
+            
+            let percentage:Float = Float((elapsedTime - cube.lastElapsedTime))/Float(self.emphaziseDuration)
+            cube.lastElapsedTime = elapsedTime
+            cube.node.scale.x = cube.node.scale.x - percentage * growthVector.x
+            cube.node.scale.y = cube.node.scale.x - percentage * growthVector.y
+            cube.node.scale.z = cube.node.scale.x - percentage * growthVector.z
+            if elapsedTime >= self.emphaziseDuration {
+                cube.node.scale.x = 0.5
+                cube.node.scale.y = 0.5
+                cube.node.scale.z = 0.5
+                cube.lastElapsedTime = 0.0
+            }
+        }
+        return SCNAction.sequence([growAction, shrinkAction])
     }
     public func empasize(poses:[Int], asGroup:Bool) -> SCNAction{
         var actions:[SCNAction] = []
@@ -267,6 +270,331 @@ public class RubiksCube{
         }
     }
     
+    // Turn R, M, L
+    private func rotateXAxis(positions:[Int], direction:Int) -> SCNAction {
+        
+        var actions:[SCNAction] = []
+        let angle:Float = .pi/2
+            
+    //Go through every cube
+        for cube in self.cubelets {
+            // Skip cubes not in the current face.
+            if !(positions.contains(cube.pos)) {
+                continue
+            }
+            //Graphics Code
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+                
+                let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+                
+                if elapsedTime >= self.duration {
+                    cube.lastElapsedTime = 0.0
+                }
+            }
+            // Turn the physical cube
+            actions.append(rotationAction)
+            
+            rotateXAxisVirtual(cube: cube, direction: direction)
+            
+        }
+        return SCNAction.group(actions)
+    }
+    private func rotateXAxisVirtual(cube:Cublet, direction:Int) {
+
+        //update the position
+        if direction > 0{
+            cube.pos = self.XRotationPositive[cube.pos]
+        }
+        else{
+            cube.pos = self.XRotationNegative[cube.pos]
+        }
+        
+        switch cube.type{
+        case .corner:
+            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+            break
+        case .wedge:
+            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+            break
+        case.middlePiece:
+            break
+        case.center:
+            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
+            break
+        }
+    }
+    // Turn U, E, D
+    private func rotateYAxis(positions:[Int], direction:Int) -> SCNAction{
+        
+        var actions:[SCNAction] = []
+        let angle:Float = .pi/2
+        //update the position
+        for cube in self.cubelets{
+            // Skip cubes not in the current face.
+            if !(positions.contains(cube.pos)) {
+                continue
+            }
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+
+                let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+                
+                if elapsedTime >= self.duration {
+                    cube.lastElapsedTime = 0.0
+                }
+            }
+            // Physical cube
+            actions.append(rotationAction)
+            
+            //Logic Code
+            rotateYAxisVirtual(cube: cube, direction: direction)
+        }
+        return SCNAction.group(actions)
+    }
+    private func rotateYAxisVirtual(cube:Cublet, direction:Int) {
+        
+        if direction > 0{
+            cube.pos = self.YRotationPositive[cube.pos]
+        }
+        else{
+            cube.pos = self.YRotationNegative[cube.pos]
+        }
+        
+        switch cube.type{
+        case .corner:
+            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+            break
+        case .wedge:
+            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+            break
+        case.middlePiece:
+            break
+        case.center:
+            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
+            break
+        }
+    }
+    
+    // F, S, B turns
+    private func rotateZAxis(positions:[Int], direction:Int) -> SCNAction {
+        
+        var actions:[SCNAction] = []
+        let angle:Float = .pi/2
+        
+        //update the position
+        for cube in self.cubelets{
+            // Skip cubes not in the current face.
+            if !(positions.contains(cube.pos)) {
+                continue
+            }
+            //Graphics Code
+            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
+
+                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
+                cube.lastElapsedTime = elapsedTime
+                
+                let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
+                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
+                cube.node.transform = rot2
+                
+                if elapsedTime >= self.duration {
+                    cube.lastElapsedTime = 0.0
+                }
+            }
+                // Physical Cube
+            actions.append(rotationAction)
+            
+            //Logic Code
+            rotateZAxisVirtual(cube: cube, direction: direction)
+        }
+        return SCNAction.group(actions)
+    }
+    private func rotateZAxisVirtual(cube:Cublet, direction:Int) {
+        
+        if direction > 0{
+            cube.pos = self.ZRotationPositive[cube.pos]
+        }
+        else{
+            cube.pos = self.ZRotationNegative[cube.pos]
+        }
+        
+        switch cube.type{
+        case .corner:
+            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+            break
+        case .wedge:
+            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+            break
+        case.middlePiece:
+            break
+        case.center:
+            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
+            break
+        }
+    }
+    //MARK: Cube helper functions
+    public func getTurnActions(turns:[Turn]) -> [SCNAction] {
+        var actions:[SCNAction] = []
+        for t in turns {
+            actions.append(turnFromEnum(turn: t))
+        }
+        return actions
+    }
+    public func isValid() -> Bool {
+        var red = 0
+        var blue = 0
+        var green = 0
+        var yellow = 0
+        var white = 0
+        var orange = 0
+        for cubelet in cubelets {
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.red){
+                red += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.blue){
+                blue += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.green){
+                green += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.yellow){
+                yellow += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.white){
+                white += 1
+            }
+            if [cubelet.upDown,cubelet.frontBack,cubelet.leftRight].contains(.orange){
+                orange += 1
+            }
+        }
+        if red != 9{  return false }
+        if blue != 9{  return false }
+        if green != 9{  return false }
+        if yellow != 9{  return false }
+        if white != 9{  return false }
+        if orange != 9{  return false }
+        return true
+    }
+    public func isSovled() -> Bool{
+        if !checkFaces(poses: self.downPosition, side: .D) { return false }
+        if !checkFaces(poses: self.upPositions, side: .U) { return false }
+        if !checkFaces(poses: self.leftPositions, side: .L) { return false }
+        if !checkFaces(poses: self.rightPositions, side: .R) { return false }
+        if !checkFaces(poses: self.frontPositions, side: .F) { return false }
+        if !checkFaces(poses: self.backPositions, side: .D) { return false }
+        return true
+    }
+    private func checkFaces(poses:[Int], side:Turn) -> Bool{
+        var color:CubletColor = .red
+        if [.U,.D].contains(side){
+            color = cublet(at: poses[0]).upDown
+        } else if [.L,.R].contains(side){
+            color = cublet(at: poses[0]).upDown
+        } else if [.F,.B].contains(side){
+            color = cublet(at: poses[0]).upDown
+        }
+        for i in  1..<poses.count {
+            var checkColor:CubletColor = .red
+            if [.U,.D].contains(side) {
+                checkColor = cublet(at: poses[i]).upDown
+            } else if [.L,.R].contains(side){
+                checkColor = cublet(at: poses[i]).upDown
+            } else if [.F,.B].contains(side){
+                checkColor = cublet(at: poses[i]).upDown
+            }
+            if color != checkColor{
+                return false
+            }
+        }
+        return true
+    }
+    public func isParady() -> Bool{
+        let cube = self.deepCopyCube()
+        var solver:SolverBase = SolverCross(c:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverFirstCorners(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverMiddle(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverLLWedgePossitions(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverLastCrossBB(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverBeginnerLLCornersPosition(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep()
+        }
+        solver = SolverBeginnerLLCornersOrientation(cube:cube)
+        var i = 0
+        while(solver.hasNextStep() || i > 4){
+            _ = solver.getNextStep()
+            i += 1
+        }
+        if cube.isSovled(){
+            return false
+        }
+        return true
+    }
+    public 	 func deepCopyCube() -> RubiksCube{
+        let cube = RubiksCube()
+        for i in 0..<cubelets.count{
+            cube.cubelets[i] = Cublet(node: SCNNode(),
+                                      pos: self.cubelets[i].pos,
+                                      upDown: self.cubelets[i].upDown,
+                                      leftRight: self.cubelets[i].leftRight,
+                                      frontBack: self.cubelets[i].frontBack)
+        }
+        return cube
+    }
+    public func scramble(turnsCount:Int = 30) -> [SCNAction] {
+        let turns = [Turn.D, Turn.DN, Turn.F, Turn.FN, Turn.R, Turn.RN,
+                     Turn.L, Turn.LN, Turn.U, Turn.UN, Turn.B, Turn.BN,
+                     Turn.L2, Turn.R2, Turn.B2, Turn.F2, Turn.U2, Turn.D2]
+        
+        var actions:[SCNAction] = []
+
+        for _ in 0..<turnsCount {
+            let turn = turns.randomElement()
+            if let t = turn {
+                actions.append(turnFromEnum(turn: t))
+            }
+        }
+        return actions
+    }
+    public func runTurns(turns:[Turn]) {
+        scene.rootNode.runAction(SCNAction.sequence(getTurnActions(turns: turns)))
+    }
+    //If there was an action created and not run, this must be performed before the another action is created.
+    public func undoTurns(steps:[Turn]) -> [SCNAction]{
+        var turns:[Turn] = []
+        for turn in steps.reversed() {
+            for _ in 0..<3 {
+                turns.append(turn)
+            }
+        }
+        let actions = getTurnActions(turns: turns)
+        self.printCube()
+        return actions
+    }
     // MARK: private turn set functions
     private func turnFromEnum(turn:Turn) -> SCNAction {
         switch turn {
@@ -347,248 +675,8 @@ public class RubiksCube{
         }
         
     }
-    private func emphasizeAt(pos:Int) -> SCNAction {
-        let cube = cublet(at: pos)
-        let originalScale = cube.node.scale
-        let grownScale = SCNVector3(originalScale.x * 2.0, originalScale.y * 2.0, originalScale.z * 2.0)
-        let growthVector = SCNVector3(grownScale.x - originalScale.x,grownScale.y - originalScale.y,grownScale.z - originalScale.z)
-        let growAction = SCNAction.customAction(duration: emphaziseDuration) { (node, elapsedTime) -> () in
-            
-            let percentage:Float = Float((elapsedTime - cube.lastElapsedTime))/Float(self.emphaziseDuration)
-            cube.lastElapsedTime = elapsedTime
-            cube.node.scale.x = cube.node.scale.x + percentage * growthVector.x
-            cube.node.scale.y = cube.node.scale.y + percentage * growthVector.y
-            cube.node.scale.z = cube.node.scale.z + percentage * growthVector.z
-            if elapsedTime >= self.emphaziseDuration {
-                cube.lastElapsedTime = 0.0
-            }
-        }
-        let shrinkAction = SCNAction.customAction(duration: emphaziseDuration) { (node, elapsedTime) -> () in
-            
-            let percentage:Float = Float((elapsedTime - cube.lastElapsedTime))/Float(self.emphaziseDuration)
-            cube.lastElapsedTime = elapsedTime
-            cube.node.scale.x = cube.node.scale.x - percentage * growthVector.x
-            cube.node.scale.y = cube.node.scale.x - percentage * growthVector.y
-            cube.node.scale.z = cube.node.scale.x - percentage * growthVector.z
-            if elapsedTime >= self.emphaziseDuration {
-                cube.node.scale.x = 0.5
-                cube.node.scale.y = 0.5
-                cube.node.scale.z = 0.5
-                cube.lastElapsedTime = 0.0
-            }
-        }
-        return SCNAction.sequence([growAction, shrinkAction])
-    }
-    // Turn R, M, L
-    private func rotateXAxis(positions:[Int], direction:Int) -> SCNAction {
-        
-        var actions:[SCNAction] = []
-        let angle:Float = .pi/2
-        
-        //Go through every cube
-        for cube in self.cubelets{
-            
-            // Skip cubes not in the current face.
-            if !(positions.contains(cube.pos)) {
-                continue
-            }
-            
-            //Graphics Code
-            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
 
-                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
-                cube.lastElapsedTime = elapsedTime
-                
-                let rot = SCNMatrix4MakeRotation(Float(direction)  * (-1) * (angle) * (Float(percentage)), 0, 0, 1)
-                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
-                cube.node.transform = rot2
-                
-                if elapsedTime >= self.duration {
-                    cube.lastElapsedTime = 0.0
-                }
-            }
 
-            // Turn the physical cube
-            actions.append(rotationAction)
-            
-            rotateXAxisVirtual(cube: cube, direction: direction)
-            
-        }
-        return SCNAction.group(actions)
-    }
-    
-    private func rotateXAxisVirtual(cube:Cublet, direction:Int) {
-
-        //update the position
-        if direction > 0{
-            cube.pos = self.XRotationPositive[cube.pos]
-        }
-        else{
-            cube.pos = self.XRotationNegative[cube.pos]
-        }
-        
-        switch cube.type{
-        case .corner:
-            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-            break
-        case .wedge:
-            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-            break
-        case.middlePiece:
-            break
-        case.center:
-            cube.updateColors(upDown: cube.frontBack, leftRight: cube.leftRight, frontBack: cube.upDown)
-            break
-        }
-    }
-    
-    // Turn U, E, D
-    private func rotateYAxis(positions:[Int], direction:Int) -> SCNAction{
-        
-        var actions:[SCNAction] = []
-        let angle:Float = .pi/2
-        
-        //update the position
-        for cube in self.cubelets{
-            
-            // Skip cubes not in the current face.
-            if !(positions.contains(cube.pos)) {
-                continue
-            }
-            
-            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
-
-                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
-                cube.lastElapsedTime = elapsedTime
-
-                let rot = SCNMatrix4MakeRotation(Float(direction) * (-1) * (angle) * (Float(percentage)), 0, 1, 0)
-                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
-                cube.node.transform = rot2
-                
-                if elapsedTime >= self.duration {
-                    cube.lastElapsedTime = 0.0
-                }
-            }
-            
-            
-            // Physical cube
-            actions.append(rotationAction)
-            
-            //Logic Code
-            rotateYAxisVirtual(cube: cube, direction: direction)
-        }
-        
-        return SCNAction.group(actions)
-    }
-    
-    private func rotateYAxisVirtual(cube:Cublet, direction:Int) {
-        
-        if direction > 0{
-            cube.pos = self.YRotationPositive[cube.pos]
-        }
-        else{
-            cube.pos = self.YRotationNegative[cube.pos]
-        }
-        
-        switch cube.type{
-        case .corner:
-            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-            break
-        case .wedge:
-            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-            break
-        case.middlePiece:
-            break
-        case.center:
-            cube.updateColors(upDown: cube.upDown, leftRight: cube.frontBack, frontBack: cube.leftRight)
-            break
-        }
-    }
-    
-    // F, S, B turns
-    private func rotateZAxis(positions:[Int], direction:Int) -> SCNAction {
-        
-        var actions:[SCNAction] = []
-        let angle:Float = .pi/2
-        
-        //update the position
-        for cube in self.cubelets{
-            
-            // Skip cubes not in the current face.
-            if !(positions.contains(cube.pos)) {
-                continue
-            }
-            
-            //Graphics Code
-            let rotationAction = SCNAction.customAction(duration: duration) { (node, elapsedTime) -> () in
-
-                let percentage = (elapsedTime - cube.lastElapsedTime)/self.duration
-                cube.lastElapsedTime = elapsedTime
-                
-                let rot = SCNMatrix4MakeRotation(Float(direction) * (angle) * (Float(percentage)), 1, 0, 0)
-                let rot2 = SCNMatrix4Mult(cube.node.transform, rot)
-                cube.node.transform = rot2
-                
-                if elapsedTime >= self.duration {
-                    cube.lastElapsedTime = 0.0
-                }
-            }
-            
-            // Physical Cube
-            actions.append(rotationAction)
-            
-            //Logic Code
-            rotateZAxisVirtual(cube: cube, direction: direction)
-        }
-        return SCNAction.group(actions)
-    }
-    
-    private func rotateZAxisVirtual(cube:Cublet, direction:Int) {
-        
-        if direction > 0{
-            cube.pos = self.ZRotationPositive[cube.pos]
-        }
-        else{
-            cube.pos = self.ZRotationNegative[cube.pos]
-        }
-        
-        switch cube.type{
-        case .corner:
-            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-            break
-        case .wedge:
-            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-            break
-        case.middlePiece:
-            break
-        case.center:
-            cube.updateColors(upDown: cube.leftRight, leftRight: cube.upDown, frontBack: cube.frontBack)
-            break
-        }
-    }
-    
-    private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor){
-        let node = cubes.rootNode.childNode(withName: "cube\(pos)", recursively: true)!
-        scene.rootNode.addChildNode(node)
-        cubelets.append(Cublet(node:node, pos:pos,upDown: upDown,leftRight: leftRight, frontBack: frontBack))
-    }
-    private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor, colors: [CubletColor]){
-        let node = cubes.rootNode.childNode(withName: "cube\(pos)", recursively: true)!
-        let materials =  toMaterials(from: colors.map { mat -> UIColor in
-            return cubletColor(from: mat)
-        })
-        node.geometry?.materials = materials
-        scene.rootNode.addChildNode(node)
-        cubelets.append(Cublet(node:node, pos:pos,upDown: upDown,leftRight: leftRight, frontBack: frontBack))
-    }
-    private func toMaterials(from colors:[UIColor]) -> [SCNMaterial]{
-        return colors.map { color -> SCNMaterial in
-            let material = SCNMaterial()
-            material.diffuse.contents = color
-            material.locksAmbientWithDiffuse = true
-            return material
-        }
-    }
 }
 //MARK: Cublet Class
 //node - the actual SCNNode that diplays this cublet
