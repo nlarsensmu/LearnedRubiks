@@ -139,40 +139,42 @@ class PredictionViewController: UIViewController {
             self.animationRunning = true
             sceneView.scene?.rootNode.runAction(SCNAction.sequence(actions)){
                 self.animationRunning = false
+            
+                if !s.hasNextStep(){
+                    if s is SolverCross {
+                        self.solver = SolverFirstCorners(cube: self.Cube!)
+                    }
+                    else if s is SolverFirstCorners{
+                        self.solver = SolverMiddle(cube: self.Cube!)
+                    }
+                    else if s is SolverMiddle{
+                        self.solver = SolverLastCrossBB(cube: self.Cube!)
+                    }
+                    else if s is SolverLastCrossBB{
+                        self.solver = SolverLLWedgePossitions(cube: self.Cube!)
+                    }
+                    else if s is SolverLLWedgePossitions{
+                        self.solver = SolverBeginnerLLCornersPosition(cube: self.Cube!)
+                    }
+                    else if s is SolverBeginnerLLCornersPosition{
+                        self.solver = SolverBeginnerLLCornersOrientation(cube: self.Cube!)
+                    }
+                }
             }
-            if !s.hasNextStep(){
-                if s is SolverCross {
-                    solver = SolverFirstCorners(cube: Cube!)
+            if let s = solver{
+                DispatchQueue.main.async {
+                    self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+                    self.nextStep = s.getNextStep()
+                    self.displayStep = stepsToString(steps: self.nextStep.steps)
+                    self.stepText.text = s.stepString
                 }
-                else if s is SolverFirstCorners{
-                    solver = SolverMiddle(cube: Cube!)
-                }
-                else if s is SolverMiddle{
-                    solver = SolverLastCrossBB(cube: Cube!)
-                }
-                else if s is SolverLastCrossBB{
-                    solver = SolverLLWedgePossitions(cube: Cube!)
-                }
-                else if s is SolverLLWedgePossitions{
-                    solver = SolverBeginnerLLCornersPosition(cube: Cube!)
-                }
-                else if s is SolverBeginnerLLCornersPosition{
-                    solver = SolverBeginnerLLCornersOrientation(cube: Cube!)
-                }
-            }
-        }
-        if let s = solver{
-            DispatchQueue.main.async {
-                self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
-                self.nextStep = s.getNextStep()
-                self.displayStep = stepsToString(steps: self.nextStep.steps)
-                self.stepText.text = s.stepString
             }
         }
     }
     
     @IBOutlet weak var durationLabel: UILabel!
     
+    @IBOutlet weak var durationSlider: UISlider!
     @IBAction func durationChanged(_ sender: UISlider) {
         DispatchQueue.main.async {
             self.durationLabel.text = String(format: "%.2f", sender.value)
@@ -184,10 +186,11 @@ class PredictionViewController: UIViewController {
         }
     }
     
-    func disableEnableButtons() {
+    func disableAnimationDependentUI() {
         DispatchQueue.main.async {
             self.scrambleButton.isEnabled = !self.scrambleButton.isEnabled
             self.nextStepOutlet.isEnabled = !self.nextStepOutlet.isEnabled
+            self.durationSlider.isEnabled = !self.durationSlider.isEnabled
         }
     }
     
@@ -223,7 +226,7 @@ class PredictionViewController: UIViewController {
     // While we are running an animation prevent more
     var animationRunning = false {
         didSet {
-            disableEnableButtons()
+            disableAnimationDependentUI()
         }
     }
     //server
