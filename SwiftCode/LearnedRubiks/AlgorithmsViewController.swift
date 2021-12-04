@@ -41,6 +41,7 @@ class AlgorithmsViewController: UIViewController {
 
         
         // Create a dictionary of cubes to load and unload.
+        cases["Solved"] = RubiksCube()
         cases["Flip Wedge"] = RubiksCube(front: [.yellow, .green, .white, .blue, .blue, .red, .white, .white, .yellow],
                                           left: [.blue, .red, .white, .blue, .red, .blue, .red, .red, .yellow],
                                           right: [.blue, .green, .yellow, .yellow, .orange, .red, .orange, .orange, .white],
@@ -66,6 +67,19 @@ class AlgorithmsViewController: UIViewController {
                                                up: [.blue, .orange, .yellow, .green, .yellow, .yellow, .red , .blue, .yellow],
                                                down: [.white, .white, .white, .white, .white, .white, .white, .white, .white],
                                                back: [.red, .red, .red, .red, .red, .red, .red, .red, .green])
+        cases["Solving Cross"] = RubiksCube(front: [.red, .red, .red, .red, .red, .red, .yellow, .yellow, .green],
+                                           left: [.blue, .blue, .blue, .blue, .blue, .blue, .red, .green, .orange],
+                                           right: [.green, .green, .green, .green, .green, .green, .blue, .yellow, .yellow],
+                                           up: [.red, .blue, .orange, .red, .yellow, .yellow, .yellow, .yellow, .blue],
+                                           down: [.white, .white, .white, .white, .white, .white, .white, .white, .white, ],
+                                           back: [.orange, .orange, .orange, .orange, .orange, .orange, .green, .orange, .yellow])
+        
+        cases["Place Wedges"] = RubiksCube(front: [.red, .red, .red, .red, .red, .red, .blue, .red, .yellow],
+                                           left: [.blue, .blue, .blue, .blue, .blue, .blue, .orange, .orange, .red],
+                                           right: [.green, .green, .green, .green, .green, .green, .green, .green, .yellow],
+                                           up: [.orange, .yellow, .red, .yellow, .yellow, .yellow, .green, .yellow, .yellow],
+                                           down: [.white, .white, .white, .white, .white, .white, .white, .white, .white],
+                                           back: [.orange, .orange, .orange, .orange, .orange, .orange, .yellow, .blue, .blue])
         
         // Do any additional setup after loading the view.
         
@@ -99,6 +113,13 @@ class AlgorithmsViewController: UIViewController {
     @IBOutlet weak var topLevelSegmentOutlet: UISegmentedControl!
     @IBOutlet weak var secondLevelSegmentOutlet: UISegmentedControl!
     
+    func setSecnario(_ c:String) {
+        if let scenario = cases[c] {
+            self.Cube?.removeAllCublets()
+            self.Cube?.addScenario(newCube: scenario)
+        }
+    }
+    
     @IBAction func topLevelSegment(_ sender: Any) {
         
         var layer = ""
@@ -113,6 +134,7 @@ class AlgorithmsViewController: UIViewController {
                                                             at: self.secondLevelSegmentOutlet.numberOfSegments,
                                                             animated: true)
             }
+            setSecnario("Solved")
         }
         DispatchQueue.main.async {
             self.runAlgorithmButton.isEnabled = false
@@ -121,17 +143,18 @@ class AlgorithmsViewController: UIViewController {
     }
     @IBAction func secondLevelSegemt(_ sender: Any) {
         if let c = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex) {
-            if let scenario = cases[c] {
-                self.Cube?.removeAllCublets()
-                self.Cube?.addScenario(newCube: scenario)
-            }
+            setSecnario(c)
             
             if let layer = topLevelSegmentOutlet.titleForSegment(at: topLevelSegmentOutlet.selectedSegmentIndex),
                let alg = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex),
                let d = allAlgs[layer], let turns = d[alg] {
                 DispatchQueue.main.async {
                     self.runAlgorithmButton.isEnabled = true
-                    self.turnsLabel.text = self.stepsToString(steps: turns.0)
+                    if turns.1 == 1 {
+                        self.turnsLabel.text = self.stepsToString(steps: turns.0)
+                    } else {
+                        self.turnsLabel.text = "(\(self.stepsToString(steps: turns.0))) x\(turns.1)"
+                    }
                 }
             }
         }
@@ -263,8 +286,8 @@ class AlgorithmsViewController: UIViewController {
         "Left Wedge Place": ([.UN, .LN, .U, .L, .U, .F, .UN, .FN, .YN], 1)
     ]
     let lastLayerAlgs:Dictionary<String, ([Turn], Int)> = [
-        "Solving Cross": ([.F, .U, .R, .U, .RN, .UN, .FN], 1),
-        "Place Wedges": ([.R, .U, .RN, .U, .R, .U2, .RN], 1),
+        "Solving Cross": ([.F, .R, .U, .RN, .UN, .FN], 2),
+        "Place Wedges": ([.YN, .R, .U, .RN, .U, .R, .U2, .RN], 1),
         "Place Corners": ([.U, .R, .UN, .LN, .U, .RN, .UN, .L], 1)
     ]
     var  allAlgs:Dictionary<String, Dictionary<String, ([Turn], Int)>> = [:]
