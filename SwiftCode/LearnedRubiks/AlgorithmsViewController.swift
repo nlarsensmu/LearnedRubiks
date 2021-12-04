@@ -54,6 +54,19 @@ class AlgorithmsViewController: UIViewController {
                                                up: [.red, .white, .green, .white, .white, .white, .orange, .white, .yellow],
                                                down: [.orange, .yellow, .red, .green, .yellow, .yellow, .blue, .orange, .green],
                                                back: [.yellow, .blue, .red, .blue, .red, .yellow, .yellow, .red, .orange])
+        cases["Right Wedge Place"] = RubiksCube(front: [.green, .green, .green, .blue, .green, .green, .orange, .green, .red],
+                                               left: [.red, .red, .red, .red, .red, .red, .blue, .red, .orange],
+                                               right: [.orange, .orange, .orange, .orange, .orange, .green, .blue, .blue, .red],
+                                               up: [.yellow, .yellow, .yellow, .orange, .yellow, .orange, .yellow, .yellow, .yellow],
+                                               down: [.white, .white, .white, .white, .white, .white, .white, .white, .white],
+                                               back: [.blue, .blue, .blue, .yellow, .blue, .blue, .green, .yellow, .green])
+        cases["Left Wedge Place"] = RubiksCube(front: [.orange, .orange, .orange, .green, .orange, .orange, .yellow, .orange, .yellow],
+                                               left: [.green, .green, .green, .yellow, .green, .green, .green, .yellow, .orange],
+                                               right: [.blue, .blue, .blue, .yellow, .blue, .blue, .orange, .blue, .blue],
+                                               up: [.blue, .orange, .yellow, .green, .yellow, .yellow, .red , .blue, .yellow],
+                                               down: [.white, .white, .white, .white, .white, .white, .white, .white, .white],
+                                               back: [.red, .red, .red, .red, .red, .red, .red, .red, .green])
+        
         // Do any additional setup after loading the view.
         
     }
@@ -228,6 +241,11 @@ class AlgorithmsViewController: UIViewController {
             case .R2:
                 negatedTurns.append(.R2)
                 break
+            case .Y:
+                negatedTurns.append(.YN)
+                break
+            case .YN:
+                negatedTurns.append(.Y)
             default:
                 break
             }
@@ -241,8 +259,8 @@ class AlgorithmsViewController: UIViewController {
         "Corner Placement"      : ([.RN, .DN, .R, .D], 5)
     ]
     let secondLayerAlgs:Dictionary<String, ([Turn], Int)> = [
-        "Right Wedge Place": ([.U, .R, .UN, .RN, .UN, .FN, .UN, .F], 1),
-        "Left Wedge Place": ([.UN, .LN, .U, .L, .U, .F, .UN, .FN], 1)
+        "Right Wedge Place": ([.U, .R, .UN, .RN, .UN, .FN, .U, .F], 1),
+        "Left Wedge Place": ([.UN, .LN, .U, .L, .U, .F, .UN, .FN, .YN], 1)
     ]
     let lastLayerAlgs:Dictionary<String, ([Turn], Int)> = [
         "Solving Cross": ([.F, .U, .R, .U, .RN, .UN, .FN], 1),
