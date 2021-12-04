@@ -173,6 +173,8 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     @IBOutlet weak var hintLabel: UILabel!
     @IBOutlet weak var modelSegmented: UISegmentedControl!
     
+    
+    
     enum ModelTypes {
         case MLP
         case TURI

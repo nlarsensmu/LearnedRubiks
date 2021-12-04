@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -335,18 +336,36 @@
                     </view>
                     <navigationItem key="navigationItem" id="7qi-PG-SV0"/>
                     <connections>
+                        <outlet property="backNegOutlet" destination="hwW-kI-y6k" id="hwx-VM-rlX"/>
+                        <outlet property="backOutlet" destination="7gK-a1-kLo" id="UIS-Rt-sA4"/>
+                        <outlet property="downNegOutlet" destination="sHl-nD-8cl" id="ggm-tE-Rbp"/>
+                        <outlet property="downOutlet" destination="6ns-gm-zVa" id="eRe-ba-YY3"/>
                         <outlet property="durationLabel" destination="mTB-ox-573" id="xci-5Z-L9g"/>
                         <outlet property="durationSlider" destination="VsD-WL-gzs" id="b2G-w5-XjO"/>
+                        <outlet property="frontNegOutlet" destination="7VS-nw-Kti" id="Cff-gy-oFZ"/>
+                        <outlet property="frontOutlet" destination="myk-nH-CqK" id="UlS-50-85a"/>
+                        <outlet property="leftNegOutlet" destination="1UD-kN-5e2" id="VAd-6N-uVF"/>
+                        <outlet property="leftOutlet" destination="i60-5N-fRO" id="VrS-tZ-UWM"/>
                         <outlet property="nextStepOutlet" destination="oHG-5G-FCG" id="HFf-KD-liE"/>
                         <outlet property="nextSteps" destination="ECN-Ri-etU" id="ely-o6-ryX"/>
+                        <outlet property="rightNegOutlet" destination="GmG-ub-37p" id="smY-Ha-Pvs"/>
+                        <outlet property="rightOutlet" destination="258-0O-0Iq" id="vcc-wR-BrE"/>
                         <outlet property="sceneView" destination="Bin-Bk-2fe" id="iIS-Fj-Ly9"/>
                         <outlet property="scrambleButton" destination="Qbf-h8-C0j" id="L7V-o1-UbV"/>
                         <outlet property="stepText" destination="01o-Dj-mjr" id="XPH-2Q-DRI"/>
+                        <outlet property="upNegOutlet" destination="hpn-Tv-rif" id="oCP-eY-aF3"/>
+                        <outlet property="upOutlet" destination="Hev-8n-TrB" id="aBa-cA-qds"/>
+                        <outlet property="xNegOutlet" destination="h2k-Zi-wor" id="MEU-ak-spb"/>
+                        <outlet property="xOutlet" destination="y3d-MU-uCO" id="O1Y-gh-40i"/>
+                        <outlet property="yNegOutlet" destination="xt1-kb-vKe" id="Zo6-hW-eeZ"/>
+                        <outlet property="yOutlet" destination="GhN-E5-TV6" id="ok7-Ih-LKe"/>
+                        <outlet property="zNegOutlet" destination="M8a-Cw-ad5" id="gYY-2r-fzM"/>
+                        <outlet property="zOutlet" destination="OtT-ex-IbF" id="mcV-14-4fB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhG-C5-Khe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1610" y="67"/>
+            <point key="canvasLocation" x="1608.6956521739132" y="66.964285714285708"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VzP-eT-Dyz">
@@ -428,12 +447,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4P4-lq-h7O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="4p3-el-7kw">
                     <connections>
-                        <segue destination="Iie-K7-svU" kind="show" id="g5t-NN-oYH"/>
+                        <segue destination="Iie-K7-svU" kind="show" id="r61-Fr-62s"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="Z3W-zX-NKW">
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" id="nqb-KQ-oMG"/>
+                        <segue destination="Pxg-Vb-qRA" kind="show" id="hPm-RO-sRQ"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="mgU-Y8-Iql">
@@ -444,6 +463,49 @@
             </objects>
             <point key="canvasLocation" x="-452.17391304347831" y="-3.3482142857142856"/>
         </scene>
+        <!--Teaching Selection View Controller-->
+        <scene sceneID="L6I-Ru-Ip8">
+            <objects>
+                <viewController id="Pxg-Vb-qRA" customClass="TeachingSelectionViewController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZBN-hH-9ll">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJC-pP-cv7">
+                                <rect key="frame" x="147" y="459.5" width="120" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Types of Turns"/>
+                                <connections>
+                                    <action selector="typeOfTurnsAction:" destination="Pxg-Vb-qRA" eventType="touchUpInside" id="Wm0-eK-9Aw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNP-AL-0Bv">
+                                <rect key="frame" x="117" y="505" width="180" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Algorithm Walk Through"/>
+                                <connections>
+                                    <segue destination="SKe-Xn-W7x" kind="show" id="0Sa-Hq-fva"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="s7a-tD-Tj4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="KJC-pP-cv7" firstAttribute="centerX" secondItem="s7a-tD-Tj4" secondAttribute="centerX" id="4Yy-KU-AN9"/>
+                            <constraint firstItem="tNP-AL-0Bv" firstAttribute="centerX" secondItem="s7a-tD-Tj4" secondAttribute="centerX" id="NoA-W8-5kh"/>
+                            <constraint firstItem="KJC-pP-cv7" firstAttribute="centerY" secondItem="s7a-tD-Tj4" secondAttribute="centerY" id="Oms-GR-QKa"/>
+                            <constraint firstItem="tNP-AL-0Bv" firstAttribute="top" secondItem="KJC-pP-cv7" secondAttribute="bottom" constant="14.5" id="uoZ-2t-io1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="mp3-sF-0hN"/>
+                    <connections>
+                        <segue destination="Iie-K7-svU" kind="show" identifier="teachingCubeSegue" id="04g-r1-UAF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BvO-VO-QyS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="536" y="-580"/>
+        </scene>
         <!--Learning View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -453,16 +515,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jv1-5c-Ac8">
-                                <rect key="frame" x="24" y="150" width="366" height="4"/>
+                                <rect key="frame" x="24" y="106" width="366" height="4"/>
                             </progressView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Motion Level Sensed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h0b-p8-T6l">
-                                <rect key="frame" x="108.5" y="104" width="197.5" height="26.5"/>
+                                <rect key="frame" x="108.5" y="60" width="197.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not Calibrating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zpE-Sp-yTE">
-                                <rect key="frame" x="81.5" y="450" width="251" height="47"/>
+                                <rect key="frame" x="81.5" y="428" width="251" height="47"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="39"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -481,25 +543,25 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Bzi-ic-OwC">
-                                <rect key="frame" x="22" y="205" width="370" height="31"/>
+                                <rect key="frame" x="22" y="161" width="370" height="31"/>
                                 <connections>
                                     <action selector="magnitudeChagned:" destination="BYZ-38-t0r" eventType="valueChanged" id="9rc-cd-ocd"/>
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Motion Theshold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYR-ds-ZcE">
-                                <rect key="frame" x="143" y="176" width="128" height="21"/>
+                                <rect key="frame" x="143" y="132" width="128" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="PnW-yb-h0g">
-                                <rect key="frame" x="160" y="504" width="94" height="32"/>
+                                <rect key="frame" x="160" y="482" width="94" height="32"/>
                                 <connections>
                                     <action selector="didStep:" destination="BYZ-38-t0r" eventType="valueChanged" id="Ctt-NH-ECk"/>
                                 </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DSID: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e49-32-IHB">
-                                <rect key="frame" x="24" y="509.5" width="55" height="21"/>
+                                <rect key="frame" x="24" y="487.5" width="55" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -528,13 +590,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1SP-x3-C9O">
-                                <rect key="frame" x="186" y="421" width="42" height="21"/>
+                                <rect key="frame" x="186" y="399" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eaC-uh-qzh">
-                                <rect key="frame" x="110" y="557" width="194" height="32"/>
+                                <rect key="frame" x="110" y="535" width="194" height="32"/>
                                 <segments>
                                     <segment title="MLP"/>
                                     <segment title="TURI"/>
@@ -588,7 +650,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="777" y="-362"/>
+            <point key="canvasLocation" x="3132" y="-758"/>
         </scene>
         <!--Datasets Table View-->
         <scene sceneID="63S-jA-nmZ">
@@ -808,11 +870,98 @@
             </objects>
             <point key="canvasLocation" x="755" y="532"/>
         </scene>
+        <!--Algorithms View Controller-->
+        <scene sceneID="vaL-TR-dIy">
+            <objects>
+                <viewController id="SKe-Xn-W7x" customClass="AlgorithmsViewController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2Sn-rj-4rR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xLI-bc-jfc">
+                                <rect key="frame" x="87" y="339" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </sceneKitView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9al-d6-3O1">
+                                <rect key="frame" x="20.5" y="88" width="373" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <segments>
+                                    <segment title="First Layer"/>
+                                    <segment title="Second Layer"/>
+                                    <segment title="Last Layer"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" name="AccentColor"/>
+                                <connections>
+                                    <action selector="topLevelSegment:" destination="SKe-Xn-W7x" eventType="valueChanged" id="QqT-T1-uzh"/>
+                                </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1cQ-Uk-Stz">
+                                <rect key="frame" x="20" y="127" width="374" height="31"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                                <color key="selectedSegmentTintColor" name="AccentColor"/>
+                                <connections>
+                                    <action selector="secondLevelSegemt:" destination="SKe-Xn-W7x" eventType="valueChanged" id="aXF-mk-WQ3"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKq-DP-RgC">
+                                <rect key="frame" x="149" y="167" width="116" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Run Algorithm"/>
+                                <connections>
+                                    <action selector="runAlgorithm:" destination="SKe-Xn-W7x" eventType="touchUpInside" id="of1-gX-IlN"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xry-9q-92v">
+                                <rect key="frame" x="0.0" y="206" width="414" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="63" id="Vqv-Mu-iZz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9sC-yH-pzS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Xry-9q-92v" firstAttribute="width" secondItem="2Sn-rj-4rR" secondAttribute="width" id="2yS-cU-gWo"/>
+                            <constraint firstItem="9al-d6-3O1" firstAttribute="width" secondItem="2Sn-rj-4rR" secondAttribute="width" multiplier="0.9" id="8DN-Zd-GUS"/>
+                            <constraint firstItem="1cQ-Uk-Stz" firstAttribute="top" secondItem="9al-d6-3O1" secondAttribute="bottom" constant="8" symbolic="YES" id="AY4-dw-T7H"/>
+                            <constraint firstItem="QKq-DP-RgC" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="BBI-gV-hfV"/>
+                            <constraint firstItem="9al-d6-3O1" firstAttribute="top" secondItem="9sC-yH-pzS" secondAttribute="top" id="J7s-ea-Wlv"/>
+                            <constraint firstItem="1cQ-Uk-Stz" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="N3w-Ip-Gd4"/>
+                            <constraint firstItem="1cQ-Uk-Stz" firstAttribute="width" secondItem="9al-d6-3O1" secondAttribute="width" id="YBA-W5-gRV"/>
+                            <constraint firstItem="QKq-DP-RgC" firstAttribute="top" secondItem="1cQ-Uk-Stz" secondAttribute="bottom" constant="9" id="gzN-RK-d6B"/>
+                            <constraint firstItem="Xry-9q-92v" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="lEs-iU-OT0"/>
+                            <constraint firstItem="9al-d6-3O1" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="nl5-P6-OpL"/>
+                            <constraint firstItem="Xry-9q-92v" firstAttribute="top" secondItem="QKq-DP-RgC" secondAttribute="bottom" constant="8" symbolic="YES" id="sUP-x8-I9n"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Fot-vM-6K1"/>
+                    <connections>
+                        <outlet property="runAlgorithmButton" destination="QKq-DP-RgC" id="mHG-EX-6Q6"/>
+                        <outlet property="sceneView" destination="xLI-bc-jfc" id="wCy-e6-pQ6"/>
+                        <outlet property="secondLevelSegmentOutlet" destination="1cQ-Uk-Stz" id="ewe-JT-Lid"/>
+                        <outlet property="topLevelSegmentOutlet" destination="9al-d6-3O1" id="I1I-ny-YU9"/>
+                        <outlet property="turnsLabel" destination="Xry-9q-92v" id="HBn-z0-o0d"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vJv-pw-5QI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1679.7101449275362" y="-797.54464285714278"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="g5t-NN-oYH"/>
+        <segue reference="04g-r1-UAF"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

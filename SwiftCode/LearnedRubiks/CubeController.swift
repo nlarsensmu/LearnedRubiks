@@ -25,87 +25,106 @@ class CubeController: UIViewController {
     @IBOutlet weak var sceneView: SCNView!
     
     // Full cube
+    @IBOutlet weak var xOutlet: UIButton!
     @IBAction func xRotate(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllX(direction:1))
         }
     }
+    @IBOutlet weak var xNegOutlet: UIButton!
     @IBAction func xRotateNeg(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllX(direction:-1))
         }
     }
+    @IBOutlet weak var yOutlet: UIButton!
     @IBAction func yRotate(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllY(direction:1))
         }
     }
+    @IBOutlet weak var yNegOutlet: UIButton!
     @IBAction func yRotateNeg(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllY(direction:-1))
         }
     }
+    @IBOutlet weak var zOutlet: UIButton!
     @IBAction func zRotate(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllZ(direction:1))
         }
     }
+    @IBOutlet weak var zNegOutlet: UIButton!
     @IBAction func zRotateNeg(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllZ(direction:-1))
         }
     }
+    
     // One face
+    
+    @IBOutlet weak var upOutlet: UIButton!
     @IBAction func upTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.upTurn(direction: 1))
         }
     }
+    @IBOutlet weak var upNegOutlet: UIButton!
     @IBAction func upTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.upTurn(direction: -1))
         }
     }
+    @IBOutlet weak var downOutlet: UIButton!
     @IBAction func downTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.downTurn(direction: 1))
         }
     }
+    @IBOutlet weak var downNegOutlet: UIButton!
     @IBAction func downTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.downTurn(direction: -1))
         }
     }
+    @IBOutlet weak var rightOutlet: UIButton!
     @IBAction func rightTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.rightTurn(direction: 1))
         }
     }
+    @IBOutlet weak var rightNegOutlet: UIButton!
     @IBAction func rightTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.rightTurn(direction: -1))
         }
     }
+    @IBOutlet weak var leftOutlet: UIButton!
     @IBAction func leftTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.leftTurn(direction: 1))
         }
     }
+    @IBOutlet weak var leftNegOutlet: UIButton!
     @IBAction func leftTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.leftTurn(direction: -1))
         }
     }
+    @IBOutlet weak var backOutlet: UIButton!
     @IBAction func backTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.backTurn(direction: 1))
         }
     }
+    @IBOutlet weak var backNegOutlet: UIButton!
     @IBAction func backTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.backTurn(direction: -1))
         }
     }
+    @IBOutlet weak var frontOutlet: UIButton!
     @IBAction func frontTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
@@ -114,6 +133,7 @@ class CubeController: UIViewController {
             }
         }
     }
+    @IBOutlet weak var frontNegOutlet: UIButton!
     @IBAction func frontTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.frontTurn(direction: -1))
@@ -124,7 +144,7 @@ class CubeController: UIViewController {
     @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
         if let cube = Cube {
-            cube.undoTurns(steps: self.nextStep.steps)
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
             let actions = cube.scramble(turnsCount: 30)
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
@@ -191,7 +211,7 @@ class CubeController: UIViewController {
         }
         self.Cube?.duration = Double(sender.value)
         if var s = solver {
-            self.Cube?.undoTurns(steps: self.nextStep.steps)
+            let _ = self.Cube?.undoTurns(steps: self.nextStep.steps)
             self.nextStep = s.reloadSteps()
         }
     }
@@ -240,6 +260,8 @@ class CubeController: UIViewController {
         }
     }
     
+    
+    // MARK: View Set up methods
     var solverIndex = 0
     var solver:SolverBase? = nil
     override func viewDidLoad() {
@@ -264,6 +286,13 @@ class CubeController: UIViewController {
         sceneView.backgroundColor = .black
         addCubes()
         self.Cube?.duration = 1.0
+        
+        
+        // If this view is going to be running through turns as an example
+        if runningThroughTurns {
+            self.stepText.text = "\(stepsToString(steps: [self.turnDurations[self.currentTurn]]))"
+            runNextTurn()
+        }
     }
     
     //To be called on init.  This will populate self.cubes which will contain all the inforatiom about the cube, and cubelets for the graphic
@@ -279,6 +308,50 @@ class CubeController: UIViewController {
         scene = Cube?.getScene()
         sceneView.scene = scene
     }
+    
+    var runningThroughTurns = false
+    let turnDurations:[Turn] = [.U, .UN, .D, .DN, .R, .RN, .L, .LN, .F, .FN, .B, .BN,
+                                .X, .XN, .Y, .YN, .Z, .ZN]
+    var currentTurn = 0
+    func runNextTurn() {
+        let actions = Cube!.getTurnActions(turns: [turnDurations[currentTurn]])
+        currentTurn = (currentTurn + 1)%turnDurations.count
+        scene.rootNode.runAction(SCNAction.sequence(actions)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.stepText.text = "\(stepsToString(steps: [self.turnDurations[self.currentTurn]]))"
+                self.runNextTurn()
+            }
+        }
+    }
+    
+    func hideManipluationUIElements() {
+        runningThroughTurns = true
+        DispatchQueue.main.async {
+            self.upOutlet.isHidden = true
+            self.upNegOutlet.isHidden = true
+            self.downOutlet.isHidden = true
+            self.downNegOutlet.isHidden = true
+            self.rightOutlet.isHidden = true
+            self.rightNegOutlet.isHidden = true
+            self.leftOutlet.isHidden = true
+            self.leftNegOutlet.isHidden = true
+            self.frontOutlet.isHidden = true
+            self.frontNegOutlet.isHidden = true
+            self.backOutlet.isHidden = true
+            self.backNegOutlet.isHidden = true
+            self.xOutlet.isHidden = true
+            self.xNegOutlet.isHidden = true
+            self.yOutlet.isHidden = true
+            self.yNegOutlet.isHidden = true
+            self.zOutlet.isHidden = true
+            self.zNegOutlet.isHidden = true
+            self.durationSlider.isHidden = true
+            self.durationLabel.isHidden = true
+            self.scrambleButton.isHidden = true
+            self.nextStepOutlet.isHidden = true
+        }
+    }
+    
     //MARK: Motion code
     func setDelayedWaitingToTrue(_ time:Double){
         DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: {

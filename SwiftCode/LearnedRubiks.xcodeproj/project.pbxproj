@@ -24,6 +24,8 @@
 		FD31FBB927385831006DE220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD31FBB827385831006DE220 /* Assets.xcassets */; };
 		FD31FBBC27385831006DE220 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD31FBBA27385831006DE220 /* LaunchScreen.storyboard */; };
 		FD31FBC427385A39006DE220 /* RingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD31FBC327385A39006DE220 /* RingBuffer.swift */; };
+		FD5D9CAB275B07E700A64935 /* TeachingSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5D9CAA275B07E600A64935 /* TeachingSelectionViewController.swift */; };
+		FD5D9CAD275B0A5C00A64935 /* AlgorithmsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5D9CAC275B0A5C00A64935 /* AlgorithmsViewController.swift */; };
 		FD7147CC2752E64C00860B44 /* colors.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FD7147CB2752E64C00860B44 /* colors.mlmodel */; };
 		FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E0B47274601B600F4CB6E /* SolverCross.swift */; };
 		FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E0B49274606D300F4CB6E /* SolverBase.swift */; };
@@ -64,6 +66,8 @@
 		FD31FBBB27385831006DE220 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD31FBBD27385831006DE220 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD31FBC327385A39006DE220 /* RingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingBuffer.swift; sourceTree = "<group>"; };
+		FD5D9CAA275B07E600A64935 /* TeachingSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeachingSelectionViewController.swift; sourceTree = "<group>"; };
+		FD5D9CAC275B0A5C00A64935 /* AlgorithmsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmsViewController.swift; sourceTree = "<group>"; };
 		FD7147CB2752E64C00860B44 /* colors.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = colors.mlmodel; path = ../Notebooks/colors.mlmodel; sourceTree = "<group>"; };
 		FD9E0B47274601B600F4CB6E /* SolverCross.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverCross.swift; sourceTree = "<group>"; };
 		FD9E0B49274606D300F4CB6E /* SolverBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBase.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 				B77C72892740A9B400597316 /* ModelSelectionViewController.swift */,
 				FD287A9A274C740A004A6D3B /* PrefixHeader.pch */,
 				B786EC22275856180081A1E0 /* RootCollectionViewController.swift */,
+				FD5D9CAA275B07E600A64935 /* TeachingSelectionViewController.swift */,
+				FD5D9CAC275B0A5C00A64935 /* AlgorithmsViewController.swift */,
 			);
 			path = LearnedRubiks;
 			sourceTree = "<group>";
@@ -252,6 +258,7 @@
 				FDA540CD2748357D00E11DAE /* SolverMiddle.swift in Sources */,
 				FD287A91274C6E54004A6D3B /* OpenCVBridge.mm in Sources */,
 				FD9E0B4A274606D300F4CB6E /* SolverBase.swift in Sources */,
+				FD5D9CAB275B07E700A64935 /* TeachingSelectionViewController.swift in Sources */,
 				FDFA660E27407A8800A866F8 /* ModelDsId4.mlmodel in Sources */,
 				FD287A8A274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift in Sources */,
 				FDA540CA2746F58100E11DAE /* SovlerFirstCorners.swift in Sources */,
@@ -270,6 +277,7 @@
 				B78647D2273F28DA004BB50B /* RubiksCube.swift in Sources */,
 				FD287A93274C6E54004A6D3B /* VideoAnalgesic.swift in Sources */,
 				B786EC23275856180081A1E0 /* RootCollectionViewController.swift in Sources */,
+				FD5D9CAD275B0A5C00A64935 /* AlgorithmsViewController.swift in Sources */,
 				FD31FBB027385830006DE220 /* AppDelegate.swift in Sources */,
 				FDA540D3274861E600E11DAE /* SolverLLWedgePositons.swift in Sources */,
 				FD9E0B48274601B600F4CB6E /* SolverCross.swift in Sources */,
