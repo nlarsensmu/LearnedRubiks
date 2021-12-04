@@ -48,7 +48,12 @@ class AlgorithmsViewController: UIViewController {
                                           down:  [.orange, .orange, .red, .yellow, .yellow, .orange, .orange, .green, .blue],
                                           back: [.green, .yellow, .red, .yellow, .green, .orange, .green, .green, .orange])
         
-
+        cases["Corner Placement"] = RubiksCube(front: [.white, .red, .white, .red, .orange, .green, .white, .orange, .blue],
+                                               left: [.red, .yellow, .yellow, .orange, .blue, .red, .white, .blue, .blue],
+                                               right: [.green, .green, .blue, .blue, .green, .orange, .green, .green, .orange],
+                                               up: [.red, .white, .green, .white, .white, .white, .orange, .white, .yellow],
+                                               down: [.orange, .yellow, .red, .green, .yellow, .yellow, .blue, .orange, .green],
+                                               back: [.yellow, .blue, .red, .blue, .red, .yellow, .yellow, .red, .orange])
         // Do any additional setup after loading the view.
         
     }
@@ -96,6 +101,10 @@ class AlgorithmsViewController: UIViewController {
                                                             animated: true)
             }
         }
+        DispatchQueue.main.async {
+            self.runAlgorithmButton.isEnabled = false
+            self.turnsLabel.text = ""
+        }
     }
     @IBAction func secondLevelSegemt(_ sender: Any) {
         if let c = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex) {
@@ -108,7 +117,8 @@ class AlgorithmsViewController: UIViewController {
                let alg = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex),
                let d = allAlgs[layer], let turns = d[alg] {
                 DispatchQueue.main.async {
-                    self.turnsLabel.text = self.stepsToString(steps: turns)
+                    self.runAlgorithmButton.isEnabled = true
+                    self.turnsLabel.text = self.stepsToString(steps: turns.0)
                 }
             }
         }
@@ -133,24 +143,28 @@ class AlgorithmsViewController: UIViewController {
         // unfold segments into the turns
         if let layer = topLevelSegmentOutlet.titleForSegment(at: topLevelSegmentOutlet.selectedSegmentIndex),
            let alg = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex),
-           let d = allAlgs[layer], let turns = d[alg] {
+           let d = allAlgs[layer], let turnsCount = d[alg] {
             Cube?.duration = 1.0
             var actions:[SCNAction] = []
-            actions.append(contentsOf: Cube!.getTurnActions(turns: turns))
+            for _ in 0..<turnsCount.1 {
+                actions.append(contentsOf: Cube!.getTurnActions(turns: turnsCount.0))
+            }
             animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 DispatchQueue.main.async {
-                    self.undoAlgorithm(turns: turns)
+                    self.undoAlgorithm(turns: turnsCount)
                 }
             }
         }
     }
     
-    func undoAlgorithm(turns:[Turn]) {
+    func undoAlgorithm(turns:([Turn], Int)) {
         
         self.Cube?.duration = 0.1
         var actions:[SCNAction] = []
-        actions.append(contentsOf: self.Cube!.getTurnActions(turns: negateTurns(turns.reversed())))
+        for _ in 0..<turns.1 {
+            actions.append(contentsOf: self.Cube!.getTurnActions(turns: negateTurns(turns.0.reversed())))
+        }
         self.scene.rootNode.runAction(SCNAction.sequence(actions)) {
             self.animationRunning = false
         }
@@ -222,20 +236,20 @@ class AlgorithmsViewController: UIViewController {
     }
     
     // MARK: Algoritms used
-    let fistLayerAlgs:Dictionary<String, [Turn]> = [
-        "Flip Wedge"            : [.F, .UN, .R, .U],
-        "Corner Placement"      : [.RN, .DN, .R, .D]
+    let fistLayerAlgs:Dictionary<String, ([Turn], Int)> = [
+        "Flip Wedge"            : ([.F, .UN, .R, .U], 1),
+        "Corner Placement"      : ([.RN, .DN, .R, .D], 5)
     ]
-    let secondLayerAlgs:Dictionary<String, [Turn]> = [
-        "Right Wedge Place": [.U, .R, .UN, .RN, .UN, .FN, .UN, .F],
-        "Left Wedge Place": [.UN, .LN, .U, .L, .U, .F, .UN, .FN]
+    let secondLayerAlgs:Dictionary<String, ([Turn], Int)> = [
+        "Right Wedge Place": ([.U, .R, .UN, .RN, .UN, .FN, .UN, .F], 1),
+        "Left Wedge Place": ([.UN, .LN, .U, .L, .U, .F, .UN, .FN], 1)
     ]
-    let lastLayerAlgs:Dictionary<String, [Turn]> = [
-        "Solving Cross": [.F, .U, .R, .U, .RN, .UN, .FN],
-        "Place Wedges": [.R, .U, .RN, .U, .R, .U2, .RN],
-        "Place Corners": [.U, .R, .UN, .LN, .U, .RN, .UN, .L]
+    let lastLayerAlgs:Dictionary<String, ([Turn], Int)> = [
+        "Solving Cross": ([.F, .U, .R, .U, .RN, .UN, .FN], 1),
+        "Place Wedges": ([.R, .U, .RN, .U, .R, .U2, .RN], 1),
+        "Place Corners": ([.U, .R, .UN, .LN, .U, .RN, .UN, .L], 1)
     ]
-    var  allAlgs:Dictionary<String, Dictionary<String, [Turn]>> = [:]
+    var  allAlgs:Dictionary<String, Dictionary<String, ([Turn], Int)>> = [:]
     
     
     

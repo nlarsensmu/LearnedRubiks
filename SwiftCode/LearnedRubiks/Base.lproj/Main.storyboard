@@ -915,7 +915,7 @@
                                     <action selector="runAlgorithm:" destination="SKe-Xn-W7x" eventType="touchUpInside" id="of1-gX-IlN"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xry-9q-92v">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xry-9q-92v">
                                 <rect key="frame" x="0.0" y="206" width="414" height="63"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="63" id="Vqv-Mu-iZz"/>
