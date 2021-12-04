@@ -303,7 +303,7 @@ class CubeController: UIViewController {
             }
             //fButton
             let point1 = self.sceneView.projectPoint(cube.cublet(at: 1).node.position)
-            let fPoint = CGPoint(x:CGFloat(point1.x), y:CGFloat(point1.y) + self.fButton.frame.height)
+            let fPoint = CGPoint(x:CGFloat(point1.x), y:CGFloat(point1.y) + self.fButton.frame.height*1.5)
             self.fButton.frame.origin = fPoint
             self.setImageToButton(button: self.fButton, image: "f")
             //fNegButton
@@ -313,7 +313,7 @@ class CubeController: UIViewController {
             self.setImageToButton(button: self.fNegButton, image: "fneg")
             
             //uButton
-            let uPoint = CGPoint(x:CGFloat(point25.x) - self.uButton.frame.width*2, y:CGFloat(point25.y) - self.uButton.frame.height)
+            let uPoint = CGPoint(x:CGFloat(point25.x) - self.uButton.frame.width*2.1, y:CGFloat(point25.y) - self.uButton.frame.height*0.8)
             self.uButton.frame.origin = uPoint
             self.setImageToButton(button: self.uButton, image: "u")
             //uNegButton
@@ -324,18 +324,18 @@ class CubeController: UIViewController {
             
             //dButton
             let point3 = self.sceneView.projectPoint(cube.cublet(at: 3).node.position)
-            let dPoint = CGPoint(x:CGFloat(point3.x) + self.dButton.frame.width, y:CGFloat(point3.y))
+            let dPoint = CGPoint(x:CGFloat(point3.x) + self.dButton.frame.width*1.5, y:CGFloat(point3.y))
             self.dButton.frame.origin = dPoint
             self.setImageToButton(button: self.dButton, image: "d")
             //dNegButton
             let point7 = self.sceneView.projectPoint(cube.cublet(at: 7).node.position)
-            let dNegPoint = CGPoint(x:CGFloat(point7.x) - self.dButton.frame.width*2, y:CGFloat(point7.y))
+            let dNegPoint = CGPoint(x:CGFloat(point7.x) - self.dButton.frame.width*2.2, y:CGFloat(point7.y))
             self.dNegButton.frame.origin = dNegPoint
             self.setImageToButton(button: self.dNegButton, image: "dneg")
 
             
             //rButton
-            let rPoint = CGPoint(x:CGFloat(point1.x) - self.rButton.frame.width*1.1, y:CGFloat(point1.y) + self.rButton.frame.height)
+            let rPoint = CGPoint(x:CGFloat(point1.x) - self.rButton.frame.width*1.1, y:CGFloat(point1.y) + self.rButton.frame.height*1.5)
             self.rButton.frame.origin = rPoint
             self.setImageToButton(button: self.rButton, image: "r")
             //rNegButton
@@ -358,7 +358,7 @@ class CubeController: UIViewController {
             self.bButton.frame.origin = bPoint
             self.setImageToButton(button: self.bButton, image: "b")
             //bNegButton
-            let bNegPoint = CGPoint(x:CGFloat(point3.x), y:CGFloat(point3.y) + self.bNegButton.frame.height)
+            let bNegPoint = CGPoint(x:CGFloat(point3.x), y:CGFloat(point3.y) + self.bNegButton.frame.height*1.2)
             self.bNegButton.frame.origin = bNegPoint
             self.setImageToButton(button: self.bNegButton, image: "bneg")
             
