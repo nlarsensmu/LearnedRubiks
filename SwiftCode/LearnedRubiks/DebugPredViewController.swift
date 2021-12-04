@@ -19,7 +19,6 @@ class DebugPredViewController: UIViewController {
         }
     }
     
-    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()

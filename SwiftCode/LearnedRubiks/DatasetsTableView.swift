@@ -10,7 +10,6 @@ import UIKit
 class DatasetsTableView: UITableViewController {
 
     
-    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     
     var dsids:[Any] = []
     override func viewDidLoad() {
@@ -64,12 +63,12 @@ class DatasetsTableView: UITableViewController {
         super.viewWillAppear(true)
         
         // update the Table view
-        serverModel?.getAllDsIds() { dsids in
-            DispatchQueue.main.async {
-                self.dsids = dsids
-                self.tableView.reloadData()
-            }
-        }
+//        serverModel?.getAllDsIds() { dsids in
+//            DispatchQueue.main.async {
+//                self.dsids = dsids
+//                self.tableView.reloadData()
+//            }
+//        }
     }
     
 
