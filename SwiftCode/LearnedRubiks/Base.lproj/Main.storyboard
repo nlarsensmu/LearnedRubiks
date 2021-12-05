@@ -343,6 +343,12 @@
                         <outlet property="stepText" destination="01o-Dj-mjr" id="XPH-2Q-DRI"/>
                         <outlet property="uButton" destination="Hev-8n-TrB" id="k72-nQ-0zm"/>
                         <outlet property="uNegButton" destination="hpn-Tv-rif" id="gXo-5B-dSC"/>
+                        <outlet property="xNegOutlet" destination="h2k-Zi-wor" id="CNQ-D9-dUw"/>
+                        <outlet property="xOutlet" destination="y3d-MU-uCO" id="mNz-sB-137"/>
+                        <outlet property="yNegOutlet" destination="xt1-kb-vKe" id="fVD-Ro-Q2C"/>
+                        <outlet property="yOutlet" destination="GhN-E5-TV6" id="gJv-s0-XnA"/>
+                        <outlet property="zNegOutlet" destination="OtT-ex-IbF" id="93p-xA-0PU"/>
+                        <outlet property="zOutlet" destination="M8a-Cw-ad5" id="hH2-YG-aP0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhG-C5-Khe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

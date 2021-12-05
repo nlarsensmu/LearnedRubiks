@@ -75,68 +75,56 @@ class CubeController: UIViewController {
     }
     
     // One face
-    
-    @IBOutlet weak var upOutlet: UIButton!
     @IBAction func upTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.upTurn(direction: 1))
         }
     }
-    @IBOutlet weak var upNegOutlet: UIButton!
     @IBAction func upTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.upTurn(direction: -1))
         }
     }
-    @IBOutlet weak var downOutlet: UIButton!
     @IBAction func downTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.downTurn(direction: 1))
         }
     }
-    @IBOutlet weak var downNegOutlet: UIButton!
     @IBAction func downTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.downTurn(direction: -1))
         }
     }
-    @IBOutlet weak var rightOutlet: UIButton!
     @IBAction func rightTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.rightTurn(direction: 1))
         }
     }
-    @IBOutlet weak var rightNegOutlet: UIButton!
     @IBAction func rightTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.rightTurn(direction: -1))
         }
     }
-    @IBOutlet weak var leftOutlet: UIButton!
     @IBAction func leftTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.leftTurn(direction: 1))
         }
     }
-    @IBOutlet weak var leftNegOutlet: UIButton!
     @IBAction func leftTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.leftTurn(direction: -1))
         }
     }
-    @IBOutlet weak var backOutlet: UIButton!
     @IBAction func backTurn(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.backTurn(direction: 1))
         }
     }
-    @IBOutlet weak var backNegOutlet: UIButton!
     @IBAction func backTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.backTurn(direction: -1))
         }
     }
-    @IBOutlet weak var frontOutlet: UIButton!
     @IBAction func frontTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
@@ -145,7 +133,6 @@ class CubeController: UIViewController {
             }
         }
     }
-    @IBOutlet weak var frontNegOutlet: UIButton!
     @IBAction func frontTurnNeg(_ sender: Any) {
         if let cube = Cube {
             scene.rootNode.runAction(cube.frontTurn(direction: -1))
@@ -420,18 +407,18 @@ class CubeController: UIViewController {
     func hideManipluationUIElements() {
         runningThroughTurns = true
         DispatchQueue.main.async {
-            self.upOutlet.isHidden = true
-            self.upNegOutlet.isHidden = true
-            self.downOutlet.isHidden = true
-            self.downNegOutlet.isHidden = true
-            self.rightOutlet.isHidden = true
-            self.rightNegOutlet.isHidden = true
-            self.leftOutlet.isHidden = true
-            self.leftNegOutlet.isHidden = true
-            self.frontOutlet.isHidden = true
-            self.frontNegOutlet.isHidden = true
-            self.backOutlet.isHidden = true
-            self.backNegOutlet.isHidden = true
+            self.uButton.isHidden = true
+            self.uNegButton.isHidden = true
+            self.dButton.isHidden = true
+            self.dNegButton.isHidden = true
+            self.rButton.isHidden = true
+            self.rNegButton.isHidden = true
+            self.lButton.isHidden = true
+            self.lNegButton.isHidden = true
+            self.fButton.isHidden = true
+            self.fNegButton.isHidden = true
+            self.bButton.isHidden = true
+            self.bNegButton.isHidden = true
             self.xOutlet.isHidden = true
             self.xNegOutlet.isHidden = true
             self.yOutlet.isHidden = true
