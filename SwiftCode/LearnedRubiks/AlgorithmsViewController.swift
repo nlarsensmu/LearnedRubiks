@@ -145,7 +145,7 @@ class AlgorithmsViewController: UIViewController {
             self.descriptionsCurrent = current
         }
         DispatchQueue.main.async {
-        
+            self.algorithmDescription.text = ""
             self.runAlgorithmButton.isEnabled = false
             self.turnsLabel.text = ""
         }
@@ -440,7 +440,12 @@ class AlgorithmsViewController: UIViewController {
     */
 
 }
-var flipWedge = "Flip Wedge"
+var flipWedge = """
+The goal of this algorithim is to flip
+the orientition of a wedge
+on the first layer
+that is already in the right poistion
+"""
 var cornerPlacement = """
 The goal of this algorithm is to solve
 all the white corners.
@@ -449,8 +454,41 @@ Once a corner is in the right place
 below it's target, excute R' D' R D until correct
 """
 
-var leftWedgePlace = "Left Wedge Place"
-var rightWedgePlace = "Right Wedge Place"
-var placeCorners = "Place Corners"
-var placeWedges = "Place Wedges"
-var solvingCross = "Solving Cross"
+var leftWedgePlace = """
+The goal of this algorithm is to position
+a wedge into the second layer.
+Once a wedge is above the corresponding
+center and the target location is on the left
+execute the algorithm once.
+"""
+var rightWedgePlace = """
+The goal of this algorithm is to position
+a wedge into the second layer.
+Once a wedge is above the corresponding
+center and the target location is on the right
+execute the algorithm once.
+"""
+var placeCorners = """
+The goal of this algorithm is to place all
+the corners in the right place.
+They won't all have the right orientation though.
+Find a correct corner, rotate the cube so that
+corner is in the right most spot
+and execute the algorithm.
+If no corners are correct, execute the alogrithm
+once and start again.
+"""
+var placeWedges = """
+The goal of this alg is to place all the cross pieces
+int he right places.
+"""
+var solvingCross = """
+The goal of this algorithm is to turn up all the
+correct colors of the cross on the last layer.
+If you see no solves cross peices excetue the alg.
+If you see an L position both wedges away
+from you exectue the algorithm twice
+If you see a line positon the line not pointing at
+you and execute the alg
+"""
+
