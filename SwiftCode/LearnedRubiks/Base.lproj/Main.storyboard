@@ -613,6 +613,12 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSh-nR-FhG">
+                                <rect key="frame" x="20" y="557" width="374" height="227"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9sC-yH-pzS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -623,15 +629,18 @@
                             <constraint firstItem="QKq-DP-RgC" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="BBI-gV-hfV"/>
                             <constraint firstItem="9al-d6-3O1" firstAttribute="top" secondItem="9sC-yH-pzS" secondAttribute="top" id="J7s-ea-Wlv"/>
                             <constraint firstItem="1cQ-Uk-Stz" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="N3w-Ip-Gd4"/>
+                            <constraint firstItem="9sC-yH-pzS" firstAttribute="bottom" secondItem="mSh-nR-FhG" secondAttribute="bottom" constant="78" id="PNs-od-sKF"/>
                             <constraint firstItem="1cQ-Uk-Stz" firstAttribute="width" secondItem="9al-d6-3O1" secondAttribute="width" id="YBA-W5-gRV"/>
                             <constraint firstItem="QKq-DP-RgC" firstAttribute="top" secondItem="1cQ-Uk-Stz" secondAttribute="bottom" constant="9" id="gzN-RK-d6B"/>
                             <constraint firstItem="Xry-9q-92v" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="lEs-iU-OT0"/>
                             <constraint firstItem="9al-d6-3O1" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="nl5-P6-OpL"/>
                             <constraint firstItem="Xry-9q-92v" firstAttribute="top" secondItem="QKq-DP-RgC" secondAttribute="bottom" constant="8" symbolic="YES" id="sUP-x8-I9n"/>
+                            <constraint firstItem="mSh-nR-FhG" firstAttribute="centerX" secondItem="9sC-yH-pzS" secondAttribute="centerX" id="u7Q-33-H2B"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Fot-vM-6K1"/>
                     <connections>
+                        <outlet property="algorithmDescription" destination="mSh-nR-FhG" id="mPU-OW-VlB"/>
                         <outlet property="runAlgorithmButton" destination="QKq-DP-RgC" id="mHG-EX-6Q6"/>
                         <outlet property="sceneView" destination="xLI-bc-jfc" id="wCy-e6-pQ6"/>
                         <outlet property="secondLevelSegmentOutlet" destination="1cQ-Uk-Stz" id="ewe-JT-Lid"/>

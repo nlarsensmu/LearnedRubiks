@@ -538,55 +538,55 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "U"
             break;
         case .UN:
-            stepsString += "UN"
+            stepsString += "U'"
             break;
         case .D:
             stepsString += "D"
             break;
         case .DN:
-            stepsString += "DN"
+            stepsString += "D'"
             break;
         case .R:
             stepsString += "R"
             break;
         case .RN:
-            stepsString += "RN"
+            stepsString += "R'"
             break;
         case .L:
             stepsString += "L"
             break;
         case .LN:
-            stepsString += "LN"
+            stepsString += "L'"
             break;
         case .F:
             stepsString += "F"
             break;
         case .FN:
-            stepsString += "FN"
+            stepsString += "F'"
             break;
         case .B:
             stepsString += "B"
             break;
         case .BN:
-            stepsString += "BN"
+            stepsString += "B'"
             break;
         case .M:
             stepsString += "M"
             break;
         case .MN:
-            stepsString += "MN"
+            stepsString += "M'"
             break;
         case .S:
             stepsString += "S"
             break;
         case .SN:
-            stepsString += "SN"
+            stepsString += "S'"
             break;
         case .E:
             stepsString += "E"
             break;
         case .EN:
-            stepsString += "EN"
+            stepsString += "E'"
             break;
         case .U2:
             stepsString += "U2"
@@ -619,7 +619,7 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "X"
             break;
         case .XN:
-            stepsString += "XN"
+            stepsString += "X'"
             break;
         case .X2:
             stepsString += "X2"
@@ -628,7 +628,7 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "Y"
             break;
         case .YN:
-            stepsString += "YN"
+            stepsString += "Y'"
             break;
         case .Y2:
             stepsString += "Y2"
@@ -637,7 +637,7 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "Z"
             break;
         case .ZN:
-            stepsString += "ZN"
+            stepsString += "Z'"
             break;
         case .Z2:
             stepsString += "Z2"

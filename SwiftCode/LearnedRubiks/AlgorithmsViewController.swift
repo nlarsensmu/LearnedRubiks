@@ -14,6 +14,7 @@ class AlgorithmsViewController: UIViewController {
     var Cube:RubiksCube? = nil
     var scene : SCNScene!
     @IBOutlet weak var sceneView: SCNView!
+    @IBOutlet weak var algorithmDescription: UILabel!
     
     var cases:Dictionary<String, RubiksCube> = [:]
     override func viewDidLoad() {
@@ -119,7 +120,11 @@ class AlgorithmsViewController: UIViewController {
             self.Cube?.addScenario(newCube: scenario)
         }
     }
-    
+    var descriptionsAll = ["First Layer" :
+                            ["Flip Wedge":flipWedge, "Corner Placement":cornerPlacement],
+                        "Second Layer":["Left Wedge Place":leftWedgePlace, "Right Wedge Place":rightWedgePlace],
+                        "Last Layer":["Place Corners":placeCorners,"Place Wedges":placeWedges,"Solving Cross":solvingCross]]
+    var descriptionsCurrent = ["Flip Wedge":flipWedge, "Corner Placement":cornerPlacement]
     @IBAction func topLevelSegment(_ sender: Any) {
         
         var layer = ""
@@ -136,7 +141,11 @@ class AlgorithmsViewController: UIViewController {
             }
             setSecnario("Solved")
         }
+        if let current = self.descriptionsAll[layer] {
+            self.descriptionsCurrent = current
+        }
         DispatchQueue.main.async {
+        
             self.runAlgorithmButton.isEnabled = false
             self.turnsLabel.text = ""
         }
@@ -148,7 +157,12 @@ class AlgorithmsViewController: UIViewController {
             if let layer = topLevelSegmentOutlet.titleForSegment(at: topLevelSegmentOutlet.selectedSegmentIndex),
                let alg = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex),
                let d = allAlgs[layer], let turns = d[alg] {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async
+                {
+                    if let d = self.descriptionsCurrent[alg] {
+                        self.algorithmDescription.text = d
+                    }
+                    
                     self.runAlgorithmButton.isEnabled = true
                     if turns.1 == 1 {
                         self.turnsLabel.text = self.stepsToString(steps: turns.0)
@@ -303,55 +317,55 @@ class AlgorithmsViewController: UIViewController {
                 stepsString += "U"
                 break;
             case .UN:
-                stepsString += "UN"
+                stepsString += "U'"
                 break;
             case .D:
                 stepsString += "D"
                 break;
             case .DN:
-                stepsString += "DN"
+                stepsString += "D'"
                 break;
             case .R:
                 stepsString += "R"
                 break;
             case .RN:
-                stepsString += "RN"
+                stepsString += "R'"
                 break;
             case .L:
                 stepsString += "L"
                 break;
             case .LN:
-                stepsString += "LN"
+                stepsString += "L'"
                 break;
             case .F:
                 stepsString += "F"
                 break;
             case .FN:
-                stepsString += "FN"
+                stepsString += "F'"
                 break;
             case .B:
                 stepsString += "B"
                 break;
             case .BN:
-                stepsString += "BN"
+                stepsString += "B'"
                 break;
             case .M:
                 stepsString += "M"
                 break;
             case .MN:
-                stepsString += "MN"
+                stepsString += "M'"
                 break;
             case .S:
                 stepsString += "S"
                 break;
             case .SN:
-                stepsString += "SN"
+                stepsString += "S'"
                 break;
             case .E:
                 stepsString += "E"
                 break;
             case .EN:
-                stepsString += "EN"
+                stepsString += "E'"
                 break;
             case .U2:
                 stepsString += "U2"
@@ -384,7 +398,7 @@ class AlgorithmsViewController: UIViewController {
                 stepsString += "X"
                 break;
             case .XN:
-                stepsString += "XN"
+                stepsString += "X'"
                 break;
             case .X2:
                 stepsString += "X2"
@@ -393,7 +407,7 @@ class AlgorithmsViewController: UIViewController {
                 stepsString += "Y"
                 break;
             case .YN:
-                stepsString += "YN"
+                stepsString += "Y'"
                 break;
             case .Y2:
                 stepsString += "Y2"
@@ -402,7 +416,7 @@ class AlgorithmsViewController: UIViewController {
                 stepsString += "Z"
                 break;
             case .ZN:
-                stepsString += "ZN"
+                stepsString += "Z'"
                 break;
             case .Z2:
                 stepsString += "Z2"
@@ -426,3 +440,17 @@ class AlgorithmsViewController: UIViewController {
     */
 
 }
+var flipWedge = "Flip Wedge"
+var cornerPlacement = """
+The goal of this algorithm is to solve
+all the white corners.
+Once a corner is in the right place
+(wrong orientation) or is in the corner
+below it's target, excute R' D' R D until correct
+"""
+
+var leftWedgePlace = "Left Wedge Place"
+var rightWedgePlace = "Right Wedge Place"
+var placeCorners = "Place Corners"
+var placeWedges = "Place Wedges"
+var solvingCross = "Solving Cross"
