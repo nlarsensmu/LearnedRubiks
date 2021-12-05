@@ -490,7 +490,7 @@ public class RubiksCube{
         if !checkFaces(poses: self.leftPositions, side: .L) { return false }
         if !checkFaces(poses: self.rightPositions, side: .R) { return false }
         if !checkFaces(poses: self.frontPositions, side: .F) { return false }
-        if !checkFaces(poses: self.backPositions, side: .D) { return false }
+        if !checkFaces(poses: self.backPositions, side: .B) { return false }
         return true
     }
     private func checkFaces(poses:[Int], side:Turn) -> Bool{
@@ -498,18 +498,18 @@ public class RubiksCube{
         if [.U,.D].contains(side){
             color = cublet(at: poses[0]).upDown
         } else if [.L,.R].contains(side){
-            color = cublet(at: poses[0]).upDown
+            color = cublet(at: poses[0]).leftRight
         } else if [.F,.B].contains(side){
-            color = cublet(at: poses[0]).upDown
+            color = cublet(at: poses[0]).frontBack
         }
         for i in  1..<poses.count {
             var checkColor:CubletColor = .red
             if [.U,.D].contains(side) {
                 checkColor = cublet(at: poses[i]).upDown
             } else if [.L,.R].contains(side){
-                checkColor = cublet(at: poses[i]).upDown
+                checkColor = cublet(at: poses[i]).leftRight
             } else if [.F,.B].contains(side){
-                checkColor = cublet(at: poses[i]).upDown
+                checkColor = cublet(at: poses[i]).frontBack
             }
             if color != checkColor{
                 return false

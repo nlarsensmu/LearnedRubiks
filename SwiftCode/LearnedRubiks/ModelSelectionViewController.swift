@@ -9,39 +9,38 @@ import UIKit
 
 class ModelSelectionViewController: UITableViewController {
     //MARK: Properties
-    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     var dsids:[Int] = []
     var models:[Model] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-        serverModel?.getAllDsIds(){
-        (dsids) in
-            for dsid in dsids{
-                if let id = dsid as? Int{
-                    self.dsids.append(id)
-                    self.getModelData(id:id)
-                }
-            }
-            
-        }
+        //serverModel?.getAllDsIds(){
+//        (dsids) in
+//            for dsid in dsids{
+//                if let id = dsid as? Int{
+//                    self.dsids.append(id)
+//                    self.getModelData(id:id)
+//                }
+//            }
+//            
+//        }
     }
-    func getModelData(id:Int){
-        serverModel?.getLearnedModelData(dsid: id){
-            (data) in
-            if let dsid =  data["dsid"] as! Int?,
-               let count = data["count"] as! Int? {
-                 if let mlpAcc = data["acc_mlp"] as! Double? {
-                     self.models.append(Model(dsid: dsid, modelName: "MLP-Model", accuracy: mlpAcc, count: count, model: "MLP"))
-                 }
-                 if let turiAcc = data["acc_turi"] as! Double? {
-                     self.models.append(Model(dsid: dsid, modelName: "Turi-Model", accuracy: turiAcc, count: count, model: "TURI"))
-                 }
-                DispatchQueue.main.async{
-                    self.tableView.reloadData()
-                }
-            }
-        }
-    }
+//    func getModelData(id:Int){
+//        serverModel?.getLearnedModelData(dsid: id){
+//            (data) in
+//            if let dsid =  data["dsid"] as! Int?,
+//               let count = data["count"] as! Int? {
+//                 if let mlpAcc = data["acc_mlp"] as! Double? {
+//                     self.models.append(Model(dsid: dsid, modelName: "MLP-Model", accuracy: mlpAcc, count: count, model: "MLP"))
+//                 }
+//                 if let turiAcc = data["acc_turi"] as! Double? {
+//                     self.models.append(Model(dsid: dsid, modelName: "Turi-Model", accuracy: turiAcc, count: count, model: "TURI"))
+//                 }
+//                DispatchQueue.main.async{
+//                    self.tableView.reloadData()
+//                }
+//            }
+//        }
+//    }
 
     /*
     // MARK: - Navigation

@@ -34,7 +34,6 @@
 		FDA540D527486ED700E11DAE /* SolverBeginnerLLCornersPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA540D427486ED700E11DAE /* SolverBeginnerLLCornersPosition.swift */; };
 		FDF76D2F27386ED800A26E19 /* CubeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D2E27386ED800A26E19 /* CubeController.swift */; };
 		FDF76D31273886EC00A26E19 /* DatasetsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */; };
-		FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D3227388BE100A26E19 /* ServerModel.swift */; };
 		FDF76D352738971500A26E19 /* DeleteDatasetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */; };
 		FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */; };
 		FDFA66052739F80200A866F8 /* LearnedSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */; };
@@ -74,7 +73,6 @@
 		FDA540D427486ED700E11DAE /* SolverBeginnerLLCornersPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolverBeginnerLLCornersPosition.swift; sourceTree = "<group>"; };
 		FDF76D2E27386ED800A26E19 /* CubeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeController.swift; sourceTree = "<group>"; };
 		FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetsTableView.swift; sourceTree = "<group>"; };
-		FDF76D3227388BE100A26E19 /* ServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerModel.swift; sourceTree = "<group>"; };
 		FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteDatasetViewController.swift; sourceTree = "<group>"; };
 		FDF76D362738B5B400A26E19 /* DebugPredViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPredViewController.swift; sourceTree = "<group>"; };
 		FDFA66042739F80200A866F8 /* LearnedSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnedSettingsViewController.swift; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 				FDF76D2E27386ED800A26E19 /* CubeController.swift */,
 				FDF76D30273886EB00A26E19 /* DatasetsTableView.swift */,
 				FDF76D342738971500A26E19 /* DeleteDatasetViewController.swift */,
-				FDF76D3227388BE100A26E19 /* ServerModel.swift */,
 				FD31FBC327385A39006DE220 /* RingBuffer.swift */,
 				FD31FBB527385830006DE220 /* Main.storyboard */,
 				FD31FBB827385831006DE220 /* Assets.xcassets */,
@@ -256,7 +253,6 @@
 				FD287A8A274B24DF004A6D3B /* SolverBeginnerLLCornersOrientation.swift in Sources */,
 				FDA540CA2746F58100E11DAE /* SovlerFirstCorners.swift in Sources */,
 				FD31FBB427385830006DE220 /* LearningViewController.swift in Sources */,
-				FDF76D3327388BE100A26E19 /* ServerModel.swift in Sources */,
 				FDF76D2F27386ED800A26E19 /* CubeController.swift in Sources */,
 				FD287A9C274C758A004A6D3B /* ReadCubeViewController.swift in Sources */,
 				FDF76D372738B5B400A26E19 /* DebugPredViewController.swift in Sources */,

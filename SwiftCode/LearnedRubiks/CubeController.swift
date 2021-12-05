@@ -23,7 +23,19 @@ class CubeController: UIViewController {
     }()
     // MARK: Outlets
     @IBOutlet weak var sceneView: SCNView!
-    
+    //Button Outlets
+    @IBOutlet weak var uNegButton: UIButton!
+    @IBOutlet weak var uButton: UIButton!
+    @IBOutlet weak var dNegButton: UIButton!
+    @IBOutlet weak var dButton: UIButton!
+    @IBOutlet weak var rNegButton: UIButton!
+    @IBOutlet weak var rButton: UIButton!
+    @IBOutlet weak var lNegButton: UIButton!
+    @IBOutlet weak var lButton: UIButton!
+    @IBOutlet weak var bNegButton: UIButton!
+    @IBOutlet weak var bButton: UIButton!
+    @IBOutlet weak var fNegButton: UIButton!
+    @IBOutlet weak var fButton: UIButton!
     // Full cube
     @IBAction func xRotate(_ sender: Any) {
         if let cube = Cube{
@@ -139,7 +151,6 @@ class CubeController: UIViewController {
             }
         }
     }
-    
     var nextStep:SolvingStep = SolvingStep(description: "", actions: [], steps: [])
     @IBOutlet weak var nextSteps: UILabel!
     @IBOutlet weak var nextStepOutlet: UIButton!
@@ -255,15 +266,104 @@ class CubeController: UIViewController {
         
         self.durationLabel.text = String(format: "%.2f", 1.0)
         self.Cube?.duration = 1.0
-        
+        self.toggleHideMovingButtons(setting: true)
         self.nextStepOutlet.titleLabel?.numberOfLines = 2
     }
-    
+    func setImageToButton(button:UIButton, image:String){
+        DispatchQueue.main.async {
+            let i = UIImage(named: image)
+            button.setImage(i, for: .normal)
+            button.setTitle("", for: .normal)
+        }
+    }
+    func toggleHideMovingButtons(setting:Bool) {
+        DispatchQueue.main.async {
+            self.fButton.isHidden = setting
+            self.fNegButton.isHidden = setting
+            self.lButton.isHidden = setting
+            self.lNegButton.isHidden = setting
+            self.rButton.isHidden = setting
+            self.rNegButton.isHidden = setting
+            self.bButton.isHidden = setting
+            self.bNegButton.isHidden = setting
+            self.uButton.isHidden = setting
+            self.uNegButton.isHidden = setting
+            self.dButton.isHidden = setting
+            self.dNegButton.isHidden = setting
+        }
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         sceneView.backgroundColor = .black
         addCubes()
         self.Cube?.duration = 1.0
+        DispatchQueue.main.async {
+            guard let cube = self.Cube else {
+                return
+            }
+            //fButton
+            let point1 = self.sceneView.projectPoint(cube.cublet(at: 1).node.position)
+            let fPoint = CGPoint(x:CGFloat(point1.x), y:CGFloat(point1.y) + self.fButton.frame.height*1.5)
+            self.fButton.frame.origin = fPoint
+            self.setImageToButton(button: self.fButton, image: "f")
+            //fNegButton
+            let point25 = self.sceneView.projectPoint(cube.cublet(at: 25).node.position)
+            let fNegPoint = CGPoint(x:CGFloat(point25.x) - self.fNegButton.frame.width*1, y:CGFloat(point25.y) - self.fNegButton.frame.height*2)
+            self.fNegButton.frame.origin = fNegPoint
+            self.setImageToButton(button: self.fNegButton, image: "fneg")
+            
+            //uButton
+            let uPoint = CGPoint(x:CGFloat(point25.x) - self.uButton.frame.width*2.1, y:CGFloat(point25.y) - self.uButton.frame.height*0.8)
+            self.uButton.frame.origin = uPoint
+            self.setImageToButton(button: self.uButton, image: "u")
+            //uNegButton
+            let point21 = self.sceneView.projectPoint(cube.cublet(at: 21).node.position)
+            let uNegPoint = CGPoint(x:CGFloat(point21.x) + self.uNegButton.frame.width, y:CGFloat(point21.y) - self.uButton.frame.height)
+            self.uNegButton.frame.origin = uNegPoint
+            self.setImageToButton(button: self.uNegButton, image: "uneg")
+            
+            //dButton
+            let point3 = self.sceneView.projectPoint(cube.cublet(at: 3).node.position)
+            let dPoint = CGPoint(x:CGFloat(point3.x) + self.dButton.frame.width*1.5, y:CGFloat(point3.y))
+            self.dButton.frame.origin = dPoint
+            self.setImageToButton(button: self.dButton, image: "d")
+            //dNegButton
+            let point7 = self.sceneView.projectPoint(cube.cublet(at: 7).node.position)
+            let dNegPoint = CGPoint(x:CGFloat(point7.x) - self.dButton.frame.width*2.2, y:CGFloat(point7.y))
+            self.dNegButton.frame.origin = dNegPoint
+            self.setImageToButton(button: self.dNegButton, image: "dneg")
+
+            
+            //rButton
+            let rPoint = CGPoint(x:CGFloat(point1.x) - self.rButton.frame.width*1.1, y:CGFloat(point1.y) + self.rButton.frame.height*1.5)
+            self.rButton.frame.origin = rPoint
+            self.setImageToButton(button: self.rButton, image: "r")
+            //rNegButton
+            let rNegPoint = CGPoint(x:CGFloat(point21.x), y:CGFloat(point21.y) - self.rNegButton.frame.height*2)
+            self.rNegButton.frame.origin = rNegPoint
+            self.setImageToButton(button: self.rNegButton, image: "rneg")
+            
+            //lButton
+            let point27 = self.sceneView.projectPoint(cube.cublet(at: 27).node.position)
+            let lPoint = CGPoint(x:CGFloat(point27.x) + self.lButton.frame.width*0.1, y:CGFloat(point27.y) - self.lNegButton.frame.height*2)
+            self.lButton.frame.origin = lPoint
+            self.setImageToButton(button: self.lButton, image: "l")
+            //lNegButton
+            let lNegPoint = CGPoint(x:CGFloat(point7.x) - self.lNegButton.frame.width, y:CGFloat(point7.y) + self.lNegButton.frame.height)
+            self.lNegButton.frame.origin = lNegPoint
+            self.setImageToButton(button: self.lNegButton, image: "lneg")
+            
+            //bButton
+            let bPoint = CGPoint(x:CGFloat(point27.x) - self.bButton.frame.width + 2, y:CGFloat(point27.y) - self.bButton.frame.height*2)
+            self.bButton.frame.origin = bPoint
+            self.setImageToButton(button: self.bButton, image: "b")
+            //bNegButton
+            let bNegPoint = CGPoint(x:CGFloat(point3.x), y:CGFloat(point3.y) + self.bNegButton.frame.height*1.2)
+            self.bNegButton.frame.origin = bNegPoint
+            self.setImageToButton(button: self.bNegButton, image: "bneg")
+            
+            self.toggleHideMovingButtons(setting: false)
+        }
     }
     
     //To be called on init.  This will populate self.cubes which will contain all the inforatiom about the cube, and cubelets for the graphic
