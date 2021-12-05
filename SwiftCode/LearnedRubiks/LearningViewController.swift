@@ -15,7 +15,6 @@ import CoreML
 
 class LearningViewController: UIViewController, URLSessionDelegate {
     // MARK: Class Properties
-    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     lazy var session: URLSession = {
         let sessionConfig = URLSessionConfiguration.ephemeral
         sessionConfig.timeoutIntervalForRequest = 5.0
@@ -261,9 +260,9 @@ class LearningViewController: UIViewController, URLSessionDelegate {
     }
     @IBAction func makeModel(_ sender: Any) {
         // create a GET request for server to update the ML model with current data
-        serverModel?.makeModel(dsid: dsid)  { (acc) in
-            print("Resubstitution Accuracy is", acc)
-        }
+//        serverModel?.makeModel(dsid: dsid)  { (acc) in
+//            print("Resubstitution Accuracy is", acc)
+//        }
     }
     //MARK: Calibration/Prediction
     func getModelName(type:ModelTypes) -> String {
@@ -301,15 +300,15 @@ class LearningViewController: UIViewController, URLSessionDelegate {
                 self.setDelayedWaitingToTrue(0.5)
                 
                 if selectedModel != ModelTypes.LOADED {
-                    serverModel?.getPrediction(self.ringBuffer.getDataAsVector(),
-                                               dsid: self.dsid,
-                                               model: getModelName(type: self.selectedModel)) {
-                        resp in
-                        DispatchQueue.main.async {
-                            self.setAsCalibrating(self.guessingLabel)
-                            self.displayLabelResponse(resp)
-                        }
-                    }
+//                    serverModel?.getPrediction(self.ringBuffer.getDataAsVector(),
+//                                               dsid: self.dsid,
+//                                               model: getModelName(type: self.selectedModel)) {
+//                        resp in
+//                        DispatchQueue.main.async {
+//                            self.setAsCalibrating(self.guessingLabel)
+//                            self.displayLabelResponse(resp)
+//                        }
+//                    }
                 }
                 else {
                     do {
@@ -426,9 +425,9 @@ class LearningViewController: UIViewController, URLSessionDelegate {
         })
     }
     func sendFeatures(_ array:[Double], withLabel label:CalibrationStage){
-        serverModel?.sendFeatures(array: array, label: label, dsid: dsid){
-            print("sent features")
-        }
+//        serverModel?.sendFeatures(array: array, label: label, dsid: dsid){
+//            print("sent features")
+//        }
     }
     //MARK: JSON Conversion Functions
     func convertDictionaryToData(with jsonUpload:NSDictionary) -> Data?{

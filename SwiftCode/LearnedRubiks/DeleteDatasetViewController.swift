@@ -10,54 +10,53 @@ import UIKit
 class DeleteDatasetViewController: UIViewController {
     //MARK: Variables
     var dsid = 0
-    weak private var serverModel:ServerModel? = ServerModel.sharedInstance
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.async {
             self.dsidLabel.text = "\(self.dsid)"
         }
-        serverModel?.getLearnedModelData(dsid: self.dsid) { dict in
-            var count = 0
-            var mlp_acc:Double = 0.0
-            var turi_acc:Double = 0.0
-            
-            let countExists = dict["count"] != nil
-            if countExists {
-                if let c = dict["count"] as? Int { count = c }
-            }
-            
-            let mlpExists = dict["acc_mlp"] != nil
-            if mlpExists{
-                if let acc = dict["acc_mlp"] as? Double {
-                    mlp_acc = acc
-                }
-            }
-            
-            let turiExists = dict["acc_turi"] != nil
-            if turiExists {
-                if let acc = dict["acc_turi"] as? Double {
-                    turi_acc = acc
-                }
-            }
-            
-            DispatchQueue.main.async {
-                self.dsidLabel.text = "\(self.dsid)"
-                self.samplesLabel.text = String(format: "%d", count)
-                self.mlpAcc.text = String(format: "%.4lf%%", mlp_acc*100)
-                self.turiAcc.text = String(format: "%.4lf%%", turi_acc*100)
-            }
-        }
+//        serverModel?.getLearnedModelData(dsid: self.dsid) { dict in
+//            var count = 0
+//            var mlp_acc:Double = 0.0
+//            var turi_acc:Double = 0.0
+//
+//            let countExists = dict["count"] != nil
+//            if countExists {
+//                if let c = dict["count"] as? Int { count = c }
+//            }
+//
+//            let mlpExists = dict["acc_mlp"] != nil
+//            if mlpExists{
+//                if let acc = dict["acc_mlp"] as? Double {
+//                    mlp_acc = acc
+//                }
+//            }
+//
+//            let turiExists = dict["acc_turi"] != nil
+//            if turiExists {
+//                if let acc = dict["acc_turi"] as? Double {
+//                    turi_acc = acc
+//                }
+//            }
+//
+//            DispatchQueue.main.async {
+//                self.dsidLabel.text = "\(self.dsid)"
+//                self.samplesLabel.text = String(format: "%d", count)
+//                self.mlpAcc.text = String(format: "%.4lf%%", mlp_acc*100)
+//                self.turiAcc.text = String(format: "%.4lf%%", turi_acc*100)
+//            }
+//        }
 
         // Do any additional setup after loading the view.
     }
     //MARK: Actions
     @IBAction func deleteAllRecordsPressed(_ sender: Any) {
-        serverModel?.deleteDsIdRecords(dsid:self.dsid) {
-            DispatchQueue.main.async {
-                self.deleteButton.isEnabled = false
-            }
-        }
+//        serverModel?.deleteDsIdRecords(dsid:self.dsid) {
+//            DispatchQueue.main.async {
+//                self.deleteButton.isEnabled = false
+//            }
+//        }
     }
     //MARK: Outlets
     @IBOutlet weak var dsidLabel: UILabel!
