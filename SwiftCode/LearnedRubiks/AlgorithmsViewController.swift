@@ -9,7 +9,7 @@ import UIKit
 import SceneKit
 
 class AlgorithmsViewController: UIViewController {
-
+    
     // MARK: Properties
     var Cube:RubiksCube? = nil
     var scene : SCNScene!
@@ -20,24 +20,11 @@ class AlgorithmsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneView.frame = self.view.frame
-        allAlgs["First Layer"] = fistLayerAlgs
-        allAlgs["Second Layer"] = secondLayerAlgs
-        allAlgs["Last Layer"] = lastLayerAlgs
-        
         // Set up segemet Contorller
         self.secondLevelSegmentOutlet.selectedSegmentIndex  = UISegmentedControl.noSegment
         var layer = ""
         if let l = topLevelSegmentOutlet.titleForSegment(at: topLevelSegmentOutlet.selectedSegmentIndex) {
             layer = l
-        }
-        
-        if let currentAlgs = allAlgs[layer] {
-            self.secondLevelSegmentOutlet.removeAllSegments()
-            for k in currentAlgs.keys {
-                self.secondLevelSegmentOutlet.insertSegment(withTitle: k,
-                                                            at: self.secondLevelSegmentOutlet.numberOfSegments,
-                                                            animated: true)
-            }
         }
 
         
@@ -81,9 +68,54 @@ class AlgorithmsViewController: UIViewController {
                                            up: [.orange, .yellow, .red, .yellow, .yellow, .yellow, .green, .yellow, .yellow],
                                            down: [.white, .white, .white, .white, .white, .white, .white, .white, .white],
                                            back: [.orange, .orange, .orange, .orange, .orange, .orange, .yellow, .blue, .blue])
+        // TODO: Change to a real case
+        cases["Place Corners"] = RubiksCube(front: [.red, .red, .red, .red, .red, .red, .yellow, .red, .orange],
+                                            left: [.blue, .blue, .blue, .blue, .blue, .blue, .green, .blue, .yellow],
+                                            right: [.green, .green, .green, .green, .green, .green, .red, .green, .orange],
+                                            up: [.green, .yellow, .yellow, .yellow, .yellow, .yellow, .yellow, .yellow, .blue],
+                                            down: [.white, .white, .white, .white, .white, .white, .white, .white, .white],
+                                            back: [.orange, .orange, .orange, .orange, .orange, .orange, .blue, .orange, .red])
+        cases["Orientate Corners"] = RubiksCube(front: [.red, .red, .red, .red, .red, .red, .yellow, .red, .blue],
+                                                left: [.blue, .blue, .blue, .blue, .blue, .blue, .yellow, .blue, .yellow],
+                                                right: [.green, .green, .green, .green, .green, .green, .red, .green, .orange],
+                                                up: [.green, .yellow, .green, .yellow, .yellow, .yellow, .red, .yellow, .orange],
+                                                down: [.white, .white, .white, .white, .white, .white, .white, .white, .white],
+                                                back: [.orange, .orange, .orange, .orange, .orange, .orange, .yellow, .orange, .blue])
         
-        // Do any additional setup after loading the view.
+        let fistLayerAlgs:Dictionary<String, Algorithm> = [
+            "Flip Wedge"        :   Algorithm(flipWedge, [.F, .UN, .R, .U], [.F, .UN, .R, .U], cases["Flip Wedge"]!),
+            "Corner Placement"  :   Algorithm(cornerPlacement, [.RN, .DN, .R, .D],
+                                              [.RN, .DN, .R, .D, .RN, .DN, .R, .D, .RN, .DN, .R, .D, .RN, .DN, .R, .D, .RN, .DN, .R, .D, ], cases["Corner Placement"]!)
+        ]
+        let secondLayerAlgs:Dictionary<String, Algorithm> = [
+            "Right Wedge Place":    Algorithm(rightWedgePlace, [.U, .R, .UN, .RN, .UN, .FN, .U, .F], [.U, .R, .UN, .RN, .UN, .FN, .U, .F], cases["Right Wedge Place"]!),
+            "Left Wedge Place":     Algorithm(leftWedgePlace, [.UN, .LN, .U, .L, .U, .F, .UN, .FN], [.UN, .LN, .U, .L, .U, .F, .UN, .FN, .YN], cases["Left Wedge Place"]!)
+        ]
+        let lastLayerAlgs:Dictionary<String, Algorithm> = [
+            "Solving Cross":        Algorithm(solvingCross, [.F, .R, .U, .RN, .UN, .FN], [.F, .R, .U, .RN, .UN, .FN, .F, .R, .U, .RN, .UN, .FN], cases["Solving Cross"]!),
+            "Place Wedges":         Algorithm(placeWedges, [.YN, .R, .U, .RN, .U, .R, .U2, .RN], [.YN, .R, .U, .RN, .U, .R, .U2, .RN, .U], cases["Place Wedges"]!),
+            "Place Corners":        Algorithm(placeCorners, [.U, .R, .UN, .LN, .U, .RN, .UN, .L], [.U, .R, .UN, .LN, .U, .RN, .UN, .L, .Y2, .Y2], cases["Place Corners"]!),
+            "Orientate Corners":    Algorithm(orientateCorners, [.RN, .DN, .R, .D],
+                                              [.RN,.DN,.R,.D,.RN,.DN,.R,.D,.RN,.DN,.R,.D,.RN,.DN,.R,.D,.U,
+                                               .RN,.DN,.R,.D,.RN,.DN,.R,.D,.U,
+                                               .RN,.DN,.R,.D,.RN,.DN,.R,.D,.U,
+                                               .RN,.DN,.R,.D,.RN,.DN,.R,.D,.RN,.DN,.R,.D,.RN,.DN,.R,.D,.U,
+                                              ],
+                                              cases["Orientate Corners"]!)
+        ]
+        allAlgs["First Layer"] = fistLayerAlgs
+        allAlgs["Second Layer"] = secondLayerAlgs
+        allAlgs["Last Layer"] = lastLayerAlgs
         
+        
+        if let currentAlgs = allAlgs[layer] {
+            self.secondLevelSegmentOutlet.removeAllSegments()
+            for k in currentAlgs.keys {
+                self.secondLevelSegmentOutlet.insertSegment(withTitle: k,
+                                                            at: self.secondLevelSegmentOutlet.numberOfSegments,
+                                                            animated: true)
+            }
+        }
     }
     
     
@@ -120,10 +152,16 @@ class AlgorithmsViewController: UIViewController {
             self.Cube?.addScenario(newCube: scenario)
         }
     }
-    var descriptionsAll = ["First Layer" :
-                            ["Flip Wedge":flipWedge, "Corner Placement":cornerPlacement],
-                        "Second Layer":["Left Wedge Place":leftWedgePlace, "Right Wedge Place":rightWedgePlace],
-                        "Last Layer":["Place Corners":placeCorners,"Place Wedges":placeWedges,"Solving Cross":solvingCross]]
+    var descriptionsAll =   ["First Layer" :
+                                ["Flip Wedge":flipWedge,
+                                 "Corner Placement":cornerPlacement],
+                             "Second Layer":
+                                ["Left Wedge Place":leftWedgePlace,
+                                 "Right Wedge Place":rightWedgePlace],
+                            "Last Layer":
+                                ["Place Corners":placeCorners,
+                                "Place Wedges":placeWedges,
+                                "Solving Cross":solvingCross]]
     var descriptionsCurrent = ["Flip Wedge":flipWedge, "Corner Placement":cornerPlacement]
     @IBAction func topLevelSegment(_ sender: Any) {
         
@@ -141,9 +179,6 @@ class AlgorithmsViewController: UIViewController {
             }
             setSecnario("Solved")
         }
-        if let current = self.descriptionsAll[layer] {
-            self.descriptionsCurrent = current
-        }
         DispatchQueue.main.async {
             self.algorithmDescription.text = ""
             self.runAlgorithmButton.isEnabled = false
@@ -151,27 +186,22 @@ class AlgorithmsViewController: UIViewController {
         }
     }
     @IBAction func secondLevelSegemt(_ sender: Any) {
-        if let c = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex) {
-            setSecnario(c)
             
-            if let layer = topLevelSegmentOutlet.titleForSegment(at: topLevelSegmentOutlet.selectedSegmentIndex),
-               let alg = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex),
-               let d = allAlgs[layer], let turns = d[alg] {
-                DispatchQueue.main.async
-                {
-                    if let d = self.descriptionsCurrent[alg] {
-                        self.algorithmDescription.text = d
-                    }
-                    
-                    self.runAlgorithmButton.isEnabled = true
-                    if turns.1 == 1 {
-                        self.turnsLabel.text = self.stepsToString(steps: turns.0)
-                    } else {
-                        self.turnsLabel.text = "(\(self.stepsToString(steps: turns.0))) x\(turns.1)"
-                    }
-                }
+        if let layer = topLevelSegmentOutlet.titleForSegment(at: topLevelSegmentOutlet.selectedSegmentIndex),
+           let alg = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex),
+           let d = allAlgs[layer], let algorithm = d[alg] {
+            
+            self.Cube?.removeAllCublets()
+            algorithm.cube.printCube()
+            self.Cube?.addScenario(newCube: algorithm.cube)
+            DispatchQueue.main.async
+            {
+                self.algorithmDescription.text = algorithm.description
+                self.runAlgorithmButton.isEnabled = true
+                self.turnsLabel.text = self.stepsToString(steps: algorithm.turnsDisplay)
             }
         }
+    
     }
     
     var animationRunning:Bool = false {
@@ -193,28 +223,25 @@ class AlgorithmsViewController: UIViewController {
         // unfold segments into the turns
         if let layer = topLevelSegmentOutlet.titleForSegment(at: topLevelSegmentOutlet.selectedSegmentIndex),
            let alg = secondLevelSegmentOutlet.titleForSegment(at: secondLevelSegmentOutlet.selectedSegmentIndex),
-           let d = allAlgs[layer], let turnsCount = d[alg] {
+           let d = allAlgs[layer], let algorithm = d[alg] {
             Cube?.duration = 1.0
             var actions:[SCNAction] = []
-            for _ in 0..<turnsCount.1 {
-                actions.append(contentsOf: Cube!.getTurnActions(turns: turnsCount.0))
-            }
+            actions.append(contentsOf: Cube!.getTurnActions(turns: algorithm.turnsToRun))
             animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 DispatchQueue.main.async {
-                    self.undoAlgorithm(turns: turnsCount)
+                    self.undoAlgorithm(turns: algorithm.turnsToRun)
                 }
             }
         }
     }
     
-    func undoAlgorithm(turns:([Turn], Int)) {
+    // MARK: Turn LIist helpers
+    func undoAlgorithm(turns:([Turn])) {
         
         self.Cube?.duration = 0.1
         var actions:[SCNAction] = []
-        for _ in 0..<turns.1 {
-            actions.append(contentsOf: self.Cube!.getTurnActions(turns: negateTurns(turns.0.reversed())))
-        }
+        actions.append(contentsOf: self.Cube!.getTurnActions(turns: negateTurns(turns.reversed())))
         self.scene.rootNode.runAction(SCNAction.sequence(actions)) {
             self.animationRunning = false
         }
@@ -290,21 +317,7 @@ class AlgorithmsViewController: UIViewController {
         return negatedTurns
     }
     
-    // MARK: Algoritms used
-    let fistLayerAlgs:Dictionary<String, ([Turn], Int)> = [
-        "Flip Wedge"            : ([.F, .UN, .R, .U], 1),
-        "Corner Placement"      : ([.RN, .DN, .R, .D], 5)
-    ]
-    let secondLayerAlgs:Dictionary<String, ([Turn], Int)> = [
-        "Right Wedge Place": ([.U, .R, .UN, .RN, .UN, .FN, .U, .F], 1),
-        "Left Wedge Place": ([.UN, .LN, .U, .L, .U, .F, .UN, .FN, .YN], 1)
-    ]
-    let lastLayerAlgs:Dictionary<String, ([Turn], Int)> = [
-        "Solving Cross": ([.F, .R, .U, .RN, .UN, .FN], 2),
-        "Place Wedges": ([.YN, .R, .U, .RN, .U, .R, .U2, .RN], 1),
-        "Place Corners": ([.U, .R, .UN, .LN, .U, .RN, .UN, .L], 1)
-    ]
-    var  allAlgs:Dictionary<String, Dictionary<String, ([Turn], Int)>> = [:]
+    var  allAlgs:Dictionary<String, Dictionary<String, Algorithm>> = [:]
     
     
     
@@ -440,6 +453,8 @@ class AlgorithmsViewController: UIViewController {
     */
 
 }
+
+// MARK: Alg Descriptions
 var flipWedge = """
 The goal of this algorithim is to flip
 the orientition of a wedge
@@ -474,21 +489,51 @@ the corners in the right place.
 They won't all have the right orientation though.
 Find a correct corner, rotate the cube so that
 corner is in the right most spot
-and execute the algorithm.
+and execute the algorithm once or twice .
 If no corners are correct, execute the alogrithm
 once and start again.
 """
 var placeWedges = """
-The goal of this alg is to place all the cross pieces
-int he right places.
+The goal of this alg is to place all the cross
+pieces in the right places. You can always make
+at least two wedges in the correct place but
+performing some up turns. If your two wedges
+are next to each other put them in the right
+and back face and perform this algorthim.
+If they are opposite each other, put them
+in the front and back face, perform the
+algorithm and then they will the previous case.
 """
 var solvingCross = """
 The goal of this algorithm is to turn up all the
 correct colors of the cross on the last layer.
-If you see no solves cross peices excetue the alg.
+If there are no correct peices excetue the alg.
 If you see an L position both wedges away
 from you exectue the algorithm twice
 If you see a line positon the line not pointing at
 you and execute the alg
 """
+var orientateCorners = """
+Perform the corner algorithm from the frist layer,
+until the front right up corner is in the correct
+orientation.
+Then do a up turn and repeat the process.
+After all corners are orientated,
+since you have run the corner algorithm a
+muliple of 6 times, the bottom half
+of the cube will remain solved.
+"""
 
+// MARK: Algotithm Class
+class Algorithm {
+    var description:String
+    var turnsDisplay:[Turn]
+    var turnsToRun:[Turn]
+    var cube:RubiksCube
+    init(_ desctiption:String, _ turnsDisplay:[Turn], _ turnsToRun:[Turn], _ cube:RubiksCube) {
+        self.description = desctiption
+        self.turnsDisplay = turnsDisplay
+        self.turnsToRun = turnsToRun
+        self.cube = cube
+    }
+}
