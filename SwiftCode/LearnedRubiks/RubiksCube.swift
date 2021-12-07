@@ -105,6 +105,20 @@ public class RubiksCube{
         self.addCublet(pos:26,upDown:  .green, leftRight:   .orange, frontBack:     .noColor)
         self.addCublet(pos:27,upDown:  .green, leftRight:   .orange, frontBack:     .white)
     }
+    public func removeAllCublets() {
+        for c in cubelets {
+            c.node.removeFromParentNode()
+        }
+    }
+    public func addScenario(newCube:RubiksCube) {
+        self.cubelets = newCube.cubelets
+        for c in self.cubelets {
+            addCublet(c: c)
+        }
+    }
+    private func addCublet(c:Cublet) {
+        scene.rootNode.addChildNode(c.node)
+    }
     private func addCublet(pos:Int, upDown:CubletColor, leftRight:CubletColor, frontBack:CubletColor){
         let node = cubes.rootNode.childNode(withName: "cube\(pos)", recursively: true)!
         scene.rootNode.addChildNode(node)

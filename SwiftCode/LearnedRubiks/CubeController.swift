@@ -37,36 +37,43 @@ class CubeController: UIViewController {
     @IBOutlet weak var fNegButton: UIButton!
     @IBOutlet weak var fButton: UIButton!
     // Full cube
+    @IBOutlet weak var xOutlet: UIButton!
     @IBAction func xRotate(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllX(direction:1))
         }
     }
+    @IBOutlet weak var xNegOutlet: UIButton!
     @IBAction func xRotateNeg(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllX(direction:-1))
         }
     }
+    @IBOutlet weak var yOutlet: UIButton!
     @IBAction func yRotate(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllY(direction:1))
         }
     }
+    @IBOutlet weak var yNegOutlet: UIButton!
     @IBAction func yRotateNeg(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllY(direction:-1))
         }
     }
+    @IBOutlet weak var zOutlet: UIButton!
     @IBAction func zRotate(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllZ(direction:1))
         }
     }
+    @IBOutlet weak var zNegOutlet: UIButton!
     @IBAction func zRotateNeg(_ sender: Any) {
         if let cube = Cube{
             scene.rootNode.runAction(cube.rotateAllZ(direction:-1))
         }
     }
+    
     // One face
     @IBAction func upTurn(_ sender: Any) {
         if let cube = Cube {
@@ -136,7 +143,7 @@ class CubeController: UIViewController {
     @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
         if let cube = Cube {
-            cube.undoTurns(steps: self.nextStep.steps)
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
             let actions = cube.scramble(turnsCount: 30)
             self.animationRunning = true
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
@@ -202,7 +209,7 @@ class CubeController: UIViewController {
         }
         self.Cube?.duration = Double(sender.value)
         if var s = solver {
-            self.Cube?.undoTurns(steps: self.nextStep.steps)
+            let _ = self.Cube?.undoTurns(steps: self.nextStep.steps)
             self.nextStep = s.reloadSteps()
         }
     }
@@ -251,6 +258,8 @@ class CubeController: UIViewController {
         }
     }
     
+    
+    // MARK: View Set up methods
     var solverIndex = 0
     var solver:SolverBase? = nil
     override func viewDidLoad() {
@@ -379,6 +388,50 @@ class CubeController: UIViewController {
         scene = Cube?.getScene()
         sceneView.scene = scene
     }
+    
+    var runningThroughTurns = false
+    let turnDurations:[Turn] = [.U, .UN, .D, .DN, .R, .RN, .L, .LN, .F, .FN, .B, .BN,
+                                .X, .XN, .Y, .YN, .Z, .ZN]
+    var currentTurn = 0
+    func runNextTurn() {
+        let actions = Cube!.getTurnActions(turns: [turnDurations[currentTurn]])
+        currentTurn = (currentTurn + 1)%turnDurations.count
+        scene.rootNode.runAction(SCNAction.sequence(actions)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.stepText.text = "\(stepsToString(steps: [self.turnDurations[self.currentTurn]]))"
+                self.runNextTurn()
+            }
+        }
+    }
+    
+    func hideManipluationUIElements() {
+        runningThroughTurns = true
+        DispatchQueue.main.async {
+            self.uButton.isHidden = true
+            self.uNegButton.isHidden = true
+            self.dButton.isHidden = true
+            self.dNegButton.isHidden = true
+            self.rButton.isHidden = true
+            self.rNegButton.isHidden = true
+            self.lButton.isHidden = true
+            self.lNegButton.isHidden = true
+            self.fButton.isHidden = true
+            self.fNegButton.isHidden = true
+            self.bButton.isHidden = true
+            self.bNegButton.isHidden = true
+            self.xOutlet.isHidden = true
+            self.xNegOutlet.isHidden = true
+            self.yOutlet.isHidden = true
+            self.yNegOutlet.isHidden = true
+            self.zOutlet.isHidden = true
+            self.zNegOutlet.isHidden = true
+            self.durationSlider.isHidden = true
+            self.durationLabel.isHidden = true
+            self.scrambleButton.isHidden = true
+            self.nextStepOutlet.isHidden = true
+        }
+    }
+    
     //MARK: Motion code
     func setDelayedWaitingToTrue(_ time:Double){
         DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: {
@@ -485,55 +538,55 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "U"
             break;
         case .UN:
-            stepsString += "UN"
+            stepsString += "U'"
             break;
         case .D:
             stepsString += "D"
             break;
         case .DN:
-            stepsString += "DN"
+            stepsString += "D'"
             break;
         case .R:
             stepsString += "R"
             break;
         case .RN:
-            stepsString += "RN"
+            stepsString += "R'"
             break;
         case .L:
             stepsString += "L"
             break;
         case .LN:
-            stepsString += "LN"
+            stepsString += "L'"
             break;
         case .F:
             stepsString += "F"
             break;
         case .FN:
-            stepsString += "FN"
+            stepsString += "F'"
             break;
         case .B:
             stepsString += "B"
             break;
         case .BN:
-            stepsString += "BN"
+            stepsString += "B'"
             break;
         case .M:
             stepsString += "M"
             break;
         case .MN:
-            stepsString += "MN"
+            stepsString += "M'"
             break;
         case .S:
             stepsString += "S"
             break;
         case .SN:
-            stepsString += "SN"
+            stepsString += "S'"
             break;
         case .E:
             stepsString += "E"
             break;
         case .EN:
-            stepsString += "EN"
+            stepsString += "E'"
             break;
         case .U2:
             stepsString += "U2"
@@ -566,7 +619,7 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "X"
             break;
         case .XN:
-            stepsString += "XN"
+            stepsString += "X'"
             break;
         case .X2:
             stepsString += "X2"
@@ -575,7 +628,7 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "Y"
             break;
         case .YN:
-            stepsString += "YN"
+            stepsString += "Y'"
             break;
         case .Y2:
             stepsString += "Y2"
@@ -584,7 +637,7 @@ func stepsToString(steps:[Turn]) -> String {
             stepsString += "Z"
             break;
         case .ZN:
-            stepsString += "ZN"
+            stepsString += "Z'"
             break;
         case .Z2:
             stepsString += "Z2"

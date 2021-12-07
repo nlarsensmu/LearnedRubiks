@@ -33,5 +33,13 @@ class RootViewController: UIViewController {
         self.learning.image = UIImage(named: "learning")
         self.camera.image = UIImage(named: "camera")
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    // MARK: Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    }
 }
 
