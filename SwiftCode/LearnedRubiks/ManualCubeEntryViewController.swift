@@ -97,7 +97,8 @@ class ManualCubeEntryViewController: UIViewController, UIPickerViewDelegate, UIP
         }
         
         if colors.count == 9 {
-            faces[instruction] = colors
+            print(colors)
+            faces[instruction] = getFaceOrientation(colors: colors)
             instruction += 1
         }
         
@@ -141,7 +142,7 @@ class ManualCubeEntryViewController: UIViewController, UIPickerViewDelegate, UIP
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        if(segue.identifier == "inputToPredictionViewController"){
+        if(segue.identifier == "toCubeControllerFromManual"){
                 let displayVC = segue.destination as! CubeController
             displayVC.Cube = self.cube
             displayVC.solver = SolverCross(c: displayVC.Cube!)
