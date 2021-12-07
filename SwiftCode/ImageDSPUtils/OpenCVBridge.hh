@@ -23,6 +23,7 @@
 
 -(void) setProcessedColors:(NSArray*)colors;
 -(void) setCapture:(bool) c;
+-(bool) getCaptured;
 // set the image for processing later
 -(void) setImage:(CIImage*)ciFrameImage
       withBounds:(CGRect)rect
