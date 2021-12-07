@@ -367,15 +367,25 @@
                                     <outletCollection property="gestureRecognizers" destination="mgU-Y8-Iql" appends="YES" id="Mvc-CG-nmw"/>
                                 </connections>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MHX-So-b6a">
+                                <rect key="frame" x="134" y="731" width="146" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Manaul Cube Input"/>
+                                <connections>
+                                    <segue destination="U7v-V8-Ala" kind="show" id="eGB-la-NbG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zzm-em-RRU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="lBD-sq-Knw" firstAttribute="centerX" secondItem="zzm-em-RRU" secondAttribute="centerX" id="8Wn-nb-x1h"/>
+                            <constraint firstItem="zzm-em-RRU" firstAttribute="bottom" secondItem="MHX-So-b6a" secondAttribute="bottom" constant="100" id="92w-zO-qU4"/>
                             <constraint firstItem="SVq-Se-pBi" firstAttribute="centerX" secondItem="zzm-em-RRU" secondAttribute="centerX" id="DYl-o5-G7t"/>
                             <constraint firstItem="xLx-23-Huw" firstAttribute="centerX" secondItem="zzm-em-RRU" secondAttribute="centerX" id="Ruv-U5-Eug"/>
                             <constraint firstItem="lBD-sq-Knw" firstAttribute="top" secondItem="SVq-Se-pBi" secondAttribute="bottom" constant="25.5" id="W30-LU-yxG"/>
                             <constraint firstItem="zzm-em-RRU" firstAttribute="trailing" secondItem="xLx-23-Huw" secondAttribute="trailing" constant="112" id="YkL-R2-QaM"/>
+                            <constraint firstItem="MHX-So-b6a" firstAttribute="centerX" secondItem="zzm-em-RRU" secondAttribute="centerX" id="Z1E-O8-ANc"/>
                             <constraint firstItem="xLx-23-Huw" firstAttribute="top" secondItem="lBD-sq-Knw" secondAttribute="bottom" constant="34" id="bEX-Xj-hDT"/>
                             <constraint firstItem="SVq-Se-pBi" firstAttribute="top" secondItem="zzm-em-RRU" secondAttribute="top" constant="36" id="fCr-3n-bhJ"/>
                         </constraints>
@@ -404,7 +414,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-452.17391304347831" y="-3.3482142857142856"/>
+            <point key="canvasLocation" x="-726" y="244"/>
         </scene>
         <!--Teaching Selection View Controller-->
         <scene sceneID="L6I-Ru-Ip8">
@@ -476,7 +486,203 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m6J-eF-3PU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1041" y="806"/>
+            <point key="canvasLocation" x="-1617" y="-696"/>
+        </scene>
+        <!--Manual Cube Entry View Controller-->
+        <scene sceneID="97w-ki-g7S">
+            <objects>
+                <viewController id="U7v-V8-Ala" customClass="ManualCubeEntryViewController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LZ3-rE-phw">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qoj-SI-XeE">
+                                <rect key="frame" x="0.0" y="606" width="414" height="216"/>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSU-gn-hpE">
+                                <rect key="frame" x="177" y="445" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="xdw-Qv-78m"/>
+                                    <constraint firstAttribute="width" constant="60" id="z3c-mD-zkr"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="H7r-Ms-WgA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hxf-lW-LcB">
+                                <rect key="frame" x="177" y="513" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="6cA-66-hSP"/>
+                                    <constraint firstAttribute="width" constant="60" id="sgg-8N-TkQ"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="UWC-dY-Q2j"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mz2-XE-fGG">
+                                <rect key="frame" x="245" y="445" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="TH1-xn-mzS"/>
+                                    <constraint firstAttribute="height" constant="60" id="UZ1-od-nMd"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="fe2-z7-MWN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zsp-Ms-eE5">
+                                <rect key="frame" x="177" y="377" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="0n4-FK-jiM"/>
+                                    <constraint firstAttribute="height" constant="60" id="WyL-t5-AKk"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="O4l-J3-jfX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btg-SO-xhJ">
+                                <rect key="frame" x="109" y="445" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="G0N-Ev-ZBR"/>
+                                    <constraint firstAttribute="height" constant="60" id="oWA-gk-ARO"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="rk2-a8-nzu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lq-SW-PR3">
+                                <rect key="frame" x="245" y="513" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="nlB-uw-RMe"/>
+                                    <constraint firstAttribute="width" constant="60" id="z5c-q2-ntq"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="3yw-F5-vjl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8Y-fD-WhF">
+                                <rect key="frame" x="245" y="377" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="5pu-w2-ljU"/>
+                                    <constraint firstAttribute="width" constant="60" id="9YG-n0-dSL"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="dTE-ox-T5v"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwf-88-b0s">
+                                <rect key="frame" x="109" y="377" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="SCx-t1-Gjw"/>
+                                    <constraint firstAttribute="height" constant="60" id="zUq-Sj-9YP"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="YCf-dN-tQc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvC-u4-X4u">
+                                <rect key="frame" x="109" y="513" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="8Jv-y7-4CV"/>
+                                    <constraint firstAttribute="height" constant="60" id="y8C-ck-P01"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" image="noColor" imagePadding="0.0">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="cubletPressed:" destination="U7v-V8-Ala" eventType="touchUpInside" id="jau-ll-Kpa"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbv-Lc-d2y">
+                                <rect key="frame" x="168" y="88" width="78" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O4F-bF-37f">
+                                <rect key="frame" x="127.5" y="136" width="159.5" height="52.5"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Next Step">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="32"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="nextStep:" destination="U7v-V8-Ala" eventType="touchUpInside" id="WQD-vQ-h32"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="YPm-iV-ra4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="zvC-u4-X4u" firstAttribute="top" secondItem="btg-SO-xhJ" secondAttribute="bottom" constant="8" symbolic="YES" id="2AJ-uF-8xs"/>
+                            <constraint firstItem="BSU-gn-hpE" firstAttribute="centerY" secondItem="YPm-iV-ra4" secondAttribute="centerY" id="2Ha-sJ-bRn"/>
+                            <constraint firstItem="O4F-bF-37f" firstAttribute="centerX" secondItem="YPm-iV-ra4" secondAttribute="centerX" id="6Gq-6x-CWX"/>
+                            <constraint firstItem="Zsp-Ms-eE5" firstAttribute="centerX" secondItem="BSU-gn-hpE" secondAttribute="centerX" id="7UL-bA-Vbn"/>
+                            <constraint firstItem="BSU-gn-hpE" firstAttribute="top" secondItem="Zsp-Ms-eE5" secondAttribute="bottom" constant="8" symbolic="YES" id="A05-kn-MEW"/>
+                            <constraint firstItem="d8Y-fD-WhF" firstAttribute="leading" secondItem="Zsp-Ms-eE5" secondAttribute="trailing" constant="8" symbolic="YES" id="BJ0-MZ-n5p"/>
+                            <constraint firstItem="8lq-SW-PR3" firstAttribute="top" secondItem="mz2-XE-fGG" secondAttribute="bottom" constant="8" symbolic="YES" id="BOu-yS-w2l"/>
+                            <constraint firstItem="btg-SO-xhJ" firstAttribute="top" secondItem="uwf-88-b0s" secondAttribute="bottom" constant="8" symbolic="YES" id="CCM-oT-fNm"/>
+                            <constraint firstItem="Hxf-lW-LcB" firstAttribute="leading" secondItem="zvC-u4-X4u" secondAttribute="trailing" constant="8" symbolic="YES" id="GcK-oJ-pzp"/>
+                            <constraint firstItem="vbv-Lc-d2y" firstAttribute="centerX" secondItem="YPm-iV-ra4" secondAttribute="centerX" id="LFT-YK-mCJ"/>
+                            <constraint firstItem="Hxf-lW-LcB" firstAttribute="centerX" secondItem="BSU-gn-hpE" secondAttribute="centerX" id="Lr7-PK-IMv"/>
+                            <constraint firstItem="Qoj-SI-XeE" firstAttribute="width" secondItem="LZ3-rE-phw" secondAttribute="width" id="PcN-Va-LWA"/>
+                            <constraint firstItem="8lq-SW-PR3" firstAttribute="leading" secondItem="Hxf-lW-LcB" secondAttribute="trailing" constant="8" symbolic="YES" id="QCr-Bq-q4E"/>
+                            <constraint firstItem="BSU-gn-hpE" firstAttribute="leading" secondItem="btg-SO-xhJ" secondAttribute="trailing" constant="8" symbolic="YES" id="SEe-dX-WWe"/>
+                            <constraint firstItem="YPm-iV-ra4" firstAttribute="bottom" secondItem="Qoj-SI-XeE" secondAttribute="bottom" constant="40" id="Yav-3Z-Dwa"/>
+                            <constraint firstItem="O4F-bF-37f" firstAttribute="top" secondItem="vbv-Lc-d2y" secondAttribute="bottom" constant="8" symbolic="YES" id="b4G-cc-9YJ"/>
+                            <constraint firstItem="Qoj-SI-XeE" firstAttribute="centerX" secondItem="YPm-iV-ra4" secondAttribute="centerX" id="bLb-LT-RJu"/>
+                            <constraint firstItem="vbv-Lc-d2y" firstAttribute="top" secondItem="YPm-iV-ra4" secondAttribute="top" id="bpt-gO-d7X"/>
+                            <constraint firstItem="mz2-XE-fGG" firstAttribute="centerY" secondItem="BSU-gn-hpE" secondAttribute="centerY" id="hf7-13-FKs"/>
+                            <constraint firstItem="Zsp-Ms-eE5" firstAttribute="leading" secondItem="uwf-88-b0s" secondAttribute="trailing" constant="8" symbolic="YES" id="mlF-bP-UcW"/>
+                            <constraint firstItem="BSU-gn-hpE" firstAttribute="centerX" secondItem="YPm-iV-ra4" secondAttribute="centerX" id="nJR-Wc-xbu"/>
+                            <constraint firstItem="BSU-gn-hpE" firstAttribute="centerY" secondItem="btg-SO-xhJ" secondAttribute="centerY" id="pxf-Yl-dAo"/>
+                            <constraint firstItem="mz2-XE-fGG" firstAttribute="leading" secondItem="BSU-gn-hpE" secondAttribute="trailing" constant="8" symbolic="YES" id="qc9-eL-AIJ"/>
+                            <constraint firstItem="Hxf-lW-LcB" firstAttribute="top" secondItem="BSU-gn-hpE" secondAttribute="bottom" constant="8" symbolic="YES" id="roB-tP-jIv"/>
+                            <constraint firstItem="mz2-XE-fGG" firstAttribute="top" secondItem="d8Y-fD-WhF" secondAttribute="bottom" constant="8" symbolic="YES" id="z0C-dy-0R7"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="65R-9T-4Mw"/>
+                    <connections>
+                        <outlet property="colorPicker" destination="Qoj-SI-XeE" id="hsL-Gr-MmB"/>
+                        <outlet property="instructionLabel" destination="vbv-Lc-d2y" id="5dL-25-Cus"/>
+                        <outlet property="nextStepButton" destination="O4F-bF-37f" id="7Sx-XL-h1f"/>
+                        <outletCollection property="cubeltButtons" destination="uwf-88-b0s" collectionClass="NSMutableArray" id="zEh-0T-1Zi"/>
+                        <outletCollection property="cubeltButtons" destination="Zsp-Ms-eE5" collectionClass="NSMutableArray" id="clS-ks-iIe"/>
+                        <outletCollection property="cubeltButtons" destination="d8Y-fD-WhF" collectionClass="NSMutableArray" id="UD3-Kd-sR6"/>
+                        <outletCollection property="cubeltButtons" destination="btg-SO-xhJ" collectionClass="NSMutableArray" id="lkV-Lb-52Y"/>
+                        <outletCollection property="cubeltButtons" destination="BSU-gn-hpE" collectionClass="NSMutableArray" id="uxp-NP-dqV"/>
+                        <outletCollection property="cubeltButtons" destination="mz2-XE-fGG" collectionClass="NSMutableArray" id="1T0-oQ-JIw"/>
+                        <outletCollection property="cubeltButtons" destination="zvC-u4-X4u" collectionClass="NSMutableArray" id="JzV-B0-rg9"/>
+                        <outletCollection property="cubeltButtons" destination="Hxf-lW-LcB" collectionClass="NSMutableArray" id="8UE-j5-Dp3"/>
+                        <outletCollection property="cubeltButtons" destination="8lq-SW-PR3" collectionClass="NSMutableArray" id="q8v-yW-YAX"/>
+                        <segue destination="Iie-K7-svU" kind="show" identifier="toCubeControllerFromManual" id="UjN-ud-khj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BYg-mS-Ibf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="113.04347826086958" y="999.77678571428567"/>
         </scene>
         <!--Read Cube View Controller-->
         <scene sceneID="avl-y4-VFP">
@@ -642,9 +848,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RDR-9H-Z1S"/>
+        <segue reference="UjN-ud-khj"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="noColor" width="61" height="61"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
