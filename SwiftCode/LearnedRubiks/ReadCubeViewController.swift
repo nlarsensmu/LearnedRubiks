@@ -97,6 +97,21 @@ class ReadCubeViewController: UIViewController {
         return .noColor
     }
     @IBAction func save(_ sender: Any) {
+        
+        let result = performClassifier()
+        self.bridge.resetCublets()
+        
+        faces[instruction] = getFaceOrientation(colors: result.1)
+        
+        if instruction == 5 {
+            self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
+            self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
+        }
+        
+        instruction = (instruction + 1) % instructions.count
+    }
+    func performClassifier() -> (colorsOutput?, [CubletColor]) {
+        var ret:colorsOutput? = nil
         let culetsColors = self.bridge.getCublets()
         var colors:[CubletColor] = []
         if let items = (culetsColors as NSArray?) as? [Double] {
@@ -104,7 +119,8 @@ class ReadCubeViewController: UIViewController {
                 var color = "noColor"
                 do {
                     let input = colorsInput(red: items[i*3], green: items[i*3 + 1], blue: items[i*3 + 2])
-                    color = try colorModel.prediction(input: input).target
+                    ret = try colorModel.prediction(input: input)
+                    color = ret!.target
                     if i != 4{
                         print("\(items[i*3]),\(items[i*3 + 1]),\(items[i*3 + 2]),\(color)")
                     }
@@ -118,15 +134,7 @@ class ReadCubeViewController: UIViewController {
                 }
             }
         }
-        
-        faces[instruction] = getFaceOrientation(colors: colors)
-        
-        if instruction == 5 {
-            self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
-            self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
-        }
-        
-        instruction = (instruction + 1) % instructions.count
+        return (ret, colors)
     }
     
     func getFaceOrientation(colors:[CubletColor]) -> [CubletColor] {
@@ -156,7 +164,7 @@ class ReadCubeViewController: UIViewController {
         self.bridge.setCapture(true)
     }
     
-    @IBAction func checkSquares(_ sender: Any) {
+    func checkSquares() {
         let culetsColors = self.bridge.getCublets()
         var colors:[String] = []
         if let items = (culetsColors as NSArray?) as? [Double] {
@@ -223,29 +231,8 @@ class ReadCubeViewController: UIViewController {
         
         let _ = self.videoManager.turnOnFlashwithLevel(0.001)
         
-        // if no faces, just return original image
-//        if f.count == 0 { return inputImage }
-        
         var retImage = inputImage
         
-        // if you just want to process on separate queue use this code
-        // this is a NON BLOCKING CALL, but any changes to the image in OpenCV cannot be displayed real time
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { () -> Void in
-//            self.bridge.setImage(retImage, withBounds: retImage.extent, andContext: self.videoManager.getCIContext())
-//            self.bridge.processImage()
-//        }
-        
-        // use this code if you are using OpenCV and want to overwrite the displayed image via OpenCV
-        // this is a BLOCKING CALL
-//        self.bridge.setTransforms(self.videoManager.transform)
-//        self.bridge.setImage(retImage, withBounds: retImage.extent, andContext: self.videoManager.getCIContext())
-//        self.bridge.processImage()
-//        retImage = self.bridge.getImage()
-        
-        //HINT: you can also send in the bounds of the face to ONLY process the face in OpenCV
-        // or any bounds to only process a certain bounding region in OpenCV
-        
-        // Get square that is width/2
         let width = retImage.extent.width/2
         let imageWidth = retImage.extent.width
         let imageHeight = retImage.extent.height
@@ -256,7 +243,11 @@ class ReadCubeViewController: UIViewController {
                              andContext: self.videoManager.getCIContext())
         
         self.bridge.processImage()
-        retImage = self.bridge.getImageComposite() // get back opencv processed part of the image (overlayed on original)
+        retImage = self.bridge.getImageComposite()
+        
+        if self.bridge.getCaptured() { // we have performed a capture label the prediciton.
+            checkSquares()
+        }
         
         return retImage
     }
