@@ -33,7 +33,8 @@ class TeachingSelectionViewController: UIViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         if let vc = segue.destination as? CubeController {
-            vc.hideManipluationUIElements()
+            vc.hideTurnUI = true
+            vc.runningThroughTurns = true
         }
     }
     
