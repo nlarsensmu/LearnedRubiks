@@ -514,7 +514,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c5U-5D-zAz">
-                                <rect key="frame" x="137" y="718" width="141" height="55"/>
+                                <rect key="frame" x="136.5" y="718" width="141" height="55"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Capture">
                                     <fontDescription key="titleFontDescription" type="system" pointSize="34"/>

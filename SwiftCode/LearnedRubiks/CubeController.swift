@@ -236,6 +236,7 @@ class CubeController: UIViewController {
     let calibrationOperationQueue = OperationQueue()
     var ringBuffer = RingBuffer()
     var isWaitingForMotionData = false
+    var hideTurnUI = false
     var model:Model? = nil
     var step = "Solved"{
         didSet{
@@ -371,7 +372,11 @@ class CubeController: UIViewController {
             self.bNegButton.frame.origin = bNegPoint
             self.setImageToButton(button: self.bNegButton, image: "bneg")
             
-            self.toggleHideMovingButtons(setting: false)
+            if self.runningThroughTurns {
+                self.hideManipluationUIElements()
+                self.stepText.text = "\(stepsToString(steps: [self.turnDurations[self.currentTurn]]))"
+                self.runNextTurn()
+            }
         }
     }
     
@@ -463,7 +468,7 @@ class CubeController: UIViewController {
         }
     }
     func largeMotionEventOccurred(){
-        if(self.isWaitingForMotionData)
+        if(self.isWaitingForMotionData && !self.runningThroughTurns)
         {
             self.isWaitingForMotionData = false
             //predict a label
