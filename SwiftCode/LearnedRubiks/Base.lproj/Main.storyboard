@@ -732,6 +732,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KPj-mf-xtg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="c5U-5D-zAz" firstAttribute="centerY" secondItem="KPr-C2-6Qu" secondAttribute="centerY" id="DT7-mM-sxj"/>
                             <constraint firstItem="dhe-0g-b7p" firstAttribute="centerX" secondItem="KPj-mf-xtg" secondAttribute="centerX" multiplier="0.333" id="E6a-ZH-pkO"/>
@@ -742,6 +743,9 @@
                             <constraint firstItem="KPj-mf-xtg" firstAttribute="bottom" secondItem="WyA-aW-Wu3" secondAttribute="bottom" constant="40" id="gN1-Q0-aFe"/>
                             <constraint firstItem="KPr-C2-6Qu" firstAttribute="centerY" secondItem="dhe-0g-b7p" secondAttribute="centerY" id="jmE-FE-VBT"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="p5C-ap-Yov" appends="YES" id="RVg-K1-6BJ"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="TsC-7u-PS8"/>
                     <connections>
@@ -750,6 +754,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="13E-dF-fFM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="p5C-ap-Yov">
+                    <connections>
+                        <action selector="tapGesture:" destination="ifQ-3e-a7H" id="hiL-JD-nSi"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="755" y="532"/>
         </scene>
@@ -848,7 +857,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="UjN-ud-khj"/>
+        <segue reference="RDR-9H-Z1S"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="noColor" width="61" height="61"/>

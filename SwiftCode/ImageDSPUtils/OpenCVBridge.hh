@@ -29,6 +29,13 @@
       withBounds:(CGRect)rect
       andContext:(CIContext*)context;
 
+-(CGRect) getBounds;
+-(CGPoint) getPointInImage:(CGPoint)point;
+-(CGPoint) getPointInImageInverse:(CGPoint)point;
+-(CGRect) getRectTransformation:(CGRect) rect;
+-(CGRect) getRectInverseTransformation:(CGRect) rect;
+-(CGAffineTransform) getTransform;
+
 //get the image raw opencv
 -(CIImage*)getImage;
 

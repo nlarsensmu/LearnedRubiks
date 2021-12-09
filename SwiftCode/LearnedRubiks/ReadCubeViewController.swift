@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 import CoreML
 import SceneKit
+import CoreMotion
 
 class ReadCubeViewController: UIViewController {
     
@@ -42,6 +43,14 @@ class ReadCubeViewController: UIViewController {
                                     "green"]
     let instructionFaces:[CubletColor] = [.white, .orange, .yellow, .red, .blue, .green]
     var faces:[[CubletColor]] = Array.init(repeating: [], count: 6)
+    var currentFace:[(String,Int)] = []
+    func faceForBridge() -> [String]{
+        var face:[String] = []
+        for i in 0..<currentFace.count{
+            face.append(self.currentFace[i].0)
+        }
+        return face
+    }
     var instruction:Int = 0 {
         didSet {
             DispatchQueue.main.async {
@@ -54,9 +63,65 @@ class ReadCubeViewController: UIViewController {
     @IBAction func resetFace(_ sender: Any) {
         self.bridge.resetCublets()
         let colors = Array.init(repeating: "", count: 9)
+        self.currentFace = []
         self.bridge.setProcessedColors(colors)
     }
-    
+    //Delete these later when we figure out the transform
+    let x0 = 76.0
+    let x4 = 365.0
+    let y0 = 165.5
+    let y4 = 480.5
+    @IBAction func tapGesture(_ sender: UITapGestureRecognizer) {
+        let clickedPoint = sender.location(in: self.view)
+        let x = clickedPoint.x
+        let y = clickedPoint.y
+        
+        let w = (x4 - x0) / 3
+        let h = (y4 - y0) / 3
+        
+        var cubeNumber = 0
+        if x0 < x && x < x4 && y0 < y && y < y4 {
+            if x0 < x && x < x0 + w {
+                cubeNumber = cubeNumber + 0
+            }
+            else if x0 + w < x && x < x0 + 2*w {
+                cubeNumber = cubeNumber + 1
+            }else {
+                cubeNumber = cubeNumber + 2
+            }
+            if y0 < y && y < y0 + h {
+                cubeNumber = cubeNumber + 0
+            }
+            else if y0 + h < y && y < y0 + 2*h {
+                cubeNumber = cubeNumber + 3
+            }else {
+                cubeNumber = cubeNumber + 6
+            }
+            self.moveToNextPrediction(index: cubeNumber)
+            self.bridge.setProcessedColors(self.faceForBridge())
+        }
+        print(cubeNumber)
+    }
+    func moveToNextPrediction(index:Int){
+        guard let p = self.currentPredictions[index] else {
+            return
+        }
+        let currentPer = p.targetProbability[self.currentFace[index].0]!
+        var nextProb = 0.0
+        var nextPred = "noColor"
+        for prob in p.targetProbability{
+            if currentPer > prob.value && prob.value > nextProb{
+                nextProb = prob.value
+                nextPred = prob.key
+            }
+        }
+        if nextPred == "noColor"{
+            self.currentFace[index] = (p.target, 0)
+        }
+        else{
+            self.currentFace[index] = (nextPred, currentFace[index].1 + 1 % 9)
+        }
+    }
     func cubletColorToString(color:CubletColor) -> String {
         var c = "noColor"
         switch color {
@@ -101,7 +166,7 @@ class ReadCubeViewController: UIViewController {
         let result = performClassifier()
         self.bridge.resetCublets()
         
-        faces[instruction] = getFaceOrientation(colors: result.1)
+        faces[instruction] = getFaceOrientation(colors: result)
         
         if instruction == 5 {
             self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
@@ -110,31 +175,18 @@ class ReadCubeViewController: UIViewController {
         
         instruction = (instruction + 1) % instructions.count
     }
-    func performClassifier() -> (colorsOutput?, [CubletColor]) {
-        var ret:colorsOutput? = nil
-        let culetsColors = self.bridge.getCublets()
+    var currentPredictions:[colorsOutput?] = [nil,nil,nil,nil,nil,nil,nil,nil,nil]
+    func performClassifier() -> [CubletColor] {
         var colors:[CubletColor] = []
-        if let items = (culetsColors as NSArray?) as? [Double] {
-            for i in 0..<items.count/3 {
-                var color = "noColor"
-                do {
-                    let input = colorsInput(red: items[i*3], green: items[i*3 + 1], blue: items[i*3 + 2])
-                    ret = try colorModel.prediction(input: input)
-                    color = ret!.target
-                    if i != 4{
-                        print("\(items[i*3]),\(items[i*3 + 1]),\(items[i*3 + 2]),\(color)")
-                    }
-                    if i == 4 {
-                        colors.append(instructionFaces[instruction])
-                    } else {
-                        colors.append(stringToColor(color: color))
-                    }
-                } catch _{
-                    print("Failed Predicting")
-                }
+        for i in 0..<self.currentFace.count {
+            let color = self.currentFace[i]
+            if i == 4 {
+                colors.append(instructionFaces[instruction])
+            } else {
+                colors.append(stringToColor(color: color.0))
             }
         }
-        return (ret, colors)
+        return (colors)
     }
     
     func getFaceOrientation(colors:[CubletColor]) -> [CubletColor] {
@@ -163,29 +215,32 @@ class ReadCubeViewController: UIViewController {
     @IBAction func captureSquares(_ sender: Any) {
         self.bridge.setCapture(true)
     }
-    
     func checkSquares() {
         let culetsColors = self.bridge.getCublets()
-        var colors:[String] = []
+        
         if let items = (culetsColors as NSArray?) as? [Double] {
+            self.currentFace = []
+            self.currentPredictions = []
             for i in 0..<items.count/3 {
                 var color = "noColor"
                 do {
                     let input = colorsInput(red: items[i*3], green: items[i*3 + 1], blue: items[i*3 + 2])
-                    color = try colorModel.prediction(input: input).target
+                    let pred = try colorModel.prediction(input: input)
+                    self.currentPredictions.append(pred)
+                    color = pred.target
                 } catch _{
                     print("Failed Predicting")
                 }
                 //hardcoding the center, since we are 100% what it is
                 if i == 4 {
-                    colors.append(self.instructionsCenterString[self.instruction])
+                    self.currentFace.append((self.instructionsCenterString[self.instruction],0))
                 }
                 else{
-                    colors.append(color)
+                    self.currentFace.append((color,0))
                 }
             }
         }
-        self.bridge.setProcessedColors(colors)
+        self.bridge.setProcessedColors(self.faceForBridge())
     }
     //MARK: ViewController Hierarchy
     override func viewDidLoad() {
@@ -214,6 +269,7 @@ class ReadCubeViewController: UIViewController {
         }
         self.bridge.processType = 9
         self.instruction = 0
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -226,26 +282,38 @@ class ReadCubeViewController: UIViewController {
         self.videoManager.stop()
     }
     
+    var imageRect = CGRect()
+    var fullImageRect = CGRect()
     //MARK: Process image output
     func processImageSwift(inputImage:CIImage) -> CIImage{
         
         let _ = self.videoManager.turnOnFlashwithLevel(0.001)
         
         var retImage = inputImage
+        fullImageRect = CGRect(x: retImage.extent.minX, y: retImage.extent.minY, width: retImage.extent.width, height: retImage.extent.height)
         
         let width = retImage.extent.width/2
         let imageWidth = retImage.extent.width
         let imageHeight = retImage.extent.height
         let rect = CGRect(x: imageWidth/2 - width/2, y: imageHeight/2 - width/2, width: width, height: width)
+        imageRect = rect
         self.bridge.setTransforms(self.videoManager.transform)
         self.bridge.setImage(retImage,
-                             withBounds: rect, // the first face bounds
+                             withBounds: rect,
                              andContext: self.videoManager.getCIContext())
         
+        
         self.bridge.processImage()
+        
         retImage = self.bridge.getImageComposite()
         
-        if self.bridge.getCaptured() { // we have performed a capture label the prediciton.
+        let p = CGPoint(x: imageWidth/2 - width/2, y:imageHeight/2 - width/2)
+        let rectTest = CGRect(origin: p, size: CGSize(width: 0.0, height: 0.0))
+        print(rect)
+        print(rect.applying(self.videoManager.transform))
+        print(self.bridge.getRectTransformation(rect))
+        
+        if self.bridge.getCaptured() && self.currentFace.count == 0{ // we have performed a capture label the prediciton.
             checkSquares()
         }
         

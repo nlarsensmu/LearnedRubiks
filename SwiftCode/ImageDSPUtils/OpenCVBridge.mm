@@ -49,6 +49,27 @@ using namespace cv;
     return _colorsCublets;
 }
 
+
+-(CGRect) getBounds {
+    return _bounds;
+}
+-(CGPoint) getPointInImage:(CGPoint)point {
+    return CGPointApplyAffineTransform(point, self.transform);
+}
+-(CGPoint) getPointInImageInverse:(CGPoint)point {
+    return CGPointApplyAffineTransform(point, self.inverseTransform);
+}
+
+-(CGRect) getRectTransformation:(CGRect) rect {
+    return CGRectApplyAffineTransform(rect, self.transform);
+}
+-(CGRect) getRectInverseTransformation:(CGRect) rect {
+    return CGRectApplyAffineTransform(rect, self.inverseTransform);
+}
+-(CGAffineTransform) getTransform {
+    return self.transform;
+}
+
 -(void)setProcessedColors:(NSArray*) colors {
     _processedColors = colors;
 }
@@ -204,14 +225,16 @@ using namespace cv;
 // code manipulated from
 // http://stackoverflow.com/questions/30867351/best-way-to-create-a-mat-from-a-ciimage
 // http://stackoverflow.com/questions/10254141/how-to-convert-from-cvmat-to-uiimage-in-objective-c
-
-
 -(void) setImage:(CIImage*)ciFrameImage
       withBounds:(CGRect)faceRectIn
       andContext:(CIContext*)context{
     
     CGRect faceRect = CGRect(faceRectIn);
+    std::cout << faceRect.origin.x << " " <<  faceRect.origin.y << " ";
+    std::cout << faceRect.size.width << " " << faceRect.size.height << std::endl;
     faceRect = CGRectApplyAffineTransform(faceRect, self.transform);
+    std::cout << faceRect.origin.x << " " <<  faceRect.origin.y << " ";
+    std::cout << faceRect.size.width << " " << faceRect.size.height << std::endl;
     ciFrameImage = [ciFrameImage imageByApplyingTransform:self.transform];
     
     
