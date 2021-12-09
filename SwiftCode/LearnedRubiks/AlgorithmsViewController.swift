@@ -83,19 +83,19 @@ class AlgorithmsViewController: UIViewController {
                                                 back: [.orange, .orange, .orange, .orange, .orange, .orange, .yellow, .orange, .blue])
         
         let fistLayerAlgs:Dictionary<String, Algorithm> = [
-            "Flip Wedge"        :   Algorithm(flipWedge, [.F, .UN, .R, .U], [.F, .UN, .R, .U], cases["Flip Wedge"]!),
-            "Corner Placement"  :   Algorithm(cornerPlacement, [.RN, .DN, .R, .D],
+            "1 Flip Wedge"        :   Algorithm(flipWedge, [.F, .UN, .R, .U], [.F, .UN, .R, .U], cases["Flip Wedge"]!),
+            "2 Corner Placement"  :   Algorithm(cornerPlacement, [.RN, .DN, .R, .D],
                                               [.RN, .DN, .R, .D, .RN, .DN, .R, .D, .RN, .DN, .R, .D, .RN, .DN, .R, .D, .RN, .DN, .R, .D, ], cases["Corner Placement"]!)
         ]
         let secondLayerAlgs:Dictionary<String, Algorithm> = [
-            "Right Wedge Place":    Algorithm(rightWedgePlace, [.U, .R, .UN, .RN, .UN, .FN, .U, .F], [.U, .R, .UN, .RN, .UN, .FN, .U, .F], cases["Right Wedge Place"]!),
-            "Left Wedge Place":     Algorithm(leftWedgePlace, [.UN, .LN, .U, .L, .U, .F, .UN, .FN], [.UN, .LN, .U, .L, .U, .F, .UN, .FN, .YN], cases["Left Wedge Place"]!)
+            "1 Right Wedge Place":    Algorithm(rightWedgePlace, [.U, .R, .UN, .RN, .UN, .FN, .U, .F], [.U, .R, .UN, .RN, .UN, .FN, .U, .F], cases["Right Wedge Place"]!),
+            "2 Left Wedge Place":     Algorithm(leftWedgePlace, [.UN, .LN, .U, .L, .U, .F, .UN, .FN], [.UN, .LN, .U, .L, .U, .F, .UN, .FN, .YN], cases["Left Wedge Place"]!)
         ]
         let lastLayerAlgs:Dictionary<String, Algorithm> = [
-            "Solving Cross":        Algorithm(solvingCross, [.F, .R, .U, .RN, .UN, .FN], [.F, .R, .U, .RN, .UN, .FN, .F, .R, .U, .RN, .UN, .FN], cases["Solving Cross"]!),
-            "Place Wedges":         Algorithm(placeWedges, [.YN, .R, .U, .RN, .U, .R, .U2, .RN], [.YN, .R, .U, .RN, .U, .R, .U2, .RN, .U], cases["Place Wedges"]!),
-            "Place Corners":        Algorithm(placeCorners, [.U, .R, .UN, .LN, .U, .RN, .UN, .L], [.U, .R, .UN, .LN, .U, .RN, .UN, .L, .Y2, .Y2], cases["Place Corners"]!),
-            "Orientate Corners":    Algorithm(orientateCorners, [.RN, .DN, .R, .D],
+            "1 Solving Cross":        Algorithm(solvingCross, [.F, .R, .U, .RN, .UN, .FN], [.F, .R, .U, .RN, .UN, .FN, .F, .R, .U, .RN, .UN, .FN], cases["Solving Cross"]!),
+            "2 Place Wedges":         Algorithm(placeWedges, [.YN, .R, .U, .RN, .U, .R, .U2, .RN], [.YN, .R, .U, .RN, .U, .R, .U2, .RN, .U], cases["Place Wedges"]!),
+            "3 Place Corners":        Algorithm(placeCorners, [.U, .R, .UN, .LN, .U, .RN, .UN, .L], [.U, .R, .UN, .LN, .U, .RN, .UN, .L, .Y2, .Y2], cases["Place Corners"]!),
+            "4 Orientate Corners":    Algorithm(orientateCorners, [.RN, .DN, .R, .D],
                                               [.RN,.DN,.R,.D,.RN,.DN,.R,.D,.RN,.DN,.R,.D,.RN,.DN,.R,.D,.U,
                                                .RN,.DN,.R,.D,.RN,.DN,.R,.D,.U,
                                                .RN,.DN,.R,.D,.RN,.DN,.R,.D,.U,
@@ -110,7 +110,7 @@ class AlgorithmsViewController: UIViewController {
         
         if let currentAlgs = allAlgs[layer] {
             self.secondLevelSegmentOutlet.removeAllSegments()
-            for k in currentAlgs.keys {
+            for k in currentAlgs.keys.sorted() {
                 self.secondLevelSegmentOutlet.insertSegment(withTitle: k,
                                                             at: self.secondLevelSegmentOutlet.numberOfSegments,
                                                             animated: true)
@@ -152,17 +152,8 @@ class AlgorithmsViewController: UIViewController {
             self.Cube?.addScenario(newCube: scenario)
         }
     }
-    var descriptionsAll =   ["First Layer" :
-                                ["Flip Wedge":flipWedge,
-                                 "Corner Placement":cornerPlacement],
-                             "Second Layer":
-                                ["Left Wedge Place":leftWedgePlace,
-                                 "Right Wedge Place":rightWedgePlace],
-                            "Last Layer":
-                                ["Place Corners":placeCorners,
-                                "Place Wedges":placeWedges,
-                                "Solving Cross":solvingCross]]
-    var descriptionsCurrent = ["Flip Wedge":flipWedge, "Corner Placement":cornerPlacement]
+    
+    var descriptionsCurrent = ["1 Flip Wedge":flipWedge, "2 Corner Placement":cornerPlacement]
     @IBAction func topLevelSegment(_ sender: Any) {
         
         var layer = ""
@@ -172,7 +163,7 @@ class AlgorithmsViewController: UIViewController {
         
         if let currentAlgs = allAlgs[layer] {
             self.secondLevelSegmentOutlet.removeAllSegments()
-            for k in currentAlgs.keys {
+            for k in currentAlgs.keys.sorted() {
                 self.secondLevelSegmentOutlet.insertSegment(withTitle: k,
                                                             at: self.secondLevelSegmentOutlet.numberOfSegments,
                                                             animated: true)
@@ -199,6 +190,7 @@ class AlgorithmsViewController: UIViewController {
                 self.algorithmDescription.text = algorithm.description
                 self.runAlgorithmButton.isEnabled = true
                 self.turnsLabel.text = self.stepsToString(steps: algorithm.turnsDisplay)
+                self.runAlgorithmButton.setTitle(alg, for: .normal)
             }
         }
     
