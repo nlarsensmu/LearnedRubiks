@@ -200,7 +200,7 @@ class CubeController: UIViewController {
             scene.rootNode.runAction(SCNAction.sequence(actions)) {
                 self.animationRunning = false
                 self.solver = SolverCross(c: cube)
-                self.nextStep = self.solver!.getNextStep()
+                self.nextStep = self.solver!.getNextStep(emphasis: self.emphasis)
                 self.displayStep = stepsToString(steps: self.nextStep.steps)
                 self.step = "Solve Cross"
                 DispatchQueue.main.async {
@@ -243,7 +243,7 @@ class CubeController: UIViewController {
             if let s = self.solver{
                 DispatchQueue.main.async {
                     self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
-                    self.nextStep = s.getNextStep()
+                    self.nextStep = s.getNextStep(emphasis: self.emphasis)
                     self.displayStep = stepsToString(steps: self.nextStep.steps)
                     self.stepText.text = s.stepString
                 }
@@ -261,7 +261,7 @@ class CubeController: UIViewController {
         self.Cube?.duration = Double(sender.value)
         if var s = solver {
             let _ = self.Cube?.undoTurns(steps: self.nextStep.steps)
-            self.nextStep = s.reloadSteps()
+            self.nextStep = s.reloadSteps(emphasis: self.emphasis)
         }
     }
     
@@ -286,6 +286,8 @@ class CubeController: UIViewController {
     }
     
     // MARK: variables
+    
+    var emphasis = false
     //The actual cube in code
     var Cube:RubiksCube? = nil
     // anmations for label

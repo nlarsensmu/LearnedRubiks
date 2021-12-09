@@ -13,7 +13,7 @@ protocol SolverBase {
     var steps:Int { get set }
     var hashColorDict:Dictionary<CubletColor, Int> { get }
     var stepString:String { get }
-    func getNextStep() -> SolvingStep
+    func getNextStep(emphasis:Bool) -> SolvingStep
     func nameOfStep() -> String
     func hasNextStep() -> Bool
 }
@@ -48,9 +48,9 @@ extension SolverBase {
         return hashColorDict[cublet.upDown]! | hashColorDict[cublet.leftRight]! | hashColorDict[cublet.frontBack]!
     }
     
-    mutating func reloadSteps() -> SolvingStep {
+    mutating func reloadSteps(emphasis: Bool) -> SolvingStep {
         self.steps -= 1
-        return getNextStep()
+        return getNextStep(emphasis: emphasis)
     }
     
 }

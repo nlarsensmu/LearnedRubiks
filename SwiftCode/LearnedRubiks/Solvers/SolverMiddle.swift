@@ -35,7 +35,7 @@ class SolverMiddle: SolverBase {
         return ""
     }
     
-    func getNextStep() -> SolvingStep {
+    func getNextStep(emphasis:Bool) -> SolvingStep {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         

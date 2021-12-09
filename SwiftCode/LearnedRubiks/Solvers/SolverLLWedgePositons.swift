@@ -44,17 +44,17 @@ class SolverLLWedgePossitions: SolverBase {
         }
     }
     
-    func getNextStep() -> SolvingStep {
+    func getNextStep(emphasis:Bool) -> SolvingStep {
         
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
         if (steps == 3) {
-            let case3 = solveCase3()
+            let case3 = solveCase3(emphasis: emphasis)
             actions.append(contentsOf: case3.0)
             turns.append(contentsOf: case3.1)
         } else if (steps == 2) {
-            let case2 = solveCase2()
+            let case2 = solveCase2(emphasis: emphasis)
             actions.append(contentsOf: case2.0)
             turns.append(contentsOf: case2.1)
         } else if (steps == 1) { // They are solved in some way
@@ -116,45 +116,6 @@ class SolverLLWedgePossitions: SolverBase {
         return (actions, turns)
     }
     
-    func solve() -> ([SCNAction], [Turn]) {
-        var actions:[SCNAction] = []
-        var turns:[Turn] = []
-        
-        var wedgeCase = determineCase()
-        
-        if (wedgeCase == 3) {
-            let case3 = solveCase3()
-            actions.append(contentsOf: case3.0)
-            turns.append(contentsOf: case3.1)
-            wedgeCase = 2
-        }
-        
-        if wedgeCase == 2 {
-            let case2 = solveCase2()
-            actions.append(contentsOf: case2.0)
-            turns.append(contentsOf: case2.1)
-        }
-        
-        // Turn U or UN or U2 to make finsih out
-        let frontUp = cube.cublet(at: 22)
-        let rightCenter = cube.cublet(at: 11)
-        let backCetner = cube.cublet(at: 15)
-        let leftCenter = cube.cublet(at: 17)
-        
-        if frontUp.frontBack == leftCenter.leftRight {
-            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
-            turns.append(.U)
-        } else if frontUp.frontBack == backCetner.frontBack {
-            actions.append(contentsOf: cube.getTurnActions(turns: [.U2]))
-            turns.append(.U2)
-        } else if frontUp.frontBack == rightCenter.leftRight {
-            actions.append(contentsOf: cube.getTurnActions(turns: [.UN]))
-            turns.append(.UN)
-        }
-        
-        return (actions, turns)
-    }
-    
     // This function will perform turns, but undo them. The actions will not be run
     func determineCase() -> Int {
         
@@ -204,7 +165,7 @@ class SolverLLWedgePossitions: SolverBase {
     }
     
     // To solve this we will perform the alg at any position and it will get us to case 2
-    func solveCase3() -> ([SCNAction], [Turn]) {
+    func solveCase3(emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -224,7 +185,7 @@ class SolverLLWedgePossitions: SolverBase {
             turns.append(.Y)
         }
         
-        actions.append(cube.empasize(poses: [22,24], asGroup: true))
+        if emphasis { actions.append(cube.empasize(poses: [22,24], asGroup: true)) }
         actions.append(contentsOf: cube.getTurnActions(turns: wedgeRotateAlg))
         turns.append(contentsOf: wedgeRotateAlg)
         
@@ -235,7 +196,7 @@ class SolverLLWedgePossitions: SolverBase {
         return (actions, turns)
     }
     
-    func solveCase2() -> ([SCNAction], [Turn]) {
+    func solveCase2(emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -258,7 +219,7 @@ class SolverLLWedgePossitions: SolverBase {
             turns.append(.YN)
         }
         
-        actions.append(cube.empasize(poses: [24,20], asGroup: true))
+        if emphasis { actions.append(cube.empasize(poses: [24,20], asGroup: true)) }
         actions.append(contentsOf: cube.getTurnActions(turns: wedgeRotateAlg))
         turns.append(contentsOf: wedgeRotateAlg)
         actions.append(contentsOf: cube.getTurnActions(turns: [.U]))

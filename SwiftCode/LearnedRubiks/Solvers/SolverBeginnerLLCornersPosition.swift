@@ -35,8 +35,8 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         }
     }
     
-    func getNextStep() -> SolvingStep {
-        let result = solve()
+    func getNextStep(emphasis:Bool) -> SolvingStep {
+        let result = solve(emphasis: emphasis)
         return SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1)
     }
     
@@ -47,17 +47,17 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return true
     }
     
-    func solve() -> ([SCNAction], [Turn]) {
+    func solve(emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
         if steps == 0 {
-            let oneCorner = getOneCornerRight()
+            let oneCorner = getOneCornerRight(emphasis: emphasis)
             actions.append(contentsOf: oneCorner.0)
             turns.append(contentsOf: oneCorner.1)
             steps = countCorectCorners()
         } else if steps == 1 {
-            let allCorners = positionCorner()
+            let allCorners = positionCorner(emphasis: emphasis)
             actions.append(contentsOf: allCorners.0)
             turns.append(contentsOf: allCorners.1)
             steps = countCorectCorners()
@@ -94,7 +94,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return count
     }
     
-    func getOneCornerRight() -> ([SCNAction], [Turn]) {
+    func getOneCornerRight(emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -103,7 +103,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         
         // if count is 0, we need to do rotation once to get one that is right.
         if count == 0 {
-            actions.append(cube.empasize(poses: [19,21,25,27], asGroup: true))
+            if emphasis { actions.append(cube.empasize(poses: [19,21,25,27], asGroup: true)) }
             actions.append(contentsOf: cube.getTurnActions(turns: rotate3CornersAlg))
             turns.append(contentsOf: rotate3CornersAlg)
             count = 1
@@ -112,7 +112,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return (actions, turns)
     }
     
-    func positionCorner() -> ([SCNAction], [Turn]) {
+    func positionCorner(emphasis:Bool ) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -164,7 +164,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         }
         
         
-        actions.append(cube.empasize(poses: [19], asGroup: true))
+        if emphasis { actions.append(cube.empasize(poses: [19], asGroup: true)) }
         // Perform
         while countCorectCorners() != 4 {
             turns.append(contentsOf: rotate3CornersAlg)
