@@ -36,8 +36,8 @@ class SolverFirstCorners: SolverBase {
         return ""
     }
     
-    func getNextStep() -> SolvingStep {
-        let result = solveCorner(c1: cornerOrder[steps].0, c2: cornerOrder[steps].1)
+    func getNextStep(emphasis:Bool) -> SolvingStep {
+        let result = solveCorner(c1: cornerOrder[steps].0, c2: cornerOrder[steps].1, emphasis: emphasis)
         let step = SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1)
         steps += 1
         return step
@@ -50,17 +50,17 @@ class SolverFirstCorners: SolverBase {
         return true
     }
     
-    func solveCorner(c1:CubletColor, c2:CubletColor) -> ([SCNAction], [Turn]) {
+    func solveCorner(c1:CubletColor, c2:CubletColor, emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
-        let resultDown = getCornerDown(c1: c1, c2: c2, c3: CubletColor.white)
+        let resultDown = getCornerDown(c1: c1, c2: c2, c3: CubletColor.white, emphasis: emphasis)
         actions.append(contentsOf: resultDown.0)
         turns.append(contentsOf: resultDown.1)
         let resultOnBottom = positionConerOnBottom(c1: c1, c2: c2)
         actions.append(contentsOf: resultOnBottom.0)
         turns.append(contentsOf: resultOnBottom.1)
         
-        actions.append(cube.empasize(poses: [1, 11, 13], asGroup: true))
+        if emphasis { actions.append(cube.empasize(poses: [1, 11, 13], asGroup: true)) }
         
         let resultRepeatCorner = reapeatCornerAlg()
         actions.append(contentsOf: resultRepeatCorner.0)
@@ -68,52 +68,32 @@ class SolverFirstCorners: SolverBase {
         return (actions, turns)
     }
     
-    func solve() -> ([SCNAction], [Turn]) {
-        var actions:[SCNAction] = []
-        var turns:[Turn] = []
-        
-        let greenRed = solveCorner(c1: .red, c2: .green)
-        actions.append(contentsOf: greenRed.0)
-        turns.append(contentsOf: greenRed.1)
-        let redBlue = solveCorner(c1: .red, c2: .blue)
-        actions.append(contentsOf: redBlue.0)
-        turns.append(contentsOf: redBlue.1)
-        let orangeGreen = solveCorner(c1: .orange, c2: .green)
-        actions.append(contentsOf: orangeGreen.0)
-        turns.append(contentsOf: orangeGreen.1)
-        let orangeBlue = solveCorner(c1: .orange, c2: .blue)
-        actions.append(contentsOf: orangeBlue.0)
-        turns.append(contentsOf: orangeBlue.1)
-        
-        return (actions, turns)
-    }
-    
-    func getCornerDown(c1:CubletColor, c2:CubletColor, c3:CubletColor) -> ([SCNAction], [Turn]) {
+    func getCornerDown(c1:CubletColor, c2:CubletColor, c3:CubletColor, emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
         let pos = getCubletPosition(c1: c1, c2: c2, c3: c3)
         
         if pos == 21 {
-            actions.append(cube.empasize(poses: [21], asGroup: true))
+            if emphasis { actions.append(cube.empasize(poses: [21], asGroup: true)) }
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(.Y)
             turns.append(contentsOf: cornerAlg)
         } else if pos == 27 {
-            actions.append(cube.empasize(poses: [27], asGroup: true))
+            if emphasis { actions.append(cube.empasize(poses: [27], asGroup: true)) }
             actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(.Y2)
             turns.append(contentsOf: cornerAlg)
         } else if pos == 25 {
-            actions.append(cube.empasize(poses: [25], asGroup: true))
+            if emphasis { actions.append(cube.empasize(poses: [25], asGroup: true)) }
             actions.append(contentsOf: cube.getTurnActions(turns: [.YN]))
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(.YN)
             turns.append(contentsOf: cornerAlg)
         } else if pos == 19 {
-            actions.append(cube.empasize(poses: [19], asGroup: true))
+            if emphasis { actions.append(cube.empasize(poses: [19], asGroup: true)) }
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(contentsOf: cornerAlg)
         } else if pos == 3 {

@@ -535,32 +535,32 @@ public class RubiksCube{
         let cube = self.deepCopyCube()
         var solver:SolverBase = SolverCross(c:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep()
+            _ = solver.getNextStep(emphasis: true)
         }
         solver = SolverFirstCorners(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep()
+            _ = solver.getNextStep(emphasis: true)
         }
         solver = SolverMiddle(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep()
+            _ = solver.getNextStep(emphasis: true)
         }
         solver = SolverLLWedgePossitions(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep()
+            _ = solver.getNextStep(emphasis: true)
         }
         solver = SolverLastCrossBB(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep()
+            _ = solver.getNextStep(emphasis: true)
         }
         solver = SolverBeginnerLLCornersPosition(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep()
+            _ = solver.getNextStep(emphasis: true)
         }
         solver = SolverBeginnerLLCornersOrientation(cube:cube)
         var i = 0
         while(solver.hasNextStep() || i > 4){
-            _ = solver.getNextStep()
+            _ = solver.getNextStep(emphasis: true)
             i += 1
         }
         if cube.isSovled(){

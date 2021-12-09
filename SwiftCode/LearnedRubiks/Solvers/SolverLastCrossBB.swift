@@ -39,7 +39,7 @@ class SolverLastCrossBB: SolverBase {
         return stepNames[steps]
     }
     
-    func getNextStep() -> SolvingStep {
+    func getNextStep(emphasis:Bool) -> SolvingStep {
         
         let sum = sumUpWedges()
         var result:([SCNAction], [Turn]) = ([], [])
@@ -47,13 +47,13 @@ class SolverLastCrossBB: SolverBase {
         
         if sum == 0 { // dot
             steps = 0
-            result = processDot(sum: sum)
+            result = processDot(sum: sum, emphasis: emphasis)
         } else if [42, 44, 48, 50].contains(sum) { // L
             steps = 1
-            result = processL(sum: sum)
+            result = processL(sum: sum, emphasis: emphasis)
         } else if sum == 46 { // line case
             steps = 2
-            result = processLine(sum: sum)
+            result = processLine(sum: sum, emphasis: emphasis)
         } else {
             steps = 3 // Cross!
         }
@@ -68,38 +68,6 @@ class SolverLastCrossBB: SolverBase {
         return true
     }
     
-    func solve() -> ([SCNAction], [Turn]) {
-        let result = solveCross()
-        return result
-    }
-    
-    // MARK: Functions for solving cross
-    
-    func solveCross() -> ([SCNAction], [Turn]) {
-        var actions:[SCNAction] = []
-        var turns:[Turn] = []
-        
-        // sum the cublets on the top to get what state we are in
-        
-        // 92 means cross, 50 44 42 are L, and 46 and 48 are lines
-        var sum = sumUpWedges()
-        let dot = processDot(sum: sum)
-        actions.append(contentsOf: dot.0)
-        turns.append(contentsOf: dot.1)
-        
-        sum = sumUpWedges()
-        let l = processL(sum: sum)
-        actions.append(contentsOf: l.0)
-        turns.append(contentsOf: l.1)
-
-        sum = sumUpWedges()
-        let line = processLine(sum: sum)
-        actions.append(contentsOf: line.0)
-        turns.append(contentsOf: line.1)
-        
-        return (actions, turns)
-    }
-    
     func sumUpWedges() -> Int {
         var sum = 0
         if cube.cublet(at: 22).upDown == .yellow { sum += 22}
@@ -109,7 +77,7 @@ class SolverLastCrossBB: SolverBase {
         return sum
     }
     
-    func processDot(sum:Int) -> ([SCNAction], [Turn]) {
+    func processDot(sum:Int, emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -117,7 +85,7 @@ class SolverLastCrossBB: SolverBase {
             // All cubes are down, must be a dot
             if cube.cublet(at: 22).upDown != .white && cube.cublet(at: 20).upDown != .white && cube.cublet(at: 24).upDown != .white && cube.cublet(at: 26).upDown != .white {
                 
-                actions.append(cube.empasize(poses: [23], asGroup: true))
+                if emphasis { actions.append(cube.empasize(poses: [23], asGroup: true)) }
                 actions.append(contentsOf: cube.getTurnActions(turns: crossTurns))
                 turns.append(contentsOf: crossTurns)
                 actions.append(contentsOf: cube.getTurnActions(turns: [.Y2]))
@@ -127,7 +95,7 @@ class SolverLastCrossBB: SolverBase {
         return (actions, turns)
     }
     
-    func processL(sum:Int) -> ([SCNAction], [Turn]) {
+    func processL(sum:Int, emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -143,7 +111,7 @@ class SolverLastCrossBB: SolverBase {
                 turns.append(.Y)
             }
             
-            actions.append(cube.empasize(poses: [23, 24, 26], asGroup: true))
+            if emphasis { actions.append(cube.empasize(poses: [23, 24, 26], asGroup: true)) }
             actions.append(contentsOf: cube.getTurnActions(turns: crossTurns))
             turns.append(contentsOf: crossTurns)
         }
@@ -151,7 +119,7 @@ class SolverLastCrossBB: SolverBase {
         return (actions, turns)
     }
     
-    func processLine(sum:Int) -> ([SCNAction], [Turn]) {
+    func processLine(sum:Int, emphasis:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -160,7 +128,7 @@ class SolverLastCrossBB: SolverBase {
                 actions.append(contentsOf: cube.getTurnActions(turns: [.Y]))
                 turns.append(.Y)
             }
-            actions.append(cube.empasize(poses: [20, 23, 26], asGroup: true))
+            if emphasis { actions.append(cube.empasize(poses: [20, 23, 26], asGroup: true)) }
             actions.append(contentsOf: cube.getTurnActions(turns: crossTurns))
             turns.append(contentsOf: crossTurns)
         }

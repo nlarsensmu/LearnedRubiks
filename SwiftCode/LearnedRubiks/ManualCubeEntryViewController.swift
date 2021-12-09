@@ -146,7 +146,7 @@ class ManualCubeEntryViewController: UIViewController, UIPickerViewDelegate, UIP
                 let displayVC = segue.destination as! CubeController
             displayVC.Cube = self.cube
             displayVC.solver = SolverCross(c: displayVC.Cube!)
-            displayVC.nextStep = displayVC.solver!.getNextStep()
+            displayVC.nextStep = displayVC.solver!.getNextStep(emphasis: true)
             displayVC.displayStep = stepsToString(steps: displayVC.nextStep.steps)
             displayVC.solveOnly = true
         }

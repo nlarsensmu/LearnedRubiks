@@ -14,7 +14,6 @@ import CoreMotion
 class ReadCubeViewController: UIViewController {
     
     // MARK: Class Properties
-    
     lazy var colorModel:colors = {
         do{
             let config = MLModelConfiguration()
@@ -351,7 +350,8 @@ class ReadCubeViewController: UIViewController {
                 let displayVC = segue.destination as! CubeController
             displayVC.Cube = self.cube
             displayVC.solver = SolverCross(c: displayVC.Cube!)
-            displayVC.nextStep = displayVC.solver!.getNextStep()
+            displayVC.emphasis = true
+            displayVC.nextStep = displayVC.solver!.getNextStep(emphasis: true)
             displayVC.displayStep = stepsToString(steps: displayVC.nextStep.steps)
             displayVC.solveOnly = true
         }
