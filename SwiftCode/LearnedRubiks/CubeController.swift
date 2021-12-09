@@ -439,7 +439,7 @@ class CubeController: UIViewController {
                 self.hideManipluationUIElements()
                 self.stepText.text = "\(stepsToString(steps: [self.turnDurations[self.currentTurn]]))"
                 self.runNextTurn()
-            } else {
+            } else if !self.solveOnly{
                 self.toggleHideMovingButtons(setting: false)
             }
         }
@@ -460,6 +460,7 @@ class CubeController: UIViewController {
     }
     
     var runningThroughTurns = false
+    var solveOnly = false
     let turnDurations:[Turn] = [.U, .UN, .D, .DN, .R, .RN, .L, .LN, .F, .FN, .B, .BN,
                                 .X, .XN, .Y, .YN, .Z, .ZN]
     var currentTurn = 0
@@ -533,7 +534,7 @@ class CubeController: UIViewController {
         }
     }
     func largeMotionEventOccurred(){
-        if(!self.animationRunning && self.isWaitingForMotionData && !self.runningThroughTurns)
+        if(!self.animationRunning && self.isWaitingForMotionData && !self.runningThroughTurns && !self.solveOnly)
         {
             self.isWaitingForMotionData = false
             //predict a label

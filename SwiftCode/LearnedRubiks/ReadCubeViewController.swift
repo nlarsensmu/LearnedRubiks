@@ -353,6 +353,7 @@ class ReadCubeViewController: UIViewController {
             displayVC.solver = SolverCross(c: displayVC.Cube!)
             displayVC.nextStep = displayVC.solver!.getNextStep()
             displayVC.displayStep = stepsToString(steps: displayVC.nextStep.steps)
+            displayVC.solveOnly = true
         }
     }
     var cube:RubiksCube? = nil
