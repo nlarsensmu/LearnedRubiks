@@ -163,10 +163,16 @@ class ReadCubeViewController: UIViewController {
     }
     @IBAction func save(_ sender: Any) {
         
-        let result = performClassifier()
+//        let result = performClassifier()
         self.bridge.resetCublets()
         
-        faces[instruction] = getFaceOrientation(colors: result)
+        var face:[CubletColor] = []
+        for c in currentFace {
+            face.append(stringToColor(color: c.0))
+        }
+        currentFace.removeAll()
+        
+        faces[instruction] = getFaceOrientation(colors: face)
         
         if instruction == 5 {
             self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
