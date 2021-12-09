@@ -41,54 +41,54 @@ class CubeController: UIViewController {
     @IBAction func xRotate(_ sender: Any) {
         if let cube = Cube{
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rotateAllX(direction:1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rotateAllX(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBOutlet weak var xNegOutlet: UIButton!
     @IBAction func xRotateNeg(_ sender: Any) {
         if let cube = Cube{
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rotateAllX(direction:-1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rotateAllX(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     @IBOutlet weak var yOutlet: UIButton!
     @IBAction func yRotate(_ sender: Any) {
         if let cube = Cube{
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rotateAllY(direction:1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rotateAllY(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBOutlet weak var yNegOutlet: UIButton!
     @IBAction func yRotateNeg(_ sender: Any) {
         if let cube = Cube{
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rotateAllY(direction:-1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rotateAllY(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     @IBOutlet weak var zOutlet: UIButton!
     @IBAction func zRotate(_ sender: Any) {
         if let cube = Cube{
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rotateAllZ(direction:1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rotateAllZ(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBOutlet weak var zNegOutlet: UIButton!
     @IBAction func zRotateNeg(_ sender: Any) {
         if let cube = Cube{
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rotateAllZ(direction:-1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rotateAllZ(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     
@@ -96,96 +96,112 @@ class CubeController: UIViewController {
     @IBAction func upTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.upTurn(direction: 1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.upTurn(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func upTurnNeg(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.upTurn(direction: -1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.upTurn(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func downTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.downTurn(direction: 1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.downTurn(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func downTurnNeg(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.downTurn(direction: -1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.downTurn(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func rightTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rightTurn(direction: 1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rightTurn(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func rightTurnNeg(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.rightTurn(direction: -1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.rightTurn(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func leftTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.leftTurn(direction: 1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.leftTurn(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func leftTurnNeg(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.leftTurn(direction: -1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.leftTurn(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func backTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.backTurn(direction: 1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.backTurn(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func backTurnNeg(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.backTurn(direction: -1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.backTurn(direction: -1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func frontTurn(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.frontTurn(direction: 1)) {
-                self.animationRunning = false
-            }
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            let action = cube.frontTurn(direction: 1)
+            runActionSetCross(action: action)
         }
     }
     @IBAction func frontTurnNeg(_ sender: Any) {
         if let cube = Cube {
             self.animationRunning = true
-            scene.rootNode.runAction(cube.frontTurn(direction: -1)) {
+            let _ = cube.undoTurns(steps: self.nextStep.steps)
+            
+            let action = cube.frontTurn(direction: -1)
+            runActionSetCross(action: action)
+        }
+    }
+    
+    func runActionSetCross(action:SCNAction) {
+        if let cube = Cube {
+            scene.rootNode.runAction(action) {
                 self.animationRunning = false
+                self.solver = SolverCross(c: cube)
+                self.nextStep = self.solver!.getNextStep()
+                self.displayStep = stepsToString(steps: self.nextStep.steps)
+                self.step = "Solve Cross"
+                DispatchQueue.main.async {
+                    self.nextStepOutlet.setTitle("White On Top", for: .normal)
+                }
             }
         }
     }
@@ -239,13 +255,13 @@ class CubeController: UIViewController {
                         self.solver = SolverBeginnerLLCornersOrientation(cube: self.Cube!)
                     }
                 }
-            }
-            if let s = self.solver{
-                DispatchQueue.main.async {
-                    self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
-                    self.nextStep = s.getNextStep()
-                    self.displayStep = stepsToString(steps: self.nextStep.steps)
-                    self.stepText.text = s.stepString
+                if let s = self.solver{
+                    DispatchQueue.main.async {
+                        self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+                        self.nextStep = s.getNextStep()
+                        self.displayStep = stepsToString(steps: self.nextStep.steps)
+                        self.stepText.text = s.stepString
+                    }
                 }
             }
         }

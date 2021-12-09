@@ -10,7 +10,10 @@ import SceneKit
 import AVFAudio
 
 class SolverBeginnerLLCornersOrientation: SolverBase {
-    var stepString: String = "Solve Last Layer Corner Orientation"
+    var stepString: String = """
+Solve Last Layer Corner
+Orientation
+"""
     
     var cube: RubiksCube
     var steps = 1
