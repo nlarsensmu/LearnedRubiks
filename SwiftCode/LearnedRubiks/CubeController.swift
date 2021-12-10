@@ -175,19 +175,18 @@ class CubeController: UIViewController {
     }
     @IBAction func frontTurn(_ sender: Any) {
         if let cube = Cube {
-            self.animationRunning = true
             let _ = cube.undoTurns(steps: self.nextStep.steps)
             let action = cube.frontTurn(direction: 1)
+            self.animationRunning = true
             runActionSetCross(action: action)
         }
     }
     @IBAction func frontTurnNeg(_ sender: Any) {
         if let cube = Cube {
-            self.animationRunning = true
             let _ = cube.undoTurns(steps: self.nextStep.steps)
-            
             let action = cube.frontTurn(direction: -1)
-            runActionSetCross(action: action)
+            self.animationRunning = true
+            runActionSetCross(action: SCNAction.sequence([action]))
         }
     }
     
@@ -213,16 +212,7 @@ class CubeController: UIViewController {
             let _ = cube.undoTurns(steps: self.nextStep.steps)
             let actions = cube.scramble(turnsCount: 30)
             self.animationRunning = true
-            scene.rootNode.runAction(SCNAction.sequence(actions)) {
-                self.animationRunning = false
-                self.solver = SolverCross(c: cube)
-                self.nextStep = self.solver!.getNextStep(emphasis: self.emphasis)
-                self.displayStep = stepsToString(steps: self.nextStep.steps)
-                self.step = "Solve Cross"
-                DispatchQueue.main.async {
-                    self.nextStepOutlet.setTitle("White On Top", for: .normal)  
-                }
-            }
+            runActionSetCross(action: SCNAction.sequence(actions))
         }
     }
     var nextStep:SolvingStep = SolvingStep(description: "", actions: [], steps: [])
@@ -255,13 +245,13 @@ class CubeController: UIViewController {
                         self.solver = SolverBeginnerLLCornersOrientation(cube: self.Cube!)
                     }
                 }
-                if let s = self.solver{
-                    DispatchQueue.main.async {
-                        self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
-                        self.nextStep = s.getNextStep(emphasis: self.emphasis)
-                        self.displayStep = stepsToString(steps: self.nextStep.steps)
-                        self.stepText.text = s.stepString
-                    }
+            }
+            if let s = self.solver{
+                DispatchQueue.main.async {
+                    self.nextStepOutlet.setTitle(s.nameOfStep(), for: .normal)
+                    self.nextStep = s.getNextStep(emphasis: self.emphasis)
+                    self.displayStep = stepsToString(steps: self.nextStep.steps)
+                    self.stepText.text = s.stepString
                 }
             }
         }
@@ -563,54 +553,49 @@ class CubeController: UIViewController {
                     let ret = try loadedModel.prediction(input: input).target
                     
                     self.animationRunning = true
+                    var action = SCNAction()
                     if ret == "x90" {
-                        self.scene.rootNode.runAction(cube.rotateAllX(direction: 1)) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = cube.rotateAllX(direction: 1)
                     }else if ret == "xNeg90" {
-                        self.scene.rootNode.runAction(cube.rotateAllX(direction: -1)) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = cube.rotateAllX(direction: -1)
                     }else if ret == "y90" {
-                        self.scene.rootNode.runAction(cube.rotateAllY(direction: 1)) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = cube.rotateAllY(direction: 1)
                     }else if ret == "yNeg90" {
-                        self.scene.rootNode.runAction(cube.rotateAllY(direction: -1)) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = cube.rotateAllY(direction: -1)
                     }else if ret == "z90" {
-                        self.scene.rootNode.runAction(cube.rotateAllZ(direction: 1)) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = cube.rotateAllZ(direction: 1)
                     }else if ret == "zNeg90" {
-                        self.scene.rootNode.runAction(cube.rotateAllZ(direction: -1)) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = cube.rotateAllZ(direction: -1)
                     }else if ret == "x180" {
-                        self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllX(direction: 1), cube.rotateAllX(direction: 1)])) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = SCNAction.sequence([cube.rotateAllX(direction: 1), cube.rotateAllX(direction: 1)])
                     }else if ret == "xNeg180" {
-                        self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllX(direction: -1), cube.rotateAllX(direction: -1)])) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = SCNAction.sequence([cube.rotateAllX(direction: -1), cube.rotateAllX(direction: -1)])
                     }else if ret == "y180" {
-                        self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllY(direction: 1), cube.rotateAllY(direction: 1)])) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = SCNAction.sequence([cube.rotateAllY(direction: 1), cube.rotateAllY(direction: 1)])
                     }else if ret == "yNeg180" {
-                        self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllY(direction: -1), cube.rotateAllY(direction: -1)])) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = SCNAction.sequence([cube.rotateAllY(direction: -1), cube.rotateAllY(direction: -1)])
+                        
                     }else if ret == "z180" {
-                        self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllZ(direction: 1), cube.rotateAllZ(direction: 1)])) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = SCNAction.sequence([cube.rotateAllZ(direction: 1), cube.rotateAllZ(direction: 1)])
+                        
                     }else if ret == "zNeg180" {
-                        self.scene.rootNode.runAction(SCNAction.sequence([cube.rotateAllZ(direction: -1), cube.rotateAllZ(direction: -1)])) {
-                            self.animationRunning = false
-                        }
+                        let _ = cube.undoTurns(steps: self.nextStep.steps)
+                        action = SCNAction.sequence([cube.rotateAllZ(direction: -1), cube.rotateAllZ(direction: -1)])
+                    }
+                    // If we set action to something
+                    if action != SCNAction() {
+                        runActionSetCross(action: action)
                     }
                 }
                 catch _{

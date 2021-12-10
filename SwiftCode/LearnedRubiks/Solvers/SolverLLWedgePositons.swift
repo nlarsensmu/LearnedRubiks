@@ -29,9 +29,7 @@ class SolverLLWedgePossitions: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
-        cube.printCube()
         steps = determineCase()
-        cube.printCube()
     }
     
     func nameOfStep() -> String {

@@ -183,7 +183,6 @@ class AlgorithmsViewController: UIViewController {
            let d = allAlgs[layer], let algorithm = d[alg] {
             
             self.Cube?.removeAllCublets()
-            algorithm.cube.printCube()
             self.Cube?.addScenario(newCube: algorithm.cube)
             DispatchQueue.main.async
             {

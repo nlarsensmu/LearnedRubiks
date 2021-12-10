@@ -601,13 +601,52 @@ public class RubiksCube{
     public func undoTurns(steps:[Turn]) -> [SCNAction]{
         var turns:[Turn] = []
         for turn in steps.reversed() {
-            for _ in 0..<3 {
-                turns.append(turn)
-            }
+            turns.append(invertTurn(turn))
         }
         let actions = getTurnActions(turns: turns)
-        self.printCube()
         return actions
+    }
+    
+    private func  invertTurn(_ t:Turn) -> Turn {
+        switch t {
+        case .U: return .UN
+        case .UN:
+            return .U
+        case .D: return .DN
+        case .DN: return .D
+        case .R: return .RN
+        case .RN: return .R
+        case .L: return .LN
+        case .LN: return .L
+        case .F: return .FN
+        case .FN: return .F
+        case .B: return .BN
+        case .BN: return .B
+        case .M: return .MN
+        case .MN: return .M
+        case .S: return .SN
+        case .SN: return .S
+        case .E: return .EN
+        case .EN: return .E
+        case .U2: return t
+        case .D2: return t
+        case .F2: return t
+        case .B2: return t
+        case .L2: return t
+        case .R2: return t
+        case .M2: return t
+        case .E2: return t
+        case .S2: return t
+        case .X: return .XN
+        case .XN: return .X
+        case .X2: return t
+        case .Y: return .YN
+        case .YN: return .Y
+        case .Y2: return t
+        case .Z: return .ZN
+        case .ZN: return .Z
+        case .Z2: return t
+        }
     }
     // MARK: private turn set functions
     private func turnFromEnum(turn:Turn) -> SCNAction {
