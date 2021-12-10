@@ -11,6 +11,16 @@ class TeachingSelectionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.turnsImage.image = UIImage(named: "turn")
+        self.algorithmImage.image = UIImage(named: "algorithms")
+        
+        self.turnsImage.isUserInteractionEnabled = true
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(turnsImageTapped))
+        self.turnsImage.addGestureRecognizer(tapRecognizer)
+        
+        self.algorithmImage.isUserInteractionEnabled = true
+            let tapRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(algorithmImageTapped))
+        self.algorithmImage.addGestureRecognizer(tapRecognizer2)
 
         // Do any additional setup after loading the view.
     }
@@ -18,13 +28,19 @@ class TeachingSelectionViewController: UIViewController {
         super.viewWillAppear(animated)
         typeOfTurns = false
     }
+    @IBOutlet weak var turnsImage: UIImageView!
+    @IBOutlet weak var algorithmImage: UIImageView!
     
     var typeOfTurns = false
-    @IBAction func typeOfTurnsAction(_ sender: Any) {
+    @objc func turnsImageTapped(_ sender: Any) {
         typeOfTurns = true
         self.performSegue(withIdentifier: "teachingCubeSegue", sender: self)
     }
     
+    @objc func algorithmImageTapped(_ sender: Any) {
+        typeOfTurns = true
+        self.performSegue(withIdentifier: "algorithmCubeSegue", sender: self)
+    }
     
     // MARK: - Navigation
 
