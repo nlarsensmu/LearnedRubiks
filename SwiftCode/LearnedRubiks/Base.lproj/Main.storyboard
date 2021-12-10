@@ -428,35 +428,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KJC-pP-cv7">
-                                <rect key="frame" x="147" y="459.5" width="120" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Types of Turns"/>
-                                <connections>
-                                    <action selector="typeOfTurnsAction:" destination="Pxg-Vb-qRA" eventType="touchUpInside" id="Wm0-eK-9Aw"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNP-AL-0Bv">
-                                <rect key="frame" x="117" y="505" width="180" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Algorithm Walk Through"/>
-                                <connections>
-                                    <segue destination="SKe-Xn-W7x" kind="show" id="0Sa-Hq-fva"/>
-                                </connections>
-                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SEO-n0-929">
+                                <rect key="frame" x="87" y="162" width="240" height="128"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q2t-wn-S0p">
+                                <rect key="frame" x="87" y="356" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="hKc-QZ-nKw"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="s7a-tD-Tj4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="KJC-pP-cv7" firstAttribute="centerX" secondItem="s7a-tD-Tj4" secondAttribute="centerX" id="4Yy-KU-AN9"/>
-                            <constraint firstItem="tNP-AL-0Bv" firstAttribute="centerX" secondItem="s7a-tD-Tj4" secondAttribute="centerX" id="NoA-W8-5kh"/>
-                            <constraint firstItem="KJC-pP-cv7" firstAttribute="centerY" secondItem="s7a-tD-Tj4" secondAttribute="centerY" id="Oms-GR-QKa"/>
-                            <constraint firstItem="tNP-AL-0Bv" firstAttribute="top" secondItem="KJC-pP-cv7" secondAttribute="bottom" constant="14.5" id="uoZ-2t-io1"/>
+                            <constraint firstItem="q2t-wn-S0p" firstAttribute="leading" secondItem="SEO-n0-929" secondAttribute="leading" id="2a4-pU-C9K"/>
+                            <constraint firstItem="SEO-n0-929" firstAttribute="centerX" secondItem="s7a-tD-Tj4" secondAttribute="centerX" id="50X-ji-02B"/>
+                            <constraint firstItem="q2t-wn-S0p" firstAttribute="leading" secondItem="s7a-tD-Tj4" secondAttribute="leading" constant="87" id="CdP-3A-m6u"/>
+                            <constraint firstItem="q2t-wn-S0p" firstAttribute="centerX" secondItem="s7a-tD-Tj4" secondAttribute="centerX" id="IAc-KA-omT"/>
+                            <constraint firstItem="q2t-wn-S0p" firstAttribute="top" secondItem="SEO-n0-929" secondAttribute="bottom" constant="66" id="XyV-3e-k10"/>
+                            <constraint firstItem="q2t-wn-S0p" firstAttribute="top" secondItem="ZBN-hH-9ll" secondAttribute="top" constant="356" id="ddc-Zf-Dhf"/>
+                            <constraint firstItem="SEO-n0-929" firstAttribute="top" secondItem="s7a-tD-Tj4" secondAttribute="top" constant="74" id="ib0-jN-IZf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mp3-sF-0hN"/>
                     <connections>
+                        <outlet property="algorithmImage" destination="q2t-wn-S0p" id="bnB-rx-Yq0"/>
+                        <outlet property="turnsImage" destination="SEO-n0-929" id="AIe-ea-i5e"/>
                         <segue destination="Iie-K7-svU" kind="show" identifier="teachingCubeSegue" id="04g-r1-UAF"/>
+                        <segue destination="SKe-Xn-W7x" kind="show" identifier="algorithmCubeSegue" id="i64-Eb-EEI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BvO-VO-QyS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -861,7 +860,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RDR-9H-Z1S"/>
+        <segue reference="04g-r1-UAF"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="noColor" width="61" height="61"/>
