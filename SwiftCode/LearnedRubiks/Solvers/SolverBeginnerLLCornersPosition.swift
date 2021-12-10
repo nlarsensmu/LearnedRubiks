@@ -37,7 +37,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
     
     func getNextStep(emphasis:Bool) -> SolvingStep {
         let result = solve(emphasis: emphasis)
-        return SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1)
+        return SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1, didError: result.2)
     }
     
     func hasNextStep() -> Bool{
@@ -47,10 +47,10 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return true
     }
     
-    func solve(emphasis:Bool) -> ([SCNAction], [Turn]) {
+    func solve(emphasis:Bool) -> ([SCNAction], [Turn], Bool) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
-        
+        var didFail = false
         if steps == 0 {
             let oneCorner = getOneCornerRight(emphasis: emphasis)
             actions.append(contentsOf: oneCorner.0)
@@ -60,10 +60,11 @@ class SolverBeginnerLLCornersPosition: SolverBase {
             let allCorners = positionCorner(emphasis: emphasis)
             actions.append(contentsOf: allCorners.0)
             turns.append(contentsOf: allCorners.1)
+            didFail = allCorners.2
             steps = countCorectCorners()
         }
         
-        return (actions, turns)
+        return (actions, turns, didFail)
     }
     
     // MARK: position the conrners
@@ -112,7 +113,7 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         return (actions, turns)
     }
     
-    func positionCorner(emphasis:Bool ) -> ([SCNAction], [Turn]) {
+    func positionCorner(emphasis:Bool ) -> ([SCNAction], [Turn], Bool) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -166,11 +167,13 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         
         if emphasis { actions.append(cube.empasize(poses: [19], asGroup: true)) }
         // Perform
-        while countCorectCorners() != 4 {
+        var count = 0
+        while countCorectCorners() != 4 && count <= 4{
             turns.append(contentsOf: rotate3CornersAlg)
             actions.append(contentsOf: cube.getTurnActions(turns: rotate3CornersAlg))
+            count += 1
         }
         
-        return (actions, turns)
+        return (actions, turns, count >= 4)
     }
 }

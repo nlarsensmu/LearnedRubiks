@@ -55,6 +55,7 @@ extension SolverBase {
     
 }
 class SolvingStep{
+    var didError:Bool
     var description:String
     var actions:[SCNAction]
     var steps:[Turn]
@@ -62,5 +63,12 @@ class SolvingStep{
         self.description = description
         self.actions = actions
         self.steps = steps
+        self.didError = false
+    }
+    init(description:String, actions:[SCNAction], steps:[Turn], didError:Bool){
+        self.description = description
+        self.actions = actions
+        self.steps = steps
+        self.didError = true
     }
 }
