@@ -557,14 +557,14 @@ public class RubiksCube{
         while(solver.hasNextStep()){
             let result = solver.getNextStep(emphasis: false)
             if result.didError {
-                return false
+                return true
             }
         }
         solver = SolverBeginnerLLCornersOrientation(cube:cube)
         while(solver.hasNextStep()){
             let result = solver.getNextStep(emphasis: false)
             if result.didError  {
-                return false
+                return true
             }
         }
         if cube.isSovled(){
