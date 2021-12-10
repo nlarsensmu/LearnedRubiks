@@ -65,6 +65,10 @@ class SolverMiddle: SolverBase {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
+        if checkWedgeCorrect(c1: c1, c2: c2) {
+            return (actions, turns)
+        }
+        
         let wedgeToTop = getWedgeToTopFront(c1: c1, c2: c2)
         actions.append(contentsOf: wedgeToTop.0)
         turns.append(contentsOf: wedgeToTop.1)

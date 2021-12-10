@@ -130,7 +130,6 @@ class SolverCross : SolverBase {
         let result = turnWedgeToBottom(pos:pos)
         actions.append(contentsOf: result.0)
         turns.append(contentsOf: result.1)
-        if emphasis { turns.append(contentsOf: result.1) }
         
         // Turn correct center to forground
         var centerPos = getCubletPosition(c1: c1, c2: CubletColor.noColor, c3: CubletColor.noColor)
@@ -145,7 +144,6 @@ class SolverCross : SolverBase {
         let foregroundWedge = turnWedgeToForeground(pos: pos)
         actions.append(contentsOf: foregroundWedge.0)
         turns.append(contentsOf: foregroundWedge.1)
-        if emphasis { turns.append(contentsOf: foregroundWedge.1) }
         
         pos = getCubletPosition(c1: CubletColor.white, c2: c1, c3: CubletColor.noColor)
         if emphasis { actions.append(cube.empasize(poses: [pos], asGroup: true)) }

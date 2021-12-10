@@ -278,7 +278,7 @@ class ReadCubeViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let _ = self.videoManager.turnOnFlashwithLevel(0.001)
+//        let _ = self.videoManager.turnOnFlashwithLevel(0.001)
         self.videoManager.start()
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -292,7 +292,7 @@ class ReadCubeViewController: UIViewController {
     //MARK: Process image output
     func processImageSwift(inputImage:CIImage) -> CIImage{
         
-        let _ = self.videoManager.turnOnFlashwithLevel(0.001)
+//        let _ = self.videoManager.turnOnFlashwithLevel(0.001)
         
         var retImage = inputImage
         fullImageRect = CGRect(x: retImage.extent.minX, y: retImage.extent.minY, width: retImage.extent.width, height: retImage.extent.height)
