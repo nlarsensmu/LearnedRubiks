@@ -205,6 +205,10 @@ class CubeController: UIViewController {
         }
     }
     
+    @IBAction func switchEmphasize(_ sender: Any) {
+        self.emphasis = !self.emphasis
+    }
+    @IBOutlet weak var emphasizeSwitch: UISwitch!
     @IBOutlet weak var stepText: UILabel!
     @IBOutlet weak var scrambleButton: UIButton!
     @IBAction func scrambleCube(_ sender: Any) {
@@ -349,6 +353,8 @@ class CubeController: UIViewController {
         self.Cube?.duration = 1.0
         self.toggleHideMovingButtons(setting: true)
         self.nextStepOutlet.titleLabel?.numberOfLines = 2
+        self.emphasizeSwitch.isOn = self.emphasis
+    
     }
     func setImageToButton(button:UIButton, image:String){
         DispatchQueue.main.async {
