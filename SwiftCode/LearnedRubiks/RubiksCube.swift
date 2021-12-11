@@ -547,7 +547,10 @@ public class RubiksCube{
         }
         solver = SolverLLWedgePossitions(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: false)
+            let result = solver.getNextStep(emphasis: false)
+            if result.didError {
+                return true
+            }
         }
         solver = SolverLastCrossBB(cube:cube)
         while(solver.hasNextStep()){

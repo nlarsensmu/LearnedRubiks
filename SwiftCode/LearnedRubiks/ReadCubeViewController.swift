@@ -175,6 +175,24 @@ class ReadCubeViewController: UIViewController {
         
         if instruction == 5 {
             self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
+            if !self.cube!.isValid() {
+                self.instruction = 0
+                self.currentFace.removeAll()
+                for var face in self.faces {
+                    face.removeAll()
+                }
+                self.bridge.resetCublets()
+                return
+            }
+            if self.cube!.isParady() {
+                self.instruction = 0
+                self.currentFace.removeAll()
+                for var face in self.faces {
+                    face.removeAll()
+                }
+                self.bridge.resetCublets()
+                return
+            }
             self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
         }
         
@@ -361,7 +379,8 @@ class ReadCubeViewController: UIViewController {
         guard let c = cube else {
             return false
         }
-        if c.isValid() && c.isParady() {
+        var test = c.isParady()
+        if c.isValid() && !c.isParady() {
             return true
         }
         return false
