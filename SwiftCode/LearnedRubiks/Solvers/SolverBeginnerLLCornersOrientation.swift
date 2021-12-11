@@ -38,7 +38,7 @@ Orientation
         var result = orientateCorner19(emphasis:  emphasis)
         result.0.append(contentsOf: cube.getTurnActions(turns: [.U]))
         result.1.append(.U)
-        return SolvingStep(description: nameOfStep(), actions: result.0, steps: result.1)
+        return SolvingStep(description: nameOfStep(), actions: result.0, steps: result.1, didError: result.2)
     }
     
     func hasNextStep() -> Bool{
@@ -89,7 +89,7 @@ Orientation
         return frontRightCornerCorrect
     }
     
-    func orientateCorner19(emphasis:Bool) -> ([SCNAction], [Turn]) {
+    func orientateCorner19(emphasis:Bool) -> ([SCNAction], [Turn], Bool) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -97,17 +97,19 @@ Orientation
         if emphasis { actions.append(cube.empasize(poses: [19], asGroup: true)) }
         
         var ranAtLeastOnce:Bool = false
-        while !frontRightCornerCorrect {
+        var count = 0
+        while !frontRightCornerCorrect && count < 2000 {
             ranAtLeastOnce = true
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(contentsOf: cornerAlg)
             frontRightCornerCorrect = checkFrontRightUpCornerOrientation()
+            count = count + 1
         }
         if ranAtLeastOnce && emphasis {
             actions.append(cube.empasize(poses: [19], asGroup: true))
         }
         
-        return (actions, turns)
+        return (actions, turns, count < 2000)
     }
 }
 

@@ -535,33 +535,40 @@ public class RubiksCube{
         let cube = self.deepCopyCube()
         var solver:SolverBase = SolverCross(c:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: true)
+            _ = solver.getNextStep(emphasis: false)
         }
         solver = SolverFirstCorners(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: true)
+            _ = solver.getNextStep(emphasis: false)
         }
         solver = SolverMiddle(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: true)
+            _ = solver.getNextStep(emphasis: false)
         }
         solver = SolverLLWedgePossitions(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: true)
+            let result = solver.getNextStep(emphasis: false)
+            if result.didError {
+                return true
+            }
         }
         solver = SolverLastCrossBB(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: true)
+            _ = solver.getNextStep(emphasis: false)
         }
         solver = SolverBeginnerLLCornersPosition(cube:cube)
         while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: true)
+            let result = solver.getNextStep(emphasis: false)
+            if result.didError {
+                return true
+            }
         }
         solver = SolverBeginnerLLCornersOrientation(cube:cube)
-        var i = 0
-        while(solver.hasNextStep() || i > 4){
-            _ = solver.getNextStep(emphasis: true)
-            i += 1
+        while(solver.hasNextStep()){
+            let result = solver.getNextStep(emphasis: false)
+            if result.didError  {
+                return true
+            }
         }
         if cube.isSovled(){
             return false

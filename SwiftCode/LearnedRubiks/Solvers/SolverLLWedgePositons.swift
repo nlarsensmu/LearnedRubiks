@@ -51,14 +51,22 @@ class SolverLLWedgePossitions: SolverBase {
             let case3 = solveCase3(emphasis: emphasis)
             actions.append(contentsOf: case3.0)
             turns.append(contentsOf: case3.1)
+            if case3.2 == false {
+                return SolvingStep(description: "ERROR", actions: [], steps:[],didError: true)
+            }
         } else if (steps == 2) {
             let case2 = solveCase2(emphasis: emphasis)
             actions.append(contentsOf: case2.0)
             turns.append(contentsOf: case2.1)
+            if case2.2 == false {
+                return SolvingStep(description: "ERROR", actions: [], steps:[],didError: true)
+            }
         } else if (steps == 1) { // They are solved in some way
             let case1 = solveCase1()
             actions.append(contentsOf: case1.0)
             turns.append(contentsOf: case1.1)
+        } else if (steps == -1) {
+            return SolvingStep(description: "ERROR", actions: [], steps:[],didError: true)
         }
         
         
@@ -119,7 +127,8 @@ class SolverLLWedgePossitions: SolverBase {
         
         var sum = sumCorrectWedges()
         var count = 0
-        while true {
+        var runs = 0
+        while true && runs < 1000 {
             sum = sumCorrectWedges()
             if sum < 42 { // One or less is correct
                 let _ = cube.upTurn(direction: 1)
@@ -140,7 +149,9 @@ class SolverLLWedgePossitions: SolverBase {
                 }
                 return 2
             }
+            runs = runs + 1
         }
+        return -1
     }
     
     // We will sum up all the wedges that are
@@ -163,7 +174,7 @@ class SolverLLWedgePossitions: SolverBase {
     }
     
     // To solve this we will perform the alg at any position and it will get us to case 2
-    func solveCase3(emphasis:Bool) -> ([SCNAction], [Turn]) {
+    func solveCase3(emphasis:Bool) -> ([SCNAction], [Turn], Bool) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -171,10 +182,15 @@ class SolverLLWedgePossitions: SolverBase {
         
         var sum = sumCorrectWedges()
         
-        while sum != 46 {
+        var count = 0
+        while sum != 46 && count < 8 {
             actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
             turns.append(.U)
             sum = sumCorrectWedges()
+            count = count + 1
+        }
+        if count >= 8{
+            return (actions, turns, false)
         }
         
         // if the right or left wedge is correct we need to rotate the cube
@@ -191,19 +207,23 @@ class SolverLLWedgePossitions: SolverBase {
         turns.append(.YN)
         
         steps = 2
-        return (actions, turns)
+        return (actions, turns, true)
     }
     
-    func solveCase2(emphasis:Bool) -> ([SCNAction], [Turn]) {
+    func solveCase2(emphasis:Bool) -> ([SCNAction], [Turn], Bool) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
         var sum = sumCorrectWedges()
-        
-        while ![42, 44, 48, 50].contains(sum) {
+        var count = 0
+        while ![42, 44, 48, 50].contains(sum) && count < 8{
             actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
             turns.append(.U)
             sum = sumCorrectWedges()
+            count = count + 1
+        }
+        if count >= 8{
+            return (actions, turns, false)
         }
         
         if sum == 50 {
@@ -224,6 +244,6 @@ class SolverLLWedgePossitions: SolverBase {
         turns.append(.U)
         
         steps = 1
-        return (actions, turns)
+        return (actions, turns, true)
     }
 }
