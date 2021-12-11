@@ -59,6 +59,7 @@ class ReadCubeViewController: UIViewController {
     }
     @IBOutlet weak var instructionLabel: UILabel!
     
+    @IBOutlet weak var resetButton: UIButton!
     @IBAction func resetFace(_ sender: Any) {
         self.bridge.resetCublets()
         let colors = Array.init(repeating: "", count: 9)
@@ -99,7 +100,6 @@ class ReadCubeViewController: UIViewController {
             self.moveToNextPrediction(index: cubeNumber)
             self.bridge.setProcessedColors(self.faceForBridge())
         }
-        print(cubeNumber)
     }
     func moveToNextPrediction(index:Int){
         guard let p = self.currentPredictions[index] else {
@@ -160,6 +160,7 @@ class ReadCubeViewController: UIViewController {
         
         return .noColor
     }
+    @IBOutlet weak var saveButton: UIButton!
     @IBAction func save(_ sender: Any) {
         
 //        let result = performClassifier()
@@ -175,28 +176,32 @@ class ReadCubeViewController: UIViewController {
         
         if instruction == 5 {
             self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
-            if !self.cube!.isValid() {
+            
+            if self.cube!.isParady() || !self.cube!.isValid() {
                 self.instruction = 0
                 self.currentFace.removeAll()
                 for var face in self.faces {
                     face.removeAll()
                 }
                 self.bridge.resetCublets()
+                
+                // Disable the buttons
+                disableEnableButtons(false)
+                self.performSegue(withIdentifier: "showWarning", sender: self)
                 return
+            } else {
+                self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
             }
-            if self.cube!.isParady() {
-                self.instruction = 0
-                self.currentFace.removeAll()
-                for var face in self.faces {
-                    face.removeAll()
-                }
-                self.bridge.resetCublets()
-                return
-            }
-            self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
         }
         
         instruction = (instruction + 1) % instructions.count
+    }
+    func disableEnableButtons(_ state:Bool) {
+        DispatchQueue.main.async {
+            self.resetButton.isEnabled = state
+            self.captureButton.isEnabled = state
+            self.saveButton.isEnabled = state
+        }
     }
     var currentPredictions:[colorsOutput?] = [nil,nil,nil,nil,nil,nil,nil,nil,nil]
     func performClassifier() -> [CubletColor] {
@@ -235,6 +240,7 @@ class ReadCubeViewController: UIViewController {
         }
         return []
     }
+    @IBOutlet weak var captureButton: UIButton!
     @IBAction func captureSquares(_ sender: Any) {
         self.bridge.setCapture(true)
     }

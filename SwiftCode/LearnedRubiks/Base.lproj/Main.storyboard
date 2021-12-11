@@ -770,8 +770,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="TsC-7u-PS8"/>
                     <connections>
+                        <outlet property="captureButton" destination="c5U-5D-zAz" id="D5L-Wv-gLN"/>
                         <outlet property="instructionLabel" destination="WyA-aW-Wu3" id="tIE-QX-tK8"/>
+                        <outlet property="resetButton" destination="dhe-0g-b7p" id="gSD-z5-f9m"/>
+                        <outlet property="saveButton" destination="KPr-C2-6Qu" id="KkS-TX-XVR"/>
                         <segue destination="Iie-K7-svU" kind="show" identifier="inputToPredictionViewController" id="RDR-9H-Z1S"/>
+                        <segue destination="gyi-iU-I1U" kind="showDetail" identifier="showWarning" id="vRw-sR-kMC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="13E-dF-fFM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -876,9 +880,50 @@
             </objects>
             <point key="canvasLocation" x="1679.7101449275362" y="-797.54464285714278"/>
         </scene>
+        <!--Pop Up View Controller-->
+        <scene sceneID="qsb-8T-lsx">
+            <objects>
+                <viewController id="gyi-iU-I1U" customClass="PopUpViewController" customModule="LearnedRubiks" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="alm-Kq-k6w">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ufb-3n-kgk">
+                                <rect key="frame" x="87" y="340" width="240" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cube was not a valid cube. Your cube may be unsolvable. Swipe down to try again" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHN-xf-7df">
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstItem="QHN-xf-7df" firstAttribute="height" secondItem="Ufb-3n-kgk" secondAttribute="height" id="IuM-Cz-8R7"/>
+                                    <constraint firstItem="QHN-xf-7df" firstAttribute="centerY" secondItem="Ufb-3n-kgk" secondAttribute="centerY" id="QjR-yI-Pw9"/>
+                                    <constraint firstItem="QHN-xf-7df" firstAttribute="width" secondItem="Ufb-3n-kgk" secondAttribute="width" id="YZU-qN-AoV"/>
+                                    <constraint firstItem="QHN-xf-7df" firstAttribute="centerX" secondItem="Ufb-3n-kgk" secondAttribute="centerX" id="tgO-33-EtT"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Xgx-4A-g5w"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ufb-3n-kgk" firstAttribute="height" secondItem="alm-Kq-k6w" secondAttribute="height" multiplier="0.152019" id="EUr-Gy-uDO"/>
+                            <constraint firstItem="Ufb-3n-kgk" firstAttribute="centerY" secondItem="Xgx-4A-g5w" secondAttribute="centerY" id="ZyG-Vl-KM1"/>
+                            <constraint firstItem="Ufb-3n-kgk" firstAttribute="width" secondItem="alm-Kq-k6w" secondAttribute="width" multiplier="0.57971" id="bZ5-fE-y3G"/>
+                            <constraint firstItem="Ufb-3n-kgk" firstAttribute="centerX" secondItem="Xgx-4A-g5w" secondAttribute="centerX" id="zpo-Lt-e49"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R7z-sl-WGl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1608.6956521739132" y="758.70535714285711"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="04g-r1-UAF"/>
+        <segue reference="RDR-9H-Z1S"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="noColor" width="61" height="61"/>
@@ -890,6 +935,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
