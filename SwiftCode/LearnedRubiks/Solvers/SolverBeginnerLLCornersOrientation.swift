@@ -16,7 +16,7 @@ Orientation
 """
     
     var cube: RubiksCube
-    var steps = 1
+    var steps = 0
     lazy var hashColorDict: Dictionary<CubletColor, Int> = {
         return getHashColor()
     }()
@@ -109,7 +109,7 @@ Orientation
             actions.append(cube.empasize(poses: [19], asGroup: true))
         }
         
-        return (actions, turns, count < 2000)
+        return (actions, turns, count >= 2000)
     }
 }
 

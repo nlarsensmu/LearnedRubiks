@@ -889,10 +889,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ufb-3n-kgk">
-                                <rect key="frame" x="87" y="340" width="240" height="128"/>
+                                <rect key="frame" x="87" y="299" width="240" height="210.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cube was not a valid cube. Your cube may be unsolvable. Swipe down to try again" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHN-xf-7df">
-                                        <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cube was not a valid cube. Your cube may be unsolvable. Swipe down to try again" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHN-xf-7df">
+                                        <rect key="frame" x="0.0" y="17" width="240" height="126"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -900,9 +900,9 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
-                                    <constraint firstItem="QHN-xf-7df" firstAttribute="height" secondItem="Ufb-3n-kgk" secondAttribute="height" id="IuM-Cz-8R7"/>
-                                    <constraint firstItem="QHN-xf-7df" firstAttribute="centerY" secondItem="Ufb-3n-kgk" secondAttribute="centerY" id="QjR-yI-Pw9"/>
+                                    <constraint firstItem="QHN-xf-7df" firstAttribute="height" secondItem="Ufb-3n-kgk" secondAttribute="height" multiplier="0.6" id="IuM-Cz-8R7"/>
                                     <constraint firstItem="QHN-xf-7df" firstAttribute="width" secondItem="Ufb-3n-kgk" secondAttribute="width" id="YZU-qN-AoV"/>
+                                    <constraint firstItem="QHN-xf-7df" firstAttribute="top" secondItem="Ufb-3n-kgk" secondAttribute="top" constant="17" id="Zdf-T7-io7"/>
                                     <constraint firstItem="QHN-xf-7df" firstAttribute="centerX" secondItem="Ufb-3n-kgk" secondAttribute="centerX" id="tgO-33-EtT"/>
                                 </constraints>
                             </view>
@@ -910,7 +910,7 @@
                         <viewLayoutGuide key="safeArea" id="Xgx-4A-g5w"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Ufb-3n-kgk" firstAttribute="height" secondItem="alm-Kq-k6w" secondAttribute="height" multiplier="0.152019" id="EUr-Gy-uDO"/>
+                            <constraint firstItem="Ufb-3n-kgk" firstAttribute="height" secondItem="alm-Kq-k6w" secondAttribute="height" multiplier="0.25" id="EUr-Gy-uDO"/>
                             <constraint firstItem="Ufb-3n-kgk" firstAttribute="centerY" secondItem="Xgx-4A-g5w" secondAttribute="centerY" id="ZyG-Vl-KM1"/>
                             <constraint firstItem="Ufb-3n-kgk" firstAttribute="width" secondItem="alm-Kq-k6w" secondAttribute="width" multiplier="0.57971" id="bZ5-fE-y3G"/>
                             <constraint firstItem="Ufb-3n-kgk" firstAttribute="centerX" secondItem="Xgx-4A-g5w" secondAttribute="centerX" id="zpo-Lt-e49"/>

@@ -36,7 +36,8 @@ class SolverBeginnerLLCornersPosition: SolverBase {
     }
     
     func getNextStep(emphasis:Bool) -> SolvingStep {
-        let result = solve(emphasis: emphasis)
+        var result = solve(emphasis: emphasis)
+        
         return SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1, didError: result.2)
     }
     

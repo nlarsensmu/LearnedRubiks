@@ -545,16 +545,16 @@ public class RubiksCube{
         while(solver.hasNextStep()){
             _ = solver.getNextStep(emphasis: false)
         }
+        solver = SolverLastCrossBB(cube:cube)
+        while(solver.hasNextStep()){
+            _ = solver.getNextStep(emphasis: false)
+        }
         solver = SolverLLWedgePossitions(cube:cube)
         while(solver.hasNextStep()){
             let result = solver.getNextStep(emphasis: false)
             if result.didError {
                 return true
             }
-        }
-        solver = SolverLastCrossBB(cube:cube)
-        while(solver.hasNextStep()){
-            _ = solver.getNextStep(emphasis: false)
         }
         solver = SolverBeginnerLLCornersPosition(cube:cube)
         while(solver.hasNextStep()){
@@ -565,6 +565,7 @@ public class RubiksCube{
         }
         solver = SolverBeginnerLLCornersOrientation(cube:cube)
         while(solver.hasNextStep()){
+            cube.printCube()
             let result = solver.getNextStep(emphasis: false)
             if result.didError  {
                 return true

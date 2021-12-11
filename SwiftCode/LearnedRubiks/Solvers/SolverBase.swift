@@ -69,6 +69,6 @@ class SolvingStep{
         self.description = description
         self.actions = actions
         self.steps = steps
-        self.didError = true
+        self.didError = didError
     }
 }

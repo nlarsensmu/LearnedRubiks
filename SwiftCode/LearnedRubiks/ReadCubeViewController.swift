@@ -65,6 +65,7 @@ class ReadCubeViewController: UIViewController {
         let colors = Array.init(repeating: "", count: 9)
         self.currentFace = []
         self.bridge.setProcessedColors(colors)
+        self.saveButton.isEnabled = false
     }
     //Delete these later when we figure out the transform
     let x0 = 76.0
@@ -184,7 +185,7 @@ class ReadCubeViewController: UIViewController {
                     face.removeAll()
                 }
                 self.bridge.resetCublets()
-                
+
                 // Disable the buttons
                 disableEnableButtons(false)
                 self.performSegue(withIdentifier: "showWarning", sender: self)
@@ -194,12 +195,18 @@ class ReadCubeViewController: UIViewController {
             }
         }
         
+        self.saveButton.isEnabled = false
         instruction = (instruction + 1) % instructions.count
     }
     func disableEnableButtons(_ state:Bool) {
         DispatchQueue.main.async {
             self.resetButton.isEnabled = state
             self.captureButton.isEnabled = state
+            self.saveButton.isEnabled = state
+        }
+    }
+    func disableEnbableSaveButton(_ state:Bool) {
+        DispatchQueue.main.async {
             self.saveButton.isEnabled = state
         }
     }
@@ -242,6 +249,7 @@ class ReadCubeViewController: UIViewController {
     }
     @IBOutlet weak var captureButton: UIButton!
     @IBAction func captureSquares(_ sender: Any) {
+        self.saveButton.isEnabled = true
         self.bridge.setCapture(true)
     }
     func checkSquares() {
@@ -298,6 +306,7 @@ class ReadCubeViewController: UIViewController {
         }
         self.bridge.processType = 9
         self.instruction = 0
+        self.saveButton.isEnabled = false
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -336,12 +345,6 @@ class ReadCubeViewController: UIViewController {
         
         retImage = self.bridge.getImageComposite()
         
-        let p = CGPoint(x: imageWidth/2 - width/2, y:imageHeight/2 - width/2)
-        let rectTest = CGRect(origin: p, size: CGSize(width: 0.0, height: 0.0))
-        print(rect)
-        print(rect.applying(self.videoManager.transform))
-        print(self.bridge.getRectTransformation(rect))
-        
         if self.bridge.getCaptured() && self.currentFace.count == 0{ // we have performed a capture label the prediciton.
             checkSquares()
         }
@@ -371,13 +374,17 @@ class ReadCubeViewController: UIViewController {
     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "inputToPredictionViewController"){
-                let displayVC = segue.destination as! CubeController
+            let displayVC = segue.destination as! CubeController
             displayVC.Cube = self.cube
             displayVC.solver = SolverCross(c: displayVC.Cube!)
             displayVC.emphasis = true
             displayVC.nextStep = displayVC.solver!.getNextStep(emphasis: true)
             displayVC.displayStep = stepsToString(steps: displayVC.nextStep.steps)
             displayVC.solveOnly = true
+        } else if (segue.identifier == "showWarning") {
+            if let popUp = segue.destination as? PopUpViewController {
+                popUp.readVC = self
+            }
         }
     }
     var cube:RubiksCube? = nil
@@ -385,7 +392,6 @@ class ReadCubeViewController: UIViewController {
         guard let c = cube else {
             return false
         }
-        var test = c.isParady()
         if c.isValid() && !c.isParady() {
             return true
         }
