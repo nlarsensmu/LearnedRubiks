@@ -173,7 +173,9 @@ class ReadCubeViewController: UIViewController {
         }
         currentFace.removeAll()
         
-        faces[instruction] = getFaceOrientation(colors: face)
+        if instruction < faces.count {
+            faces[instruction] = getFaceOrientation(colors: face)
+        }
         
         if instruction == 5 {
             self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])

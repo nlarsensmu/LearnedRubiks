@@ -169,12 +169,12 @@ class SolverBeginnerLLCornersPosition: SolverBase {
         if emphasis { actions.append(cube.empasize(poses: [19], asGroup: true)) }
         // Perform
         var count = 0
-        while countCorectCorners() != 4 && count <= 4{
+        while countCorectCorners() != 4{
             turns.append(contentsOf: rotate3CornersAlg)
             actions.append(contentsOf: cube.getTurnActions(turns: rotate3CornersAlg))
             count += 1
         }
         
-        return (actions, turns, count >= 4)
+        return (actions, turns, count >= 5)
     }
 }

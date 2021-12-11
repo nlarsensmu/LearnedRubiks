@@ -230,11 +230,7 @@ using namespace cv;
       andContext:(CIContext*)context{
     
     CGRect faceRect = CGRect(faceRectIn);
-    std::cout << faceRect.origin.x << " " <<  faceRect.origin.y << " ";
-    std::cout << faceRect.size.width << " " << faceRect.size.height << std::endl;
     faceRect = CGRectApplyAffineTransform(faceRect, self.transform);
-    std::cout << faceRect.origin.x << " " <<  faceRect.origin.y << " ";
-    std::cout << faceRect.size.width << " " << faceRect.size.height << std::endl;
     ciFrameImage = [ciFrameImage imageByApplyingTransform:self.transform];
     
     
