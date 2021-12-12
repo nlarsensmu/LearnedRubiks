@@ -38,7 +38,7 @@ class SolverFirstCorners: SolverBase {
     
     func getNextStep(emphasis:Bool) -> SolvingStep {
         let result = solveCorner(c1: cornerOrder[steps].0, c2: cornerOrder[steps].1, emphasis: emphasis)
-        let step = SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1)
+        let step = SolvingStep(description: nameOfStep(), actions: result.0, steps:result.1, didError: result.2)
         steps += 1
         return step
     }
@@ -50,9 +50,12 @@ class SolverFirstCorners: SolverBase {
         return true
     }
     
-    func solveCorner(c1:CubletColor, c2:CubletColor, emphasis:Bool) -> ([SCNAction], [Turn]) {
+    func solveCorner(c1:CubletColor, c2:CubletColor, emphasis:Bool) -> ([SCNAction], [Turn], Bool) {
+        
+        
         var actions:[SCNAction] = []
         var turns:[Turn] = []
+        
         let resultDown = getCornerDown(c1: c1, c2: c2, c3: CubletColor.white, emphasis: emphasis)
         actions.append(contentsOf: resultDown.0)
         turns.append(contentsOf: resultDown.1)
@@ -65,7 +68,7 @@ class SolverFirstCorners: SolverBase {
         let resultRepeatCorner = reapeatCornerAlg()
         actions.append(contentsOf: resultRepeatCorner.0)
         turns.append(contentsOf: resultRepeatCorner.1)
-        return (actions, turns)
+        return (actions, turns, resultRepeatCorner.2)
     }
     
     func getCornerDown(c1:CubletColor, c2:CubletColor, c3:CubletColor, emphasis:Bool) -> ([SCNAction], [Turn]) {
@@ -164,8 +167,8 @@ class SolverFirstCorners: SolverBase {
     }
     
     // we assume that the cube is turned such that the corner is below
-    // where it is supposed to go and is on the right face.
-    func reapeatCornerAlg() -> ([SCNAction], [Turn]) {
+    // where it is supposed to go and is on the right face. return if we looped too much
+    func reapeatCornerAlg() -> ([SCNAction], [Turn], Bool) {
         var actions:[SCNAction]  = []
         var turns:[Turn] = []
         
@@ -175,17 +178,20 @@ class SolverFirstCorners: SolverBase {
         let currentColor = hashColorDict[cube.cublet(at: 13).frontBack]! | hashColorDict[cube.cublet(at: 23).upDown]! | hashColorDict[cube.cublet(at: 11).leftRight]!
         if !(hashColor(cublet: cube.cublet(at: 1)) == currentColor) {
             // If we get here something went wrong.
-            return (actions, turns)
+            return (actions, turns, true)
         }
         
-        while cube.cublet(at: 19).upDown != cube.cublet(at: 23).upDown ||
+        var count = 0
+        // Loop through only 6 times
+        while (cube.cublet(at: 19).upDown != cube.cublet(at: 23).upDown ||
             cube.cublet(at: 19).leftRight != cube.cublet(at: 20).leftRight ||
-            cube.cublet(at: 19).frontBack != cube.cublet(at: 22).frontBack {
+            cube.cublet(at: 19).frontBack != cube.cublet(at: 22).frontBack) && count <= 6 {
             
             actions.append(contentsOf: cube.getTurnActions(turns: cornerAlg))
             turns.append(contentsOf: cornerAlg)
+            count += 1
         }
         
-        return (actions, turns)
+        return (actions, turns, count >= 6)
     }
 }

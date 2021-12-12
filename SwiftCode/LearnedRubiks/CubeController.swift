@@ -37,6 +37,7 @@ class CubeController: UIViewController {
     @IBOutlet weak var fNegButton: UIButton!
     @IBOutlet weak var fButton: UIButton!
     // Full cube
+    @IBOutlet weak var empLabel: UILabel!
     @IBOutlet weak var xOutlet: UIButton!
     @IBAction func xRotate(_ sender: Any) {
         if let cube = Cube{
@@ -346,7 +347,9 @@ class CubeController: UIViewController {
         animation.duration = 0.5
         sceneView.frame = self.view.frame
         //Start Listening to motion updates
-        self.startMotionUpdates()
+        if !self.solveOnly {
+            self.startMotionUpdates()
+        }
         self.isWaitingForMotionData = true
         
         self.durationLabel.text = String(format: "%.2f", 1.0)
@@ -451,6 +454,8 @@ class CubeController: UIViewController {
             
             if self.runningThroughTurns {
                 self.hideManipluationUIElements()
+                self.empLabel.isHidden = true
+                self.emphasizeSwitch.isHidden = true
                 self.stepText.text = "\(stepsToString(steps: [self.turnDurations[self.currentTurn]]))"
                 self.runNextTurn()
             } else if !self.solveOnly{

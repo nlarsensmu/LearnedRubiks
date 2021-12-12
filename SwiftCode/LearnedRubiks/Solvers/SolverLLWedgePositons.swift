@@ -103,6 +103,7 @@ class SolverLLWedgePossitions: SolverBase {
         
         // Try another up turn.
         let _ = cube.getTurnActions(turns: [.U])
+        sum = sumCorrectWedges()
         if sum == 92 {
             let _ = cube.getTurnActions(turns: [.U2])
             turns.append(.U2)
@@ -112,10 +113,11 @@ class SolverLLWedgePossitions: SolverBase {
         
         // Try another up turn.
         let _ = cube.getTurnActions(turns: [.U])
+        sum = sumCorrectWedges()
         if sum == 92 {
             let _ = cube.getTurnActions(turns: [.U])
-            turns.append(.U)
-            actions.append(contentsOf: cube.getTurnActions(turns: [.U]))
+            turns.append(.UN)
+            actions.append(contentsOf: cube.getTurnActions(turns: [.UN]))
             return (actions, turns)
         }
         

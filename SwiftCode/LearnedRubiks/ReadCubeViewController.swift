@@ -42,6 +42,7 @@ class ReadCubeViewController: UIViewController {
                                     "green"]
     let instructionFaces:[CubletColor] = [.white, .orange, .yellow, .red, .blue, .green]
     var faces:[[CubletColor]] = Array.init(repeating: [], count: 6)
+    var loggingFaces:[[CubletColor]] = Array.init(repeating: [], count: 6)
     var currentFace:[(String,Int)] = []
     func faceForBridge() -> [String]{
         var face:[String] = []
@@ -161,6 +162,8 @@ class ReadCubeViewController: UIViewController {
         
         return .noColor
     }
+    
+    var rgbs:[(Double, Double, Double)] = []
     @IBOutlet weak var saveButton: UIButton!
     @IBAction func save(_ sender: Any) {
         
@@ -174,13 +177,14 @@ class ReadCubeViewController: UIViewController {
         currentFace.removeAll()
         
         if instruction < faces.count {
+            loggingFaces[instruction] = face
             faces[instruction] = getFaceOrientation(colors: face)
         }
         
         if instruction == 5 {
             self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
             
-            if self.cube!.isParady() || !self.cube!.isValid() {
+            if !self.cube!.isValid() || self.cube!.isParady() {
                 self.instruction = 0
                 self.currentFace.removeAll()
                 for var face in self.faces {
@@ -193,6 +197,12 @@ class ReadCubeViewController: UIViewController {
                 self.performSegue(withIdentifier: "showWarning", sender: self)
                 return
             } else {
+                for i in 0..<loggingFaces.count {
+                    for j in 0..<loggingFaces[i].count {
+                        if j ==  4 { continue }
+                        print("\(rgbs[i*9 + j].0),\(rgbs[i*9 + j].1), \(rgbs[i*9 + j].2), \(loggingFaces[i][j])")
+                    }
+                }
                 self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
             }
         }
@@ -266,6 +276,7 @@ class ReadCubeViewController: UIViewController {
                     let input = colorsInput(red: items[i*3], green: items[i*3 + 1], blue: items[i*3 + 2])
                     let pred = try colorModel.prediction(input: input)
                     self.currentPredictions.append(pred)
+                    self.rgbs.append((items[i*3], items[i*3 + 1], items[i*3 + 2]))
                     color = pred.target
                 } catch _{
                     print("Failed Predicting")

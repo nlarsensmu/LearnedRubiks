@@ -104,7 +104,18 @@ class ManualCubeEntryViewController: UIViewController, UIPickerViewDelegate, UIP
         
         if instruction == 6 {
             self.cube =  RubiksCube(front: faces[2], left: faces[1], right: faces[3], up: faces[5], down: faces[4], back: faces[0])
-            self.performSegue(withIdentifier: "toCubeControllerFromManual", sender: self)
+            if !self.cube!.isValid() || self.cube!.isParady() {
+                self.instruction = 0
+                for var face in self.faces {
+                    face.removeAll()
+                }
+
+                // Disable the buttons
+                self.performSegue(withIdentifier: "showWarningMan", sender: self)
+                return
+            } else {
+                self.performSegue(withIdentifier: "toCubeControllerFromManual", sender: self)
+            }
         }
         
         print(colors)
@@ -149,6 +160,7 @@ class ManualCubeEntryViewController: UIViewController, UIPickerViewDelegate, UIP
             displayVC.nextStep = displayVC.solver!.getNextStep(emphasis: true)
             displayVC.displayStep = stepsToString(steps: displayVC.nextStep.steps)
             displayVC.solveOnly = true
+            
         }
     }
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {

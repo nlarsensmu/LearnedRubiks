@@ -22,21 +22,30 @@ class SolverLastCrossBB: SolverBase {
     
     init(cube:RubiksCube) {
         self.cube = cube
-        var sum = sumUpWedges()
-        if sum == 0 {
+        let sum = sumUpWedges()
+        if sum == 0 { // dot
             steps = 0
-        } else if [42, 44, 48, 50].contains(sum) {
+        } else if [42, 44, 48, 50].contains(sum) { // Case L
             steps = 1
-        } else if sum == 46 {
+        } else if sum == 46 { // case line
             steps = 2
         } else {
-            sum = 3
+            steps = 3
         }
     }
     
     let stepNames:[String] = ["Case: Dot", "Case L", "Case Line", "You're Done!"]
     func nameOfStep() -> String {
-        return stepNames[steps]
+        let sum = sumUpWedges()
+        if sum == 0 { // dot
+            return "Case: Dot"
+        } else if [42, 44, 48, 50].contains(sum) { // Case L
+            return "Case L"
+        } else if sum == 46 { // case line
+            return "Case Line"
+        } else {
+            return "Solved Cross"
+        }
     }
     
     func getNextStep(emphasis:Bool) -> SolvingStep {

@@ -45,7 +45,7 @@ class SolverMiddle: SolverBase {
         }
         
         if steps < 4 {
-            let actionsTurns = solveWedge(c1: wedgeOrder[steps].0, c2: wedgeOrder[steps].1)
+            let actionsTurns = solveWedge(c1: wedgeOrder[steps].0, c2: wedgeOrder[steps].1, emp: emphasis)
             actions.append(contentsOf: actionsTurns.0)
             turns.append(contentsOf: actionsTurns.1)
         }
@@ -61,7 +61,7 @@ class SolverMiddle: SolverBase {
         return true
     }
     
-    func solveWedge(c1:CubletColor, c2:CubletColor) -> ([SCNAction], [Turn]) {
+    func solveWedge(c1:CubletColor, c2:CubletColor, emp:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -69,7 +69,7 @@ class SolverMiddle: SolverBase {
             return (actions, turns)
         }
         
-        let wedgeToTop = getWedgeToTopFront(c1: c1, c2: c2)
+        let wedgeToTop = getWedgeToTopFront(c1: c1, c2: c2, emp:emp)
         actions.append(contentsOf: wedgeToTop.0)
         turns.append(contentsOf: wedgeToTop.1)
         
@@ -77,7 +77,7 @@ class SolverMiddle: SolverBase {
         actions.append(contentsOf: wedgeToCorectFace.0)
         turns.append(contentsOf: wedgeToCorectFace.1)
         
-        actions.append(cube.empasize(poses: [13, 22], asGroup: true))
+        if emp { actions.append(cube.empasize(poses: [13, 22], asGroup: true)) }
         
         let positionWedge = positionWedge()
         actions.append(contentsOf: positionWedge.0)
@@ -128,7 +128,7 @@ class SolverMiddle: SolverBase {
     }
     
     // Look for the wedge in the middle, if it is pull it to the top
-    func getWedgeToTopFront(c1:CubletColor, c2:CubletColor) -> ([SCNAction], [Turn]) {
+    func getWedgeToTopFront(c1:CubletColor, c2:CubletColor, emp:Bool) -> ([SCNAction], [Turn]) {
         var actions:[SCNAction] = []
         var turns:[Turn] = []
         
@@ -141,7 +141,7 @@ class SolverMiddle: SolverBase {
             pos = 12
         }
         
-        actions.append(cube.empasize(poses: [pos], asGroup: true))
+        if emp { actions.append(cube.empasize(poses: [pos], asGroup: true)) } 
         
         if pos == 10 {
             actions.append(contentsOf: cube.getTurnActions(turns: rightHanded))
