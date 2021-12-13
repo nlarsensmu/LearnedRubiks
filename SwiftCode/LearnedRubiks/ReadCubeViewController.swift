@@ -163,7 +163,7 @@ class ReadCubeViewController: UIViewController {
         return .noColor
     }
     
-    var rgbs:[(Double, Double, Double)] = []
+    var rgbs:[[(Double, Double, Double)]] = Array.init(repeating: [], count: 9)
     @IBOutlet weak var saveButton: UIButton!
     @IBAction func save(_ sender: Any) {
         
@@ -176,8 +176,8 @@ class ReadCubeViewController: UIViewController {
         }
         currentFace.removeAll()
         
+        loggingFaces[instruction] = face
         if instruction < faces.count {
-            loggingFaces[instruction] = face
             faces[instruction] = getFaceOrientation(colors: face)
         }
         
@@ -200,7 +200,7 @@ class ReadCubeViewController: UIViewController {
                 for i in 0..<loggingFaces.count {
                     for j in 0..<loggingFaces[i].count {
                         if j ==  4 { continue }
-                        print("\(rgbs[i*9 + j].0),\(rgbs[i*9 + j].1), \(rgbs[i*9 + j].2), \(loggingFaces[i][j])")
+                        print("\(rgbs[i][j].0),\(rgbs[i][j].1), \(rgbs[i][j].2), \(loggingFaces[i][j])")
                     }
                 }
                 self.performSegue(withIdentifier: "inputToPredictionViewController", sender: self)
@@ -270,13 +270,14 @@ class ReadCubeViewController: UIViewController {
         if let items = (culetsColors as NSArray?) as? [Double] {
             self.currentFace = []
             self.currentPredictions = []
+            var rgb:[(Double, Double, Double)] = []
             for i in 0..<items.count/3 {
                 var color = "noColor"
                 do {
                     let input = colorsInput(red: items[i*3], green: items[i*3 + 1], blue: items[i*3 + 2])
                     let pred = try colorModel.prediction(input: input)
                     self.currentPredictions.append(pred)
-                    self.rgbs.append((items[i*3], items[i*3 + 1], items[i*3 + 2]))
+                    rgb.append((items[i*3], items[i*3 + 1], items[i*3 + 2]))
                     color = pred.target
                 } catch _{
                     print("Failed Predicting")
@@ -289,6 +290,7 @@ class ReadCubeViewController: UIViewController {
                     self.currentFace.append((color,0))
                 }
             }
+            self.rgbs[instruction] = rgb
         }
         self.bridge.setProcessedColors(self.faceForBridge())
     }
